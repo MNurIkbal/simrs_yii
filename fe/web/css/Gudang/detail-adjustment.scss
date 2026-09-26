@@ -1,0 +1,20 @@
+@import '../variables.scss';
+table.t-detail-adjustment{
+  margin: 0 auto;
+  width: 100%;
+  clear: both;
+  border-collapse: collapse;
+  table-layout: fixed;
+  word-wrap:break-word;
+}
+
+.detail-adjustment.bold {
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: .5em;
+}
+
+.detail-adjustment.text-left {
+    font-size: 13px;
+    margin-bottom: .5em;
+}

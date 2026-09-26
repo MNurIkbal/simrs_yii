@@ -1,0 +1,263 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+    
+}
+
+.container {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3rem 1rem;
+    
+}
+
+/* Judul Halaman */
+.header {
+    text-align: center;
+    margin-bottom: 2.5rem; /* mb-10 */
+}
+
+.header h1 {
+    font-size: 2.25rem; /* text-3xl */
+    font-weight: 700;
+    letter-spacing: -0.025em; /* tracking-tight */
+    color: #111827; /* text-gray-900 */
+}
+
+.header p {
+    margin-top: 0.5rem; /* mt-2 */
+    font-size: 1.125rem; /* text-lg */
+    color: #4b5563; /* text-gray-600 */
+}
+
+/* Grid untuk Kartu Menu */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr)); /* 1 kolom di mobile */
+    gap: 1rem; /* gap-4 */
+}
+
+/* Kartu Menu */
+.menu-card {
+    display: flex; /* Diubah: dari block ke flex */
+    align-items: center; /* Ditambahkan: Menengahkan item secara vertikal */
+    background-color: #ffffff; /* bg-white */
+    border-radius: 1rem; /* rounded-2xl */
+    padding: 1.1rem; /* DIUBAH: dari 1.25rem */
+    text-align: left; /* Diubah: dari center ke left */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    transition: all 0.3s ease-in-out; /* transition-all duration-300 ease-in-out */
+    text-decoration: none;
+    color: inherit;
+    border: 2px solid transparent; /* Ditambahkan: border transparan agar layout tidak bergeser saat hover */
+    /* min-height dihapus agar tinggi kartu fleksibel */
+}
+
+/* Efek hover pada kartu */
+.menu-card:hover {
+    transform: translateY(-0.25rem); /* hover:-translate-y-1 */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* hover:shadow-2xl */
+    border-color: #4f46e5; /* Ditambahkan: Penanda border indigo saat hover */
+}
+
+.icon-container {
+    display: flex;
+    height: 3.5rem; /* DIUBAH: dari 4rem */
+    width: 3.5rem; /* DIUBAH: dari 4rem */
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* Changed to transparent */
+    flex-shrink: 0;
+}
+
+.icon {
+    font-size: 1.75rem; /* DIUBAH: dari 1.875rem */
+    transition: transform 0.3s; /* transition-transform duration-300 */
+}
+
+/* Efek hover pada ikon di dalam kartu */
+.menu-card:hover .icon {
+    transform: scale(1.1); /* group-hover:scale-110 */
+}
+
+/* Wrapper untuk konten teks (Judul + Deskripsi) */
+.text-content {
+    margin-left: 1rem;
+}
+
+.text-content-popup {
+    margin-left: 1rem;
+}
+
+.menu-card h3 {
+    margin: 0; /* Diubah: Margin direset */
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 600; /* font-semibold */
+    color: #1f2937; /* text-gray-800 */
+}
+
+/* Styling untuk paragraf deskripsi */
+.text-content p {
+    font-size: 0.75rem; /* text-xs */
+    color: #6b7280; /* text-gray-500 */
+    margin: 0.25rem 0 0 0; /* Margin atas kecil */
+    line-height: 1.5;
+}
+
+.text-content-popup p {
+    font-size: 0.75rem; /* text-xs */
+    color: #6b7280; /* text-gray-500 */
+    margin: 0.25rem 0 0 0; /* Margin atas kecil */
+    line-height: 1.5;
+}
+
+/* Tombol "Tampilkan Lebih Banyak" */
+.button-container {
+    margin-top: 3rem; /* mt-12 */
+    text-align: center;
+}
+
+.load-more-btn {
+    border-radius: 9999px; /* rounded-full */
+    background-color: #4f46e5; /* bg-indigo-600 */
+    padding: 0.75rem 2rem; /* px-8 py-3 */
+    font-size: 1rem; /* text-base */
+    font-weight: 600; /* font-semibold */
+    color: #ffffff; /* text-white */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+    transition: all 0.3s; /* transition-all duration-300 */
+    border: none;
+    cursor: pointer;
+}
+
+.load-more-btn:hover {
+    background-color: #4338ca; /* hover:bg-indigo-700 */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* hover:shadow-lg */
+}
+
+.load-more-btn:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    /* focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 */
+    box-shadow: 0 0 0 2px #f8fafc, 0 0 0 4px #6366f1, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Footer */
+.footer {
+    margin-top: 4rem; /* mt-16 */
+    text-align: center;
+    font-size: 0.875rem; /* text-sm */
+    color: #6b7280; /* text-gray-500 */
+}
+
+.footer span {
+    font-weight: 600; /* font-semibold */
+    color: #4b5563; /* text-gray-600 */
+}
+
+/* Media Queries untuk Responsif (Mobile-first) */
+
+/* sm: 640px */
+@media (min-width: 640px) {
+    .container {
+        padding: 3rem 1.5rem; /* sm:px-6 */
+    }
+    .header h1 {
+        font-size: 2.25rem; /* sm:text-4xl */
+    }
+    .menu-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 kolom */
+        gap: 1rem; /* Tetap 1rem */
+    }
+    .menu-card {
+        padding: 1.1rem; /* DIUBAH: dari 1.25rem */
+    }
+    .icon-container {
+        height: 4rem; /* DIUBAH: dari 4.5rem */
+        width: 4rem; /* DIUBAH: dari 4.5rem */
+    }
+    .icon {
+        font-size: 2rem; /* DIUBAH: dari 2.25rem */
+    }
+
+    .text-content {
+        margin-left: 1.25rem; /* DIUBAH: dari 1.5rem */
+    }
+
+    .text-content-popup {
+        margin-left: 1.25rem; /* DIUBAH: dari 1.5rem */
+    }
+    
+    .menu-card h3 {
+        font-size: 1.125rem; /* DIUBAH: dari 1.25rem (18px) */
+    }
+
+    .text-content p {
+        font-size: 0.875rem; /* (14px) - Tetap */
+    }
+
+    .text-content-popup p {
+        font-size: 0.875rem; /* (14px) - Tetap */
+    }
+}
+
+/* md: 768px */
+@media (min-width: 768px) {
+    .menu-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 kolom */
+    }
+}
+
+/* lg: 1024px */
+@media (min-Dwidth: 1024px) {
+    .container {
+        padding: 3rem 2rem; /* lg:px-8 */
+    }
+    .menu-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4 kolom */
+    }
+}
+
+/* xl: 1280px */
+@media (min-width: 1280px) {
+    .menu-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4 kolom */
+    }
+}
+
+.carousel-item.cr-main.module-selection {
+    width: 100%;
+    box-sizing: border-box;
+    max-height: 75vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1rem;
+}
+
+#newsimrsCaraousel .item {
+    width: 80vw !important;
+    max-width: 1100px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.popup-room-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.popup-room-list .menu-card {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  min-height: auto;
+  padding: 1.25rem;
+}

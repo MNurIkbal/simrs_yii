@@ -1,0 +1,112 @@
+<?php
+
+namespace app\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "pendaftaranol_t".
+ *
+ * @property int $pendaftaranol_id
+ * @property int $pendaftaran_id jika udah di approved SET pendaftaran_id
+ * @property string $no_pendaftaranol
+ * @property string $tgl_pendaftaranol
+ * @property string $jam_kunjungan
+ * @property int $pasien_id
+ * @property int $carabayar_id carabayar_m
+ * @property int $penjamin_id penjamin_m
+ * @property int $ruangan_id ruangan_m where instalasi_id=1
+ * @property int $pegawai_id
+ * @property int $shift_id
+ * @property string $no_asuransi
+ * @property string $no_rujukan
+ * @property int $status_pasien lookup_type='status_pasien'
+ * @property int $status_daftar_ol lookup_type='status_daftar_ol'
+ * @property int $antrian_id
+ * @property int $klasifikasipasien_id
+ * @property int $jadwaldokter_id
+ * @property string $jam_mulai
+ * @property string $jam_tutup
+ * @property int $jenis_reservasi lookup_type='jenis_reservasi'
+ * @property string $keterangan
+ * @property string $additional_data
+ * @property string $created_date
+ * @property int $created_by
+ * @property int $modified_count
+ * @property string $last_modified_date
+ * @property int $last_modified_by
+ * @property bool $is_deleted
+ * @property bool $is_active
+ * @property string $deleted_date
+ * @property int $deleted_by
+ * @property int $jadwalbukapoli_id
+ */
+class ReservasiOnline extends \yii\db\ActiveRecord
+{
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'pendaftaranol_t';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['pendaftaran_id', 'pasien_id', 'carabayar_id', 'penjamin_id', 'ruangan_id', 'pegawai_id', 'shift_id', 'status_pasien', 'status_daftar_ol', 'antrian_id', 'klasifikasipasien_id', 'jadwaldokter_id', 'jenis_reservasi', 'created_by', 'modified_count', 'last_modified_by', 'deleted_by', 'jadwalbukapoli_id'], 'default', 'value' => null],
+            [['pendaftaran_id', 'pasien_id', 'carabayar_id', 'penjamin_id', 'ruangan_id', 'pegawai_id', 'shift_id', 'status_pasien', 'status_daftar_ol', 'antrian_id', 'klasifikasipasien_id', 'jadwaldokter_id', 'jenis_reservasi', 'created_by', 'modified_count', 'last_modified_by', 'deleted_by', 'jadwalbukapoli_id'], 'integer'],
+            [['tgl_pendaftaranol', 'jam_mulai', 'jam_tutup', 'created_date', 'last_modified_date', 'deleted_date'], 'safe'],
+            [['ruangan_id'], 'required'],
+            [['keterangan', 'additional_data'], 'string'],
+            [['is_deleted', 'is_active'], 'boolean'],
+            [['no_pendaftaranol', 'jam_kunjungan'], 'string', 'max' => 100],
+            [['no_asuransi', 'no_rujukan'], 'string', 'max' => 255],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'pendaftaranol_id' => 'Pendaftaranol ID',
+            'pendaftaran_id' => 'Pendaftaran ID',
+            'no_pendaftaranol' => 'No Pendaftaranol',
+            'tgl_pendaftaranol' => 'Tgl Pendaftaranol',
+            'jam_kunjungan' => 'Jam Kunjungan',
+            'pasien_id' => 'Pasien ID',
+            'carabayar_id' => 'Carabayar ID',
+            'penjamin_id' => 'Penjamin ID',
+            'ruangan_id' => 'Ruangan ID',
+            'pegawai_id' => 'Pegawai ID',
+            'shift_id' => 'Shift ID',
+            'no_asuransi' => 'No Asuransi',
+            'no_rujukan' => 'No Rujukan',
+            'status_pasien' => 'Status Pasien',
+            'status_daftar_ol' => 'Status Daftar Ol',
+            'antrian_id' => 'Antrian ID',
+            'klasifikasipasien_id' => 'Klasifikasipasien ID',
+            'jadwaldokter_id' => 'Jadwaldokter ID',
+            'jam_mulai' => 'Jam Mulai',
+            'jam_tutup' => 'Jam Tutup',
+            'jenis_reservasi' => 'Jenis Reservasi',
+            'keterangan' => 'Keterangan',
+            'additional_data' => 'Additional Data',
+            'created_date' => 'Created Date',
+            'created_by' => 'Created By',
+            'modified_count' => 'Modified Count',
+            'last_modified_date' => 'Last Modified Date',
+            'last_modified_by' => 'Last Modified By',
+            'is_deleted' => 'Is Deleted',
+            'is_active' => 'Is Active',
+            'deleted_date' => 'Deleted Date',
+            'deleted_by' => 'Deleted By',
+            'jadwalbukapoli_id' => 'Jadwalbukapoli ID',
+        ];
+    }
+}

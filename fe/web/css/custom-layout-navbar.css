@@ -1,0 +1,364 @@
+.sidebar {
+  position: fixed;
+  top: 62px;
+  left: 0;
+  width: 300px;
+  height: calc(100vh - 60px);
+  overflow: visible;
+  padding-top: 15px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  z-index: 1001;
+  transition: left 0.3s ease;
+  background-color: #455a64;
+}
+
+.sidebar-header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.sidebar-header img.logo-rs {
+  width: 70px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+
+.sidebar-header .rs-title {
+  font-size: 14px;
+  color: #333;
+  font-weight: 600;
+}
+
+.sidebar-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  display: block;
+}
+
+.sidebar-menu li a {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.sidebar-menu ul.nav-pills > li > a {
+    color: #ffffff  !important;
+}
+
+.sidebar-menu ul.nav-pills > li > a:hover {
+    background-color: #444;
+    color: #fff !important;
+}
+
+.sidebar-menu ul.nav-pills > li.active > a,
+.sidebar-menu ul.nav-pills > li.open > a,
+.sidebar-menu ul.nav-pills > li.active > a:hover,
+.sidebar-menu ul.nav-pills > li.open > a:hover,
+.sidebar-menu ul.nav-pills > li.open > a:focus {
+    background-color: #444 !important;
+    color: #fff !important;
+}
+
+.sidebar-menu li a i {
+  margin-right: 10px;
+}
+
+.sidebar-menu {
+  overflow: visible;
+}
+
+.sidebar-menu ul#mainmenu {
+  height: calc(100% - 25px);
+  overflow-y: auto;
+  overflow-x: visible;
+}
+
+.content-wrapper {
+  margin-left: 300px;
+  padding: 15px;
+  width: calc(100% - 300px);
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  margin-top: 0;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  top: 10px;
+  right: -18px;
+  width: 35px;
+  height: 35px;
+  background-color: #2f4c6e;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 1200;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.sidebar-toggle:hover {
+  background-color: #3b5b83;
+  transform: scale(1.05);
+}
+
+#sidebarToggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.sidebar-collapsed .content-wrapper {
+  margin-left: 0;
+  width: 100%;
+  margin-top: 0;
+}
+
+#main .navbar-header {
+  padding-left: 15px;
+  transition: padding-left 0.3s ease;
+}
+
+body.sidebar-collapsed #main .navbar-header {
+  padding-left: 15px;
+}
+
+.sidebar-menu > ul > li.dropdown > .dropdown-menu {
+    position: static !important;
+    width: 100%;
+    background-color: #fff;
+    border: none;
+    box-shadow: none;
+    float: none;
+    padding: 0;
+}
+
+.sidebar-menu .dropdown-submenu {
+    position: relative;
+}
+
+.sidebar-menu .dropdown-submenu > .dropdown-menu {
+    position: static !important;
+    float: none;
+    display: none;
+    width: 100%;
+    background-color: #f4f4f4;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.sidebar-menu .dropdown-submenu > .dropdown-menu a {
+    padding-left: 50px !important;
+}
+
+.sidebar-menu .dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+}
+
+.sidebar-menu .dropdown-menu a {
+    color: #333 !important;
+    padding: 8px 20px;
+    background-color: transparent !important;
+    white-space: nowrap;
+    display: block;
+}
+
+.sidebar-menu .dropdown-menu a:hover {
+    background-color: #444 !important;
+    color: #fff !important;
+}
+
+.sidebar-menu > ul > li.dropdown > .dropdown-menu a {
+    padding-left: 35px !important; 
+}
+
+.sidebar-menu .dropdown-submenu > a:after {
+    content: "\f0d7";
+    font-family: FontAwesome;
+    float: right;
+    margin-left: 10px;
+}
+
+.sidebar.collapsed {
+  left: -300px;
+}
+
+.sidebar.collapsed .sidebar-menu .dropdown-submenu > .dropdown-menu {
+    position: absolute !important;
+    top: 0;
+    left: 100%;
+    right: auto;
+    width: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.sidebar.collapsed .sidebar-menu .dropdown-submenu > .dropdown-menu a {
+    padding-left: 20px !important;
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-info.active {
+    background-color: #444 !important;
+    border-color: #444 !important;
+}
+
+.btn-info {
+    background-color: #2196F3  !important;
+    border-color: #2196F3  !important;
+}
+
+.navbar-fixed-top {
+    /* background-color: #4682B4 !important; */
+}
+
+.btn-more,
+.btn-more:hover,
+.btn-more.active
+{
+    background-color: #DEEBF7 !important;
+    border-color: #DEEBF7 !important;
+    color: #030316 !important;
+}
+
+.second-navbar {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 60px;
+}
+
+#sidebarToggle {
+    font-size: 20px;
+    color: #333;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    margin-right: 15px;
+}
+
+.navbar-logo img.logo-rs {
+    height: 40px !important;
+    width: auto;
+    display: block;
+}
+
+.navbar-title {
+    margin-left: 15px;
+}
+
+.navbar-title .rs-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+}
+
+.right-navbar {
+    margin-left: auto;
+}
+
+.right-navbar > ul.nav.navbar-right {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    float: none !important;
+}
+
+.right-navbar > ul.nav.navbar-right > li {
+    float: none !important;
+    padding: 0 5px;
+}
+
+.right-navbar > ul.nav.navbar-right > li > a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    white-space: nowrap;
+}
+
+.right-navbar .dropdown {
+    position: relative;
+}
+
+#sidebarToggle:focus,
+#sidebarToggle:active,
+#sidebarToggle.active {
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+}
+
+.panel-toolbar.sticky {
+    position: fixed; 
+    top: 60px; 
+    z-index: 999; 
+    left: 300px;
+    right: 0;
+    transition: left 0.3s ease, right 0.3s ease;
+}
+
+body.sidebar-collapsed .panel-toolbar.sticky {
+    left: 0;
+    right: 0;
+    top: 60px; 
+}
+
+.navbar-position + .page-header {
+    display: none !important;
+}
+
+/* * Ini adalah "Test" untuk memastikan file CSS Anda terbaca.
+ * Jika Anda melihat border merah, berarti file CSS-nya sudah benar.
+*/
+.page-content {
+    /* padding-top: 60px !important;
+    border: 3px solid red !important; */
+    padding-top: 75px !important;
+}
+
+
+/* * Ini adalah perbaikan "Nuklir"
+ * Ini memaksa padding-top di container induk menjadi 60px
+*/
+body > .page-container > .page-content {
+    padding-top: 60px !important; 
+}
+
+/* * Ini memaksa margin-top di content-wrapper menjadi 0
+*/
+body > .page-container > .page-content > .content-wrapper {
+    margin-top: 0 !important;
+}
+
+/* * Ini memaksa div "page-header" yang mungkin masih 
+ * 'tersembunyi' (karena cache) untuk menghilang.
+*/
+.page-container > .page-content > .page-header {
+    display: none !important;
+}
+
+/* Ini akan menyembunyikan div yang berisi ikon */
+.column-1 {
+    display: none;
+}
+

@@ -1,0 +1,51 @@
+/* 
+    Author : Randy Vianda Putra (aweutist)
+*/
+
+.btn-custom-table {
+    margin: 2px;
+}
+
+.error {
+    color: red;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.tabel {
+    font-size: 16px;
+}
+
+.tabel td {
+    padding: 5px;
+}
+
+.clear {
+    clear: both;
+}
+
+.AnyTime-win {
+    position: relative;
+    top:-29px;
+    margin-top:0px;
+}
+
+.detail-pasien {
+    font-size: 15px;
+}
+/* 
+.error {
+    border: 1px solid red;
+} */
+
+textarea {
+    height:100px;
+    min-height:100px;
+    max-height:100px;
+}
+
+#no_header .dataTables_wrapper table thead{
+    display:none;
+}

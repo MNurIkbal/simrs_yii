@@ -1,0 +1,38 @@
+@import '../variables.scss';
+#jenis_penjualan {
+    float: left;
+    position: relative;
+    z-index: 2;
+    border-radius: 5px;
+    border: 1px solid #D0D0D0;
+    margin-bottom: 5px;
+}
+
+#jenis_penjualan label {
+    margin: 0px;
+    float:left;
+    overflow:auto;
+}
+
+#jenis_penjualan label span {
+    text-align: center;
+    font-size: 12px;
+    color: #333;
+    padding: 8px;
+    display: block;
+}
+
+#jenis_penjualan label input {
+    position:absolute;
+    display: none;
+}
+
+#jenis_penjualan input:checked + span {
+    background-color: $button-main-hover;
+    color: #F7F7F7;
+}
+
+#jenis_penjualan .label-jenis-penjualan {
+    color: #333;
+    padding-left: 0px;
+}

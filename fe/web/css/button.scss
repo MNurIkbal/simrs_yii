@@ -1,0 +1,42 @@
+@import '../css/variables.scss';
+.btn-yes{
+    background-color:$button-main;
+    color:$light;
+}
+.btn-yes:hover{
+    background-color:$button-main-hover;
+    color:$light;
+}
+.btn-no{
+    background-color: $button-red;
+    color: $light;
+}
+.btn-no:hover{
+    background-color: $button-red-hover;
+    color: $light;
+}
+.btn-netral{
+    background-color: $dark-grey;
+    color: $light;
+}
+.btn-netral{
+    background-color: $light-grey;
+    color: $light !important;
+}
+
+.btn-info{
+    background-color:$button-main !important;
+    border: 1px solid $button-main;
+    color: $light;
+}
+.btn-info:hover, .login-btn:hover{
+    background-color:$button-main-hover !important;
+}
+.btn-info:active, .login-btn:active{
+    background-color:$button-main !important;
+    border: $button-main !important;
+}
+.btn-info:focus, .login-btn:focus{
+    background-color:$button-main !important;
+    border: $button-main !important;
+}

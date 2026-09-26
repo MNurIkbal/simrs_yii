@@ -1,0 +1,166 @@
+@import '../variables.scss';
+html {
+    scroll-behavior: smooth;
+}
+a{
+    color:$dark;
+}
+.site-index p{
+    font-weight: bold;
+    font-size: 12px;
+}
+.site-index {
+    margin: auto;
+    width: 85%;
+    text-align: center;
+    padding:0;
+}
+.content-wrapper {
+    padding:2%;
+    display: block !important;
+}
+.page-container{
+    margin-top:0px !important;
+}
+.module-section{
+    padding:2% 3%;
+}
+
+.list-module {
+    width: 165px;
+    min-height: 170px;
+}
+.list-module a, a:hover {
+    color: $dark-grey;
+}
+.list-module div {
+    box-shadow: 2px 2px 3px $shadow;
+    border: 2px solid $shadow;
+    transition: 0.4s;
+}
+.list-module div:hover{
+    border: 3px solid $button-main;
+    cursor: pointer;
+}
+.list-module div:focus{
+    border: 3px solid $button-main !important;
+    cursor: pointer;
+}
+.list-module div:active{
+    border: 3px solid $button-main !important;
+    cursor: pointer;
+}
+.list-module div:visited{
+    border: 3px solid $button-main !important;
+    cursor: pointer;
+}
+.list-module-not {
+    width: 180px;
+    min-height: 170px;
+}
+.list-module-not div:hover{
+    box-shadow: 5px 5px $shadow;
+    cursor: pointer;
+}
+.list-module-hide{
+    display: none;
+}  
+
+.isi-module {
+    margin:auto;
+    min-height: 140px;
+}
+  
+.isi-module i {
+    font-size: 40px;
+}
+.isi-module-not {
+    padding: 20px 4px 15px 4px;
+    background: $shadow;
+    min-height: 140px;
+}
+.isi-module-not i {
+    font-size: 40px;
+}
+.isi-module > h6{
+    font-size: 1.1em;
+} 
+.row-flex{    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.btn-more{
+  color :$light;
+  background-color: $button-main;
+  box-shadow: 2px 2px $button-main;
+}
+.btn-more:hover {
+    color :$light !important;
+    background-color: $button-main-hover !important;
+    box-shadow: 2px 2px $button-main-hover;
+}
+.btn-less{
+    color :$light !important;
+    background-color: $button-red;
+    box-shadow: 2px 2px $button-red;
+}
+.btn-less:hover{
+    color :$light !important;
+    background-color: $button-red-hover !important;
+    box-shadow: 2px 2px $button-red-hover;
+}
+
+/*tablet landscape*/
+@media only screen and (max-width: 1176px) {
+    .site-index {
+        margin: auto;
+        width: 90%;
+        text-align: center;
+        padding:0;
+    }
+    .module-section{
+        padding:2% 3%;  
+    }
+    .list-module {
+        width: 150px;
+    }
+    .isi-module{
+        margin:auto;
+        min-height: 145px;
+    }
+    .isi-module > h6{
+        font-size: 1.2em;
+    } 
+    .isi-module > img{
+        width: 85px;
+        height: 85px;
+    }
+}
+/*tablet potrait*/
+@media only screen and (max-width: 768px) {
+    .content-wrapper{
+        width: 100%;
+    }
+    .page-container{
+        width:100vw;
+    }
+   /* .cr-inner{
+        width: 70%;
+        left: 15%;
+        top: 30%;
+        height: 40%
+    }*/
+   
+}
+
+@media screen and (min-width: 1400px) {
+    .list-module {
+      width: 180px;
+      min-height: 170px;
+    }
+    .list-module-not {
+        width: 180px;
+        min-height: 170px;
+    }
+}

@@ -1,0 +1,101 @@
+<?php
+
+return [
+    'triage' => [
+        'resusitasi' => 'Resusitasi',
+        'emergent' => 'Emergent',
+        'urgent' => 'Urgent',
+        'non_urgent' => 'Non Urgent',
+        'less_urgent' => 'Less Urgent',
+    ],
+    'kasus_polisi' => [
+        'tidak' => 'Tidak',
+        'ya' => 'Ya',
+    ],
+    'kasus_kecelakaan' => [
+        'tidak' => 'Tidak',
+        'ya' => 'Ya',
+    ],
+    'cara_pasien_datang' => [
+        'sendiri' => 'Sendiri',
+        'diantar_oleh' => 'Diantar Oleh',
+    ],
+    'anamnesis' => [
+        'auto_anamnesa' => 'Auto anamnesa',
+        'allo_anamnesa' => 'Allo anamnesa',
+    ],
+    'tindak_lanjut' => [
+        'rawat_inap' => 'Rawat inap',
+        'rawat_jalan' => 'Rawat jalan',
+        'ruang_intensif' => 'Ruang intensif',
+        'menolak_rawat' => 'Menolak rawat',
+        'rujuk' => 'Rujuk',
+        'meninggal' => 'Meninggal',
+    ],
+    'pilih_skala' => [
+        'dewasa' => 'Dewasa (numerik)',
+        'anak'   => 'Anak (wong baker)',
+    ],
+    'survey_kepala' => [
+        'lecet' => 'Lecet/excorasi',
+        'memar' => 'Memar',
+        'faktur_basis' => 'Faktur Basis',
+        'faktur_tulang_tengkorak' => 'Faktur Tulang Tengkorak',
+        'tidak_ada_kelainan' => 'Tidak Ada Kelainan',
+    ],
+    'survey_mata' => [
+        'racon_eyes' => 'Racon Eyes',
+        'luka' => 'Luka',
+        'pendarahan' => 'Pendarahan',
+        'tidak_melihat' => 'Tidak Melihat',
+        'tidak_ada_kelainan' => 'Tidak Ada Kelainan',
+    ],
+    'survey_telinga' => [
+        'pendarahan' => 'Pendarahan',
+        'cairan' => 'Cairan',
+        'sobek' => 'Sobek',
+        'tuli' => 'Tuli',
+        'tidak_ada_kelainan' => 'Tidak Ada Kelainan',
+    ],
+    'survey_leher' => [
+        'utuh' => 'Utuh',
+        'c_colar' => 'C-Colar',
+        'swelling' => 'Swelling',
+        'frak_cervical' => 'Frak. Cervical',
+        'cedera_esophagus' => 'Cedera Esopaghus',
+        'emfisema_sub_cutis' => 'Emfisema sub Cutis',
+        '00' => 'Lainnya',
+        'tidak_ada_kelainan' => 'Tidak Ada Kelainan',
+    ],
+    'survey_extremitas' => [
+        'utuh' => 'Utuh',
+        'fraktur' => 'Fraktur',
+        'nyeri' => 'Nyeri',
+        'deformitas' => 'Deformitas',
+        'defisit_neurologis' => 'Defisit Neurologis',
+        'jejas' => 'Jejas / Bengkak',
+        'pulsasi' => 'Pulsasi',
+        'tidak_ada_kelainan' => 'Tidak Ada Kelainan',
+    ],
+    'survey_pelvis' => [
+        'utuh' => 'Utuh',
+        'nyeri_fraktur' => 'Nyeri Fraktur',
+        'darah_pada_rectum' => 'Darah Pada Rectum',
+        'cedera_genitourinarius' => 'Cedera Genitourinarius',
+        '00' => 'Lainnya',
+        'tidak_ada_kelainan' => 'Tidak Ada Kelainan',
+    ],
+    'survey_medulla_spinalis' => [
+        'trauma_kaptis' => 'Trauma Kaptis',
+        'trauma_medulla_spinalis' => 'Trauma Medulla Spinalis',
+        'tetra_paresis' => 'Tetra paresis',
+        'paraparesis' => 'Paraparesis',
+        'tidak_ada_kelainan' => 'Tidak Ada Kelainan',
+    ],
+    'survey_kolumna_vertebralis' => [
+        'fraktur' => 'Fraktur',
+        'nyeri_tekan' => 'Nyeri Tekan',
+        'deformitas' => 'Deformitas',
+        'tidak_ada_kelainan' => 'Tidak Ada Kelainan',
+    ],
+];

@@ -1,0 +1,125 @@
+        /* Gaya Utama Body */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* Kontainer untuk Grid Card */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Gaya untuk satu Card Modul */
+        .module-card {
+            background-color: #f8faff;
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            text-align: center;
+            border: 1px solid #eaf2ff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            /* Modifikasi: Tambahkan 'border-color' ke transisi */
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
+            min-height: 150px;
+        }
+
+        .module-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+            /* Modifikasi: Tambahkan perubahan border-color saat hover */
+            border-color: #0052cc; /* Warna biru seperti ikon */
+        }
+
+        /* Kontainer untuk Ikon */
+        .icon-container {
+            width: 60px;
+            height: 60px;
+            /* Hapus background-color dan border-radius */
+            /* background-color: #e6f0ff; */
+            /* border-radius: 50%; */
+            display: grid;
+            place-items: center;
+        }
+
+        /* Gaya untuk SVG Ikon (Placeholder) */
+        .icon-container svg {
+            width: 32px;
+            height: 32px;
+            color: #0052cc;
+        }
+
+        /* Gaya untuk Teks/Nama Modul */
+        .module-name {
+            color: #0b2f6c;
+            font-size: 0.875rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* Kontainer untuk Tombol di Bawah */
+        .button-container {
+            text-align: center;
+            margin-top: 2.5rem;
+        }
+
+        /* Gaya Tombol "Tampilkan Lebih Sedikit" */
+        .show-less-btn {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            color: #0b2f6c;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .show-less-btn:hover {
+            background-color: #f9fafb;
+            border-color: #adb5bd;
+        }
+
+.navbar-header {
+    /* Ganti warna background-nya */
+    background-color: #337AB7; /* Ini adalah contoh biru muda yang netral */
+    
+    /* (PENTING) Sesuaikan border bawah agar serasi */
+    /* Ganti #ccc dengan warna border Anda yg sekarang jika beda */
+    /* border-bottom: 1px solid #D0E0F0; */
+    
+    /* (Opsional) Hapus garis hitam di atas (jika itu border-top) */
+    border-top: none;
+}
+
+/* 1. Mengubah warna title "DEV NGV RS" */
+.navbar-header .navbar-title .rs-title {
+    color: #fff !important;
+}
+
+/* 2. Mengubah warna semua link & ikon di kanan (Notifikasi, Super Admin) */
+.navbar-header .navbar-list .navbar-right > li > a {
+    color: #fff !important;
+}
+
+.navbar-sirs {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}

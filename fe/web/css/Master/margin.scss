@@ -1,0 +1,12 @@
+@import '../variables.scss';
+
+#table-margin-khusus .active-margin,
+#table-margin-harga-obat .active-margin {
+  font-weight: bold;
+  color: #37474f;
+}
+
+#table-margin-khusus,
+#table-margin-harga-obat {
+  color: #73797d;
+}

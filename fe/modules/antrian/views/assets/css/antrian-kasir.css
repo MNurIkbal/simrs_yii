@@ -1,0 +1,45 @@
+
+
+.bgk-simrsdoco {
+    background-color: #407e7a;
+    border-color: #407e7a;
+    color: #fff;
+}
+
+.panel-body {
+    padding: 15px;
+}
+
+.img-rs {
+    border-right: 1px solid #fff;
+    padding-right: 30px;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.box-antrian {
+    height: 100%;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.big-icon {
+    font-size: 2cm;
+    color: #58de9e;
+}
+
+.content-screen {
+    border-radius: 10px;
+    border: 1px solid #58de9e;
+    border-bottom: 4px solid #58de9e;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.content-link:hover {
+    background-color: #e8f9f1;
+    -webkit-transition: .7s;
+    -moz-transition: .7s;
+    -o-transition: .7s;
+}

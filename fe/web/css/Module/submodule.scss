@@ -1,0 +1,35 @@
+@import '../variables.scss';
+.module-selection{
+    width: 450px;   //ukuran 
+    display: flex; //module tampil horizontal 
+    overflow-x: auto;
+    z-index: 100;
+ }
+ .cr-inner{
+    //custom scrollbar
+   /* width */
+   ::-webkit-scrollbar {
+    width: 5px;
+    height: 11px;
+    }
+    /* Track */
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey; 
+        border-radius: 10px;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: $button-main; 
+        border-radius: 10px;
+    }
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: $button-main-hover; 
+    }
+}
+
+.list-room {
+    height: 100%;
+    min-width: 150px;
+    scroll-behavior: smooth;
+} 

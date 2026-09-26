@@ -1,0 +1,230 @@
+<?php
+
+use app\components\DocoHelpers;
+use yii\widgets\Breadcrumbs;
+use yii\helpers\ArrayHelper;
+use yii\web\View;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use kartik\widgets\DepDrop;
+use kartik\widgets\Select2;
+use yii\web\JsExpression;
+
+$this->title = isset($title) ? $title : Yii::t('fe', 'Rekam Medis');
+$this->params['breadcrumbs'][] = ['label' => 'Rekam Medis', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+$JK_L = $api[$jk][0]['lookup_kode'];
+$JK_P = $api[$jk][1]['lookup_kode'];
+$countCarabayar = 1;
+$countCarabayar = count($api['cara_bayar']);
+$colspanCounter = $countCarabayar * 2;
+$coljumlahpasien = ($colspanCounter * 2) + 2;
+// dump($columns);die;
+?>
+<style>
+.dataTables_scroll {
+    max-height: 99999em !important
+}
+
+.border-tab {
+        border-right: 1px solid white;
+}
+
+.t-b {
+    font-weight: bold;
+}
+
+.bg-sub-tot {
+        background-color: #e9eceb !important;
+        color: #484646;
+}
+
+</style>
+<div class="row body">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <!-- breadcrumbs replace with this -->
+                <div class="row">
+                  <div class="column-1">
+                    <img src="<?=Yii::$app->docoVars->workspace("modul_icon");?>">
+                </div>
+                <div class="column-2">
+                    <h3 class="panel-title">
+                        <b>
+                            <?php
+                                echo $this->title;
+                            ?>
+                        </b>
+                    </h3>
+                    <?=Breadcrumbs::widget(DocoHelpers::breadcrumbs($this->params['breadcrumbs']));?>
+                </div>
+            </div>
+            <!-- end -->
+        </div>
+
+        <div class="panel-toolbar clearfix">
+            <?=DocoHelpers::generateToolbar([
+                'search',
+                'reset' => [
+                    'attributes' => [
+                        'data-parent' => '.filter-form', 'id' => 'reset']],
+                'pdf',
+                'excel',
+            ], '#lap-sensus-harian-rajal');?>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <!-- <div class="col-md-12 filter-form"></div> -->
+            </div>
+            <div class="advanced-filter">
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table id="lap-sensus-harian-rajal" class="table table-striped table-condensed table-hover" style="width:100%">
+                    <thead>
+                        <tr class="bg-inverse">
+                            <th rowspan="4" class="border-tab" width="1"><?=\Yii::t("fe", "NO");?></th>
+                            <th rowspan="4" class="text-center border-tab" ><?=\Yii::t("fe", "DEPARTMENT");?></th>
+                            <th colspan="<?= $coljumlahpasien ?>" class="text-center border-tab">
+                                <?=\Yii::t("fe", "JUMLAH PASIEN");?>
+                            </th>
+                           <th colspan="2" class="text-center border-tab">
+                                <?=\Yii::t("fe", "JUMLAH");?>
+                           </th>
+                            <th rowspan="4" class="text-center border-tab"><?=\Yii::t("fe", "ADOA");?></th>
+                            <th rowspan="4" class="text-center border-tab"><?=\Yii::t("fe", "ADOAD");?></th>
+                            <th rowspan="4" class="text-center border-tab"><?=\Yii::t("fe", "ADOAPP");?></th>
+                        </tr>
+                        <tr class="bg-inverse">
+                            <th colspan="<?= $colspanCounter ?>" class="text-center border-tab"><?=\Yii::t("fe", "BARU");?></th>
+                            <th rowspan="3" class="text-center border-tab"><?=\Yii::t("fe", "JUMLAH BARU");?></th>
+                            <th colspan="<?= $colspanCounter ?>" class="text-center border-tab"><?=\Yii::t("fe", "LAMA");?></th>
+                            <th rowspan="3" class="text-center border-tab"><?=\Yii::t("fe", "JUMLAH LAMA");?></th>
+                            <th rowspan="3" class="text-center border-tab"><?=\Yii::t("fe", "KUNJUNGAN");?></th>
+                            <th rowspan="3" class="text-center border-tab"><?=\Yii::t("fe", "Hp");?></th>
+                        </tr>
+                        <tr class="bg-inverse">
+                        <?php 
+                            $counter = 2;
+                            for ($i=0; $i < $counter; $i++) { 
+                                foreach($api['cara_bayar']  as $k => $v) { ?>
+                                    <th id="<? $k ?>" colspan="2" class="text-center border-tab"><?=$v;?></th>
+                        <?php }
+                            }
+                         ?>
+
+                        </tr>
+                        <tr class="bg-inverse">
+                        <?php 
+                            for ($i=0; $i < $colspanCounter; $i++) { ?>
+                                <th id="<? $i ?>"class="text-center border-tab"><?= $JK_L ?></th>
+                                <th id="<? $i ?>"class="text-center border-tab"><?= $JK_P ?></th>
+                            <?php } ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center" colspan="25"><?=\Yii::t("fe", "Data tidak ditemukan.");?></td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php
+$this->registerJs("
+    var table;
+    var jenis;
+    var columns = ".json_encode($api['columns']).";
+    var tgl = columns.length - 1;
+    var jenis = columns.length - 2;
+
+    $(document).ready(function(){
+        $('.flex-1').addClass('hidden')
+        table = $('#lap-sensus-harian-rajal').docoTabel({
+            sorting: false,
+            displayLength: 100,
+            processing: true,
+            serverSide: true,
+            paging: false,
+            ordering: false,
+            scrollX: true,
+            lengthChange: false,
+            ajax: {
+                url: baseUrl+'rm/lap-sensus-harian-pasien-rajal/get-data',
+                type: 'GET',
+                data: function (col) {
+                    for (i = 0; i < col.columns.length; i++) {
+                        if (col.columns[i].data === 'jenis_pendaftaran' || col.columns[i].data === 'tgl_pendaftaran') { 
+
+                        } else {
+                            col.columns.splice(i, 1); 
+                        }
+                    }
+                }
+            },
+            columns: columns,
+            infoCallback: function( settings, start, end, max, total, pre ) {
+                return 'Showing '+ start +' to '+ total +' of '+ total +' entries'
+            },
+            drawCallback: function(e) {
+                var api = this.api();
+
+                for (var i = 0; api.rows().count() > i; i++) {
+                    var rowData = api.row(i).data();
+                    var rowNode = api.row(i).node();
+
+                    if(rowData.is_header == 0 || rowData.is_header == 2) {
+                        $(rowNode).addClass('t-b');
+                    }
+
+                    if(rowData.is_header == 0 || rowData.ruangan_nama == '<b>TOTAL</b>') {
+                        $(rowNode).addClass('bg-sub-tot');
+                    }
+                }
+            }
+        });
+        $('.dataTables_filter').hide();
+
+        $('.filter-form').datatableBootstrapFilter(table, 
+        [
+            [
+                ".$api['tgl'].",
+                \"<div class='input-group'><input value=".date('d-M-Y')." type='text' id='rangeDemoStart' class='form-control startDate' /><span class='input-group-addon' style='border-left: 0; border-right: 0;'>-</span><input value=".date('d-M-Y')." type='text' id='rangeDemoFinish' class='form-control endDate' /><input type='text' style='display:none' class='targetDate' col-index=2 readonly='true'></div>\"
+            ],
+            [
+                ".$api['jenis'].",
+                \"<div class='form-group'>".preg_replace("/[\n\t\r]/i", '', preg_replace("/[\"]/i", '\'',
+                    Html::dropDownList('jenis_pendaftaran', $api['jenis_pendaftaran'][0]['lookup_id'],
+                    ArrayHelper::map($api['jenis_pendaftaran'], 'lookup_id', 'lookup_name'),
+                        [
+                            'id' => 'filter_jenis_pendaftaran',
+                            'class' => 'form-control select2 selectJenisPendaftaran',
+                            'style'=>'width:100%;',
+                            'prompt' => '--- Pilih ---'
+                        ]
+                    )
+                ))."<div>\"
+            ],
+        ],
+        {
+            //posisi kolom dan grid
+            ".$api['tgl'].":0,
+            ".$api['jenis'].":1,
+        });
+        
+        dateRangeHelper('.startDate','.endDate','.targetDate');
+
+        $(document).on('click', '#reset', function(){
+            let valDef = ".$api['jenis_pendaftaran'][0]['lookup_id']."
+            let valName = '".$api['jenis_pendaftaran'][0]['lookup_name']."'
+        })
+    });
+
+", View::POS_END)
+?>

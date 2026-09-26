@@ -1,0 +1,68 @@
+<?php
+    use app\components\DocoHelpers;
+?>
+
+<div class="panel panel-default">
+    <div class="panel-toolbar clearfix">
+        <?= DocoHelpers::generateToolbar([
+                'search',
+                'reset' => [
+                    'attributes' => [
+                        'data-parent' => '.filter-form',
+                    ]
+                ],
+                'export-pdf-bgprocess' => [
+                    'type' => 'button',
+                    'title' => 'Cetak PDF',
+                    'icon' => 'fa fa-print',
+                    'attributes' => [
+                        'id' => 'btn-export-pdf-bgprocess',
+                        'data-options' => 'excel-serconn',
+                        'data-target' => '#modal_backdrop',
+                        'data-url' => '/fisioterapi/laporan-drop-out-pasien/show-popup-pdf?',
+                        'data-width' => '75%'
+                    ]
+                ],
+                'export-excel-serconn' => [
+                    'type' => 'button',
+                    'title' => 'Excel',
+                    'icon' => 'fa fa-file-excel-o',
+                    'attributes' => [
+                        'id' => 'data-export-excel-serconn',
+                        'data-options' => 'excel-serconn',
+                        'data-target' => '#modal_backdrop',
+                        'data-url' => '/fisioterapi/laporan-drop-out-pasien/show-popup-excel?',
+                        'data-width' => '75%'
+                    ]
+                ]
+            ], '#table-drop-out') ?>
+    </div>
+    <div class="panel-body wrapper-table-drop-out">
+        <div class="row">
+            <div class="filter-form"></div>
+        </div>
+        <table id="table-drop-out" class="table table-striped table-condensed table-hover" style="width: 100%;">
+            <thead>
+                <tr class="bg-inverse">
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center" colspan="11">Data tidak ditemukan.</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>

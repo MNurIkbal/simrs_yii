@@ -1,0 +1,107 @@
+<?php 
+use yii\helpers\Html;
+?>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h5 class="modal-title"><?= $title ?></h5>
+</div>
+<hr>
+<center><span class="populate-data" style="font-size:16px;font-weight:bold;margin-bottom:10px;"></span></center>
+<div class="modal-body">
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+        <span class="label-persentase"></span>%</div>
+    </div>
+    <span class="help-block label-progress"></span>
+</div>
+
+<script>
+    $(document).ready(() => {
+        var _randString = <?= "'$randString'" ?>;
+        const progress = $(".progress");
+        const progressBar = $(".progress .progress-bar");
+        const labelProgress = $(".label-progress");
+        const labelPercent = $(".label-persentase");
+        var noPendaftaran = _dataRegist.no_pendaftaran ? _dataRegist.no_pendaftaran : '';
+
+        var closeModal = false;
+
+        progress.css("display", "none")
+
+        $("#modal_backdrop").on("hidden.bs.modal", function () {
+            closeModal = true;
+        });
+        
+        const showInfo = () => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve($(".populate-data").html(`mempersiapkan data ...`))
+                }, 1000);
+                setTimeout(() => {
+                    resolve($(".populate-data").css("display", "none"))
+                    resolve(progress.css("display", "block"))
+                    resolve($(".label-progress").html(`<p style="font-size:16px;font-weight:bold;"> menyiapkan data ... </p>`))
+                }, 2000);
+            })
+        }
+
+        const setPresentase = function(progress) {
+            $(".progress .label-persentase").html(progress)
+            $(".progress .progress-bar").css("width", progress +"%")
+            .attr("aria-valuenow", progress)
+            .attr("aria-volume", progress);
+        }
+
+        async function updateProgressBar() {
+            let config = await $.getJSON("./../../json/setup.json")
+            if (config.origin == "true") {
+                var socket = io.connect(window.location.origin);
+            } else {
+                var socket = io.connect(config.ip+':'+config.port);
+            }
+            const channel = `export-pdf:`
+            await showInfo()
+            
+            $.ajax({
+                url : '/kasir/perbandingan-harga/process-sync?randString=<?= $randString ?>',
+                success : function (data) {
+                    let startNum = 5
+                    setPresentase(startNum)
+                    let totalProgres = parseInt(startNum) + parseInt(data.totalPerPage) + 20;
+
+                    socket.on(channel + data.unique_str, (message) => {
+                        const _data = $.parseJSON(message);
+                        const { status , messageProcess , filename, progress} = _data
+                        if(status == 'finish') {
+                            $(".label-progress").html(`<p style="font-size:16px;font-weight:bold;">${messageProcess}</p>`)
+                            setPresentase(progress)
+                            if (progress == 100) {
+                                // window.open(`/kasir/perbandingan-harga/download-pdf?fileName=${filename}&noPendaftaran=${noPendaftaran}`, '_blank')
+                                $("#modal_backdrop").modal("toggle")
+                                $('#btn-pembanding').attr('action', `/kasir/perbandingan-harga/view?fileName=${filename}&noPendaftaran=${noPendaftaran}`);
+                                showLoader()
+                                setTimeout(() => {
+                                    hideLoader();
+                                    $('#btn-pembanding').trigger('click');
+
+                                    /** untuk handling klik bandingkan lagi setelah preview */
+                                    $('#btn-pembanding').attr('action', `/kasir/perbandingan-harga/show-popup?id=${_dataRegist.pendaftaran_id}&kelasId=${$('#kelas-pembanding').val()}`);
+
+                                }, 1000);
+
+                            }
+                        } else {
+                            startNum++
+                            setPresentase(Math.ceil((startNum/totalProgres) * 100))
+                            var currentProcess = (startNum-5);
+                        }
+                    });
+
+                }
+            });
+        }
+
+        updateProgressBar()
+   });
+</script>

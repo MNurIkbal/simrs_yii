@@ -1,0 +1,48 @@
+stages:
+  - deploy
+  - nodejs
+  - pm2
+
+pull-development:
+  stage: deploy
+  tags:
+    - development
+    - gwk
+    - frontend
+  only:
+    - develop-gwk
+  script:
+    - cd /var/www/sirs/fe
+    - sudo git pull origin develop-gwk
+    - curl -s -X POST https://api.telegram.org/$teleBotId/sendMessage -d chat_id=$teleChatId -d text="Pull <b>Modul Frontend branch development gwk</b> --> $CI_COMMIT_MESSAGE" -d "parse_mode=HTML"
+
+npmrun-development:
+  stage: nodejs
+  tags:
+    - frontend
+    - gwk
+    - development
+  only:
+    refs:
+      - develop-gwk
+    changes:
+      - web/css/*
+      - web/css/*/*
+  script:
+    - cd /var/www/sirs/ && sudo docker exec -t web_mhbg bash -c "cd /var/www/sirs/frontend/nodejs && npm run build"
+    - curl -s -X POST https://api.telegram.org/$teleBotId/sendMessage -d chat_id=$teleChatId -d text="Hai Fams, <b>NPM RUN BUILD udah dijalanin di Frontend dev-prambanan</b>, Minta bantuannya buat di cek ya :)" -d "parse_mode=HTML"
+
+pm2-development:
+  stage: pm2
+  tags:
+    - development
+    - gwk
+    - frontend
+  only:
+    refs:
+      - develop-gwk
+    changes:
+      - nodejs/*
+  script:
+    - sudo docker exec -t  bash -c web_mhbg "pm2 restart server"
+    - curl -s -X POST https://api.telegram.org/$teleBotId/sendMessage -d chat_id=$teleChatId -d text="Hai Fams, <b>PM2 Server berhasil direstart di Frontend dev-prambanan</b>, Minta bantuannya buat di cek ya :)" -d "parse_mode=HTML"

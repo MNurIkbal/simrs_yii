@@ -1,0 +1,84 @@
+# yii console commands
+/yii_test
+/yii_test.bat
+
+# phpstorm project files
+.idea
+
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# windows thumbnail cache
+Thumbs.db
+
+# composer vendor dir
+/vendor
+
+# composer itself is not needed
+composer.phar
+
+# Mac DS_Store Files
+.DS_Store
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+
+# vagrant runtime
+/.vagrant
+
+/common/config/env/.setting-db.ini
+/config/db.php
+/config/env/.env
+/config/env/.extension
+/web/templete/limitless/assets/images
+/web/runtime/
+# /web/media/*
+/web/assets/
+/web/vendor/
+/web/build/
+/web/uploads/
+/downloads/*.pdf
+/downloads/*.xlsx
+/web/node_modules/
+/web/*.xlsx
+/web/media/img/layar-antrian/img-slider/*
+/web/media/img/layar-ketersediaan-kamar/*
+# vscode
+.vscode/
+
+#image pasien
+/web/media/img/pasien/*
+/web/media/gudang/*
+/web/media/input-hasil-rad/*
+/web/media/input-hasil-lab/*
+/web/media/img/info-slider/*
+/web/media/img/layar-antrian/img-slider/*
+/web/media/img/layar-ketersediaan-kamar/*
+
+/nodejs/node_modules
+uploads/*
+
+# config node
+web/json/*
+/web/json/*
+web/media/img/profil-rs/
+web/media/img/info-slider/*
+uploads
+web/build/*
+/web/build/*
+
+/nodejs/package-lock.json
+
+config/env/.api
+web/bower_components/*
+downloads/*
+runtime/*
+runtime/*/*/*
+.scannerwork/

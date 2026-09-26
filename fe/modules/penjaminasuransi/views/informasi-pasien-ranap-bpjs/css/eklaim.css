@@ -1,0 +1,103 @@
+.label-grouper{
+    font-size: 14px;
+}
+
+.info-txt{
+    font-size: 14px;
+}
+
+.jenisrawat-txt{
+    font-size: 14px;
+}
+
+.penyakit-nama{
+    font-size: 14px;
+}
+
+.kode-penyakit{
+    font-size: 14px;
+}
+
+.harga-klaim{
+    font-size: 14px;
+}
+
+.accute-grouper{
+    font-size: 14px;
+}
+
+.chronic-grouper{
+    font-size: 14px;
+}
+
+.drug-grouper{
+    font-size: 14px;
+}
+
+.procedure-grouper{
+    font-size: 14px;
+}
+
+.prosthesis-grouper{
+    font-size: 14px;
+}
+
+.investigation-grouper{
+    font-size: 14px;
+}
+
+.kemenkes-grouper{
+    font-size: 14px;
+}
+
+.total-harga{
+    font-size: 14px;
+}
+
+.tambahan-grouper{
+    font-size: 14px;
+    padding-left: 100px !important;
+}
+
+.dig-info{
+    width: 550px;
+}
+.marginbottom{
+    margin-bottom: 5px;
+}
+.user-info div .row{
+    margin-bottom: 15px;
+}
+.select2-selection, .select2-results__option{
+    font-size: 14px !important;
+}
+.select2-container .select2-selection--single{
+    height: 100% !important;
+    padding-right: 10px !important;
+}
+.select2-selection__rendered{
+  word-wrap: break-word !important;
+  text-overflow: inherit !important;
+  white-space: normal !important;
+}
+.set-primer {
+    font-size: 10px;
+    color: rgba(240, 173, 78, 0.75);
+    letter-spacing: 1px;
+    line-height: 7px;
+    border: 2px solid rgba(240, 173, 78, 0.75);
+    border-radius: 40px;
+    background: transparent;
+    transition: all 0.3s ease 0s;
+  }
+
+  .btn-remove-diagnosa {
+    font-size: 20px;
+    color: rgba(217, 83, 78, 0.75);
+    letter-spacing: 1px;
+    line-height: 15px;
+    border: 2px solid rgba(217, 83, 78, 0.75);
+    border-radius: 40px;
+    background: transparent;
+    transition: all 0.3s ease 0s;
+  }

@@ -1,0 +1,335 @@
+<?php
+
+/**
+ * @Author: afil
+ * @Date:   2018-02-26 07:58:44
+ * @Last Modified by:   afil
+ * @Last Modified time: 2018-02-26 07:58:44
+ *
+ * @Refactored by : Anggoro
+ * @Refactored time : 2019-07-01
+ *
+ * @Description: Pendaftaran IGD / Rawat Darurat
+ */
+
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\web\View;
+use yii\widgets\Breadcrumbs;
+use kartik\widgets\ActiveForm;
+use kartik\widgets\DepDrop;
+use kartik\select2\Select2;
+use app\components\DocoHelpers;
+use app\components\DocoConstants;
+
+$this->title = $title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('fe', 'Pendaftaran'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+$typeRegis = !empty(DocoConstants::PARAM_DFTR[$ruanganId]) ? DocoConstants::PARAM_DFTR[$ruanganId] : null;
+$ranap = !empty(DocoConstants::PARAM_DFTR[DocoConstants::WS_RANAP]) ? DocoConstants::PARAM_DFTR[DocoConstants::WS_RANAP] : null;
+?>
+<style type="text/css">
+.sweet-alert {
+    z-index: 1065 !important;
+}
+
+.btn-icon {
+    padding-left: 8px !important;
+    padding-top: 2px !important;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+    top: -2px !important;
+}
+
+.popover-content {
+    width: 400px !important;
+}
+
+.border-radius-top {
+    border-top-right-radius: 26px !important;
+    border-top-left-radius: 26px !important;
+}
+
+.media {
+    border: 1px solid #dddddd !important;
+}
+
+.bg-indigo-300 {
+    background-color: #49ce8e6b !important;
+    border-color: #7986CB !important;
+}
+
+.hidden {
+    display: none;
+}
+
+.wizard>.content>.body {
+    padding: 10px 20px !important;
+}
+
+.wizard>.steps>ul>li {
+    display: none !important;
+}
+
+input[type="text"] {
+    height: 28px !important;
+    padding: 7px 10px !important;
+}
+
+textarea {
+    padding: 7px 10px !important;
+}
+
+.info-sync {
+        font-size: 19px;
+        font-weight: bold;
+    }
+</style>
+<input type="hidden" name="" class="params-header" value="<?=isset($params) ? $params : '' ?>">
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <!-- breadcrumb -->
+                <div class="row">
+                    <div class="column-1">
+                        <img src="<?= Yii::$app->docoVars->workspace("modul_icon"); ?>">
+                    </div>
+                    <div class="column-2" style="width: 40% !important">
+                        <h3 class="panel-title">
+                            <b>
+                                <?= Yii::$app->docoVars->workspace("modul_alias") . ($loket_nama 
+                                        ? ' - ' . Yii::t('fe', 'Loket') . ' ' . $loket_nama : '') ?>
+                            </b>
+                        </h3>
+                        <?=Breadcrumbs::widget(DocoHelpers::breadcrumbs($this->params['breadcrumbs']));?>
+                    </div>
+                    <div class="column-2" style="float: right; width: 11% !important">
+                        <button id="re-sync" type="button" class="btn btn-info btn-labeled btn-xs btn-toolbar" data-options="click"><b><i class="fa fa-refresh"></i></b><?=Yii::t('fe', 'Sinkron Ulang')?></button>
+                    </div>
+                    <div class="column-2" style="float: right; width: 18% !important">
+                        <p id="status-sync" class="info-sync"><?= $countSyncData ?> Data Butuh Di Sinkron</p>
+                    </div>
+                </div>
+
+                <div class="heading-elements">
+                    <?php
+                        // if($typeRegis !== $params) :
+                        if ($typeRegis == $ranap) :
+                    ?>
+                    <ul class="icons-list">
+                        <!-- <li><?= Yii::t('fe', 'Tekan enter untuk mencari') ?></li>
+                            <li>
+                                <div class='form-group'>
+                                    <input type="text" class="form-control no-antrian" name="no_antrian" autocomplete="off" placeholder="Ketik antrian manual" readonly onfocus="this.removeAttribute('readonly');" >
+                                </div>
+                            </li>
+                            <li>
+                                <button
+                                    type="button" class="btn btn-primary"
+                                    id="btn-pilih-antrian"
+                                    action="/pendaftaran/daftar/pilih-antrian"
+                                    data-width='900px'
+                                    data-toggle="modal" data-target="#modal_backdrop"
+                                >
+                                    Panggil Antrian
+                                </button>
+                            </li>
+                            <li>
+                                <?php
+                                    echo Html::button(Yii::t('fe', 'Ubah Jenis Antrian'),[
+                                        'class' => 'btn btn-info btn-md',
+                                        'id'=>'btn-ubah-jenis-antrian',
+                                        'data-toggle' => 'modal',
+                                        'data-target' => '#modal_backdrop',
+                                        'action' => '/pendaftaran/daftar/ubah-jenis-antrian?loket_id='.$loket_id.'&jenisantrian_id='.$jenisantrian_id,
+                                    ]);
+                                ?>
+                            </li>
+                            <li>
+                                <?= Html::hiddenInput('loket', $loket_nama, ['id'=>'loket']); ?>
+                            </li>
+                        <li class="hidden"><a data-action="collapse"></a></li> -->
+                    </ul>
+                    <?php
+                        endif;
+                    ?>
+                    <div class="hidden">
+                        <?php
+                        echo Html::button(Yii::t('fe', 'Modal Cetakan'),[
+                            'class' => 'btn btn-info btn-md',
+                            'id'=>'btn-modal-cetakan',
+                            'data-width' => '700px',
+                            'data-toggle' => 'modal',
+                            'data-target' => '#modal_backdrop',
+                            'action' => '/pendaftaran/pendaftaran-ranap/modal-cetakan?param='.$params,
+                        ]);
+
+                        echo Html::button(Yii::t('fe', 'Konfirmasi Pendaftaran'),[
+                            'class' => 'btn btn-info btn-md',
+                            'id'=>'btn-confirm-pendaftaran',
+                            'data-width' => '700px',
+                            'data-toggle' => 'modal',
+                            'data-target' => '#modal_backdrop',
+                            'action' => '/pendaftaran/pendaftaran-ranap/confirm-pendaftaran?param='.$params,
+                        ]);
+                    ?>
+                    </div>
+                    <?= Yii::$app->controller->renderPartial('/daftar/partial/component/info-shortcut'); ?>
+                </div>
+                <!-- end of breadcrumb -->
+            </div>
+
+            <div class="panel-body no-border">
+                <!-- Data Pasien -->
+                <?php echo Yii::$app->controller->renderPartial('partial/_pasien', $render_pasien_data);?>
+                <!-- End of Data Pasien -->
+
+                <div class="row">
+                    <?php
+                    echo Yii::$app->controller->renderPartial(
+                        'partial/_formkunjungan', $render_kunjungan_data
+                    );
+                 ?>
+                </div>
+                <!-- End of Data Kunjungan -->
+            </div>
+        </div>
+    </div>
+</div>
+
+&nbsp;
+<div class="clearfix"></div>
+<div id="modal_print_label" class="modal" style="z-index: 1066;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<div id="modal_pencarian_lanjutan" class="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<div id="modal_pencarian_identitas" class="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<button class="btn btn-primary grid-button btn-sm btn-form-bpjs" data-toggle="modal" data-target="#modal_backdrop"
+    data-width="90%" action="/pendaftaran/daftar-igd/get-form-bpjs?pendaftaran_id=364&no_rekam_medik=00005"
+    style="display: none">Tampilkan</button>
+
+<button class="btn btn-primary grid-button btn-sm btn-form-asuransi hidden" data-toggle="modal"
+    data-target="#modal_backdrop" data-width="75%">Tampilkan</button>
+
+<?php
+    $_rujukanDari = json_encode($rujukan_dari);
+    $_penOl = json_encode($penOl);
+    $this->registerJs("
+    var _rujukanDari = $_rujukanDari
+    var paramsPelayanan = '".$params."';
+    var penjamin_umum = '".$penjamin_umum."';
+    var _penOl = $_penOl;
+    var rujukan_datang_sendiri = '".$rujukan_datang_sendiri."';
+    var title_karcis = '".json_encode($render_kunjungan_data['data_lookup']['title_pendaftaran'][0]['lookup_value'])."';
+
+    const oLanguage = {
+        sLengthMenu: '".Yii::t('fe', 'dt_length_menu')."',
+        sZeroRecords: '".Yii::t('fe', 'dt_zero_records')."',
+        sEmptyTable: '".Yii::t('fe', 'dt_empty_table')."',
+        sInfoFiltered: '".Yii::t('fe', 'dt_info_filtered')."',
+        sInfoEmpty: '".Yii::t('fe', 'dt_info_empty')."',
+        sInfo: '".Yii::t('fe', 'dt_info')."',
+        oPaginate: {
+            sFirst: '".Yii::t('fe', 'dt_first_page')."',
+            sPrevious: '".Yii::t('fe', 'dt_previous_page')."',
+            sNext: '".Yii::t('fe', 'dt_next_page')."',
+            sLast: '".Yii::t('fe', 'dt_last_page')."'
+        }
+    }
+    const columns = [
+        { title: 'No', data: 'rowNum', searchable: false, orderable: false },
+        {title: '".Yii::t('fe', 'Ruangan')."', data: 'ruangan_nama', searchable: false, orderable: false},
+        {title: '".Yii::t('fe', 'Kamar')."', data: 'kamarruangan_nokamar', searchable: false, orderable: false },
+        {title: '".Yii::t('fe', 'Kelas')."', data: 'kelaspelayanan_nama', searchable: false, orderable: false },
+        {title: '".Yii::t('fe', 'No Tempat Tidur')."', data: 'datakamar', searchable: false, orderable: false },
+    ]
+    const columnKamarTitipan = [
+        { title: 'No', data: 'rowNum', searchable: false, orderable: false },
+        {title: '".Yii::t('fe', 'Ruangan')."', data: 'ruangan_nama', searchable: false, orderable: false},
+        {title: '".Yii::t('fe', 'Kamar')."', data: 'kamarruangan_nokamar', searchable: false, orderable: false },
+        {title: '".Yii::t('fe', 'Kelas')."', data: 'kelaspelayanan_nama', searchable: false, orderable: false },
+        {title: '".Yii::t('fe', 'Harga')."', data: 'harga_tariftindakan', searchable: false, orderable: false },
+        {title: '".Yii::t('fe', 'Aksi')."', data: 'datakamar', searchable: false, orderable: false },
+    ]
+
+    const columnKamarAps = [
+        { title: 'No', data: 'rowNum', searchable: false, orderable: false },
+        {title: '".Yii::t('fe', 'Ruangan')."', data: 'ruangan_nama', searchable: false, orderable: false},
+        {title: '".Yii::t('fe', 'Kamar')."', data: 'kamarruangan_nokamar', searchable: false, orderable: false },
+        {title: '".Yii::t('fe', 'Kelas')."', data: 'kelaspelayanan_nama', searchable: false, orderable: false },
+        {title: '".Yii::t('fe', 'No Tempat Tidur')."', data: 'datakamar', searchable: false, orderable: false },
+    ]
+
+    const columnDaftarTerakhir = [
+        {
+            data: null,
+            searchable: false,
+            orderable: false,
+            defaultContent: '',
+        },
+        {
+            title: 'No',
+            data: 'rowNum',
+            searchable: false,
+            orderable: false
+        },
+        {title: '".Yii::t('fe', 'Tanggal Pendaftaran')."',  data: 'tgl_pendaftaran'},
+        {title: '".Yii::t('fe', 'No Pendaftaran')."',  data: 'no_pendaftaran'},
+        {title: '".Yii::t('fe', 'No Rekam Medik')."', data: 'no_rekam_medik'},
+        {title: '".Yii::t('fe', 'Nama Pasien')."', data: 'nama_pasien'},
+        {title: '".Yii::t('fe', 'Umur')."', data: 'umur'},
+        {title: '".Yii::t('fe', 'Jenis Kelamin')."', data: 'jenis_kelamin'},
+        {title: '".Yii::t('fe', 'Poliklinik')."', data: 'ruangan_nama'},
+        {title: '".Yii::t('fe', 'Dokter')."', data: 'nama_pegawai'},
+        {title: '".Yii::t('fe', 'Cara Bayar')."', data: 'carabayar_nama'},
+        {title: '".Yii::t('fe', 'Penjamin')."', data: 'penjamin_nama'},
+        {
+            data: 'primaryPasien',
+            searchable: false,
+            orderable: false,
+            visible: false,
+        },
+        {
+            data: 'primaryPendaftaran',
+            searchable: false,
+            orderable: false,
+            visible: false,
+        },
+    ]
+    ",View::POS_END, "js-kuning");
+    // $this->registerJs("
+    //     var _rujukanDari = $_rujukanDari;
+    //     var _penOl = $_penOl;
+    //     var default_jenis_penyakit = '".$render_kunjungan_data['default_jenis_penyakit']."'
+    //     var title_karcis = '".json_encode($render_kunjungan_data['data_lookup']['title_pendaftaran'][0]['lookup_value'])."';
+    
+    //     "
+    //     .$this->render('js-kuning')
+    //     .$this->render('js/index.js')
+    //     .$this->render('js/pasien.js')
+    // , View::POS_END, "js-index");
+    $this->registerJs(""
+        .$this->render('js/index.js')
+        .$this->render('js/pasien.js')
+    , View::POS_END, "js-index");
+    $this->registerJs($this->render('js/datatable-kamar.js'), View::POS_END);
+    $this->registerJs($this->render('js/datatable-kamar-titipan.js'), View::POS_END);
+
+ ?>

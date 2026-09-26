@@ -1,0 +1,100 @@
+<?php
+// Author : Ramdhan Nurrachman
+
+use yii\web\View;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
+$this->title = \Yii::t('fe', 'Pencarian');
+?>
+<div class="modal-header bg-inverse">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h5 class="modal-title"><?=$this->title;?></h5>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12 filter-form-modal"></div>
+        <div class="col-md-12" style="margin-top:-15px;">
+            <button type="button" class="btn btn-info btn-labeled btn-xs data-filter" data-parent=".filter-form-modal"><b><i class="fa fa-search"></i></b>Cari</button>
+        </div>
+    </div>
+    <table id="exampleFilter" class="table table-striped table-condensed table-hover" style="width:100%">
+        <thead>
+            <tr class="bg-inverse">
+                <th width="1">No</th>
+                <th><?=\Yii::t("fe", "Periode stok");?></th>
+                <th><?=\Yii::t("fe", "Nama obat alkes");?></th>
+                <!--th><?=\Yii::t("fe", "Qty masuk");?></th>
+                <th><?=\Yii::t("fe", "Qty keluar");?></th>
+                <th><?=\Yii::t("fe", "Qty dipesan");?></th>
+                <th><?=\Yii::t("fe", "Qty tersedia");?></th>
+                <th><?=\Yii::t("fe", "Stok");?></th-->
+                <th width="1"><?=\Yii::t("fe", "");?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center" colspan="6"><?=\Yii::t("fe", "Data tidak ditemukan.");?></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!--div class="modal-footer">
+    <?=Html::button(\Yii::t('fe', 'Kembali'),['class' => 'btn bg-slate btn-sm', 'data-dismiss' => 'modal']); ?>
+</div-->
+<script>
+    var tableSearch;
+
+    // Event Reload
+    $(document).on("click", ".data-check", function() {
+        var sel_wrap = $(this).data("sel_wrap");
+
+        var key = $(this).data("key");
+        var label = $(this).data("label");
+        $(sel_wrap)
+            .find("select.obatalkes_namalain")
+            .html("<option value=\""+key+"\" selected>"+label+"</option>");
+        $(sel_wrap)
+            .find("input.obatalkes_namalain")
+            .val(label);
+        
+        $("#modal_backdrop_search").modal("hide");
+    });
+
+    // Event Ready
+    $(document).ready(function() {
+        // Generate Table
+        tableSearch = $("#exampleFilter").docoTabel({
+            filter: true,
+            sorting: [[1, "asc"]], 
+            displayLength: 10,
+            processing: true,
+            serverSide: true,
+            ajax: baseUrl+"<?=Yii::$app->controller->module->id;?>/modal-search/get-data-stok-obat-alkes?sel_wrap=<?=$sel_wrap;?>&assign_id=<?=$assign_id;?>",
+            columns: [
+                {
+                    title: "No",
+                    data: "rowNum",
+                    searchable: false,
+                    orderable: false
+                },
+                {title: "<?=(\Yii::t("fe", "Periode stok"));?>", data: "periodestok_nama", searchable:false},
+                {title: "<?=(\Yii::t("fe", "Nama obat alkes"));?>", data: "obatalkes_namalain"},
+                // {title: "<?=(\Yii::t("fe", "Qty masuk"));?>", data: "qty_masuk"},
+                // {title: "<?=(\Yii::t("fe", "Qty keluar"));?>", data: "qty_keluar"},
+                // {title: "<?=(\Yii::t("fe", "Qty dipesan"));?>", data: "qty_dipesan"},
+                // {title: "<?=(\Yii::t("fe", "Qty tersedia"));?>", data: "qty_tersedia"},
+                // {title: "<?=(\Yii::t("fe", "Stok"));?>", data: "qty_stok"},
+                {
+                    title: "<?=(\Yii::t("fe", ""));?>",
+                    data: "check",
+                    searchable: false,
+                    orderable: false,
+                    class: "text-center"
+                }
+            ],
+        });
+        $(".dataTables_filter").hide();
+        $(".filter-form-modal").datatableBootstrapFilter(tableSearch);
+    });
+</script>

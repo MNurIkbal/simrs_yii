@@ -1,0 +1,101 @@
+@import '../variables.scss';
+.back-antrian{
+    font-size: 1em;
+}
+.stepy-header{
+    padding:0 !important;
+    span{
+       font-size: 0.9em;
+    }
+}
+.margintop{
+    margin-top:40px;
+}
+.reload-antrian{
+    font-size: 1.1em !important;
+}
+.reload-antrian, .back-step {
+    font-size: 1.2em !important;
+}
+
+.margintop > a {
+    padding: 13px !important;
+}
+.pd-20{
+    a{
+        font-size: 1.2em;
+    }
+}
+.cara-bayar{
+    height:300px;
+    background-color:$light;
+    border: 1px solid $shadow;
+    border-radius: 3px;
+    box-shadow: 1px 1px 2px $shadow;
+    padding:3%;
+}
+@media only screen and (max-width: 1176px) {
+    .back-antrian{
+        font-size: 0.8em;
+    }
+    .list-antrian{
+        panel{
+            max-height: 350px;
+        }
+    }
+    .margintop{
+        margin-top:10px;
+    }
+}
+@media only screen and (max-width: 712px) {
+    .carousel-item{
+        display:flex;
+        flex-wrap: nowrap;
+        .list-antrian{
+            min-width:200px;
+            margin-bottom:40px;
+            .img{
+               max-width: 75px;
+               max-height: 75px;
+            }
+            h6{
+                font-size: 1.1em;
+            }
+            a{
+                margin:2%;
+                font-size: 1.2em;
+            }
+        }
+    }
+    .pd-20{
+        display: flex;
+        justify-content: space-between;
+    }
+    .stepy-header{
+        display:flex;
+    }
+    .margintop{
+        margin-top:50px;
+    }
+    .reload-antrian{
+        font-size: 1.2em !important;
+    }
+    .reload-antrian, .back-step {
+        font-size: 1.2em !important;
+    }
+    .plan{
+        width:160px;
+        h3{
+            font-size:1.1em;
+        }
+        h4{
+            font-size:1.2em;
+        }
+        h5 > b{
+            font-size: 0.8em;
+        }
+    }
+    .plan span{
+        font-size: 4.0em !important;
+    }
+}

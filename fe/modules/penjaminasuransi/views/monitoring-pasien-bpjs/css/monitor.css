@@ -1,0 +1,102 @@
+<style>
+    .wrapper {
+  width: 600px;
+  margin: 0 auto;
+}
+
+.rang {
+  text-align: center;
+}
+
+.rang-title {
+  display: inline-block;
+  width: 200px;
+}
+
+.rang-number {
+  width: 100%;
+  margin-top: 40px;
+  text-align: center;
+  border-width: 0;
+  font-size: 50px;
+  font-weight: 900;
+  background-color: #fff;
+  color: #0093d7;
+}
+
+.rang-slider[type=range] {
+  width: 400px;
+  margin-top: 40px;
+  -webkit-appearance: none;
+}
+
+.rang-slider[type=range]:focus {
+  outline: none;
+}
+
+.rang-slider[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 20px;
+  border-radius: 25px;
+  background: #0093d7;
+  cursor: pointer;
+}
+
+.rang-slider[type=range]::-webkit-slider-thumb {
+  width: 50px;
+  height: 20px;
+  margin-top: 0;
+  border-radius: 25px;
+  background: #ffc815;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.rang-slider[type=range]:focus::-webkit-slider-runnable-track {
+  background: #a3cd3b;
+}
+
+.meter {
+  display: block;
+  width: 273px;
+  height: 155px;
+  margin: 0 auto;
+}
+
+.meter-left {
+  stroke-width: 58;
+  stroke-dashoffset: 194;
+  stroke-dasharray: 174 300;
+  stroke: #a3cd3b;
+  fill: none;
+}
+
+.meter-center {
+  stroke-width: 58;
+  stroke-dashoffset: 159;
+  stroke-dasharray: 131 481;
+  stroke: #ffc815;
+  fill: none;
+}
+
+.meter-right {
+  stroke-width: 58;
+  stroke-dashoffset: 1;
+  stroke-dasharray: 174 403;
+  stroke: #FF4F33;
+  fill: none;
+}
+
+.meter-clock {
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+  -webkit-transform-origin: 137px 146px;
+          transform-origin: 137px 146px;
+  fill: black;
+}
+
+.meter-circle {
+  fill: black;
+}
+
+</style>

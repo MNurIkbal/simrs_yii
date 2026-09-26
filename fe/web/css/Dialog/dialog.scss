@@ -1,0 +1,153 @@
+@import '../variables.scss';
+/*
+* Dialog
+*/
+#confirm-dialog-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: black;
+    opacity: 0.7;
+    z-index: 1070;
+}
+#confirm-dialog {
+    position: fixed;
+    color: $dark;
+    z-index: 1070;
+    width: 500px;
+    height: 250px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background:$light;
+    display: flex;
+    flex-direction: column;
+}
+.confirm-message-text{
+  display: grid;
+  padding: 10px 10px;
+  align-content: center;
+  text-align: center;
+  font-size: 1.2em;
+  height: 100%;
+}
+.warning-confirm-message{
+  align-content: center;
+  background-color: #c4c4c4;
+  color: rgb(69, 90, 100);
+  text-align: center;
+  padding: 10px;
+}
+
+.warning-confirm-message .checker{
+    margin-right: 10px;
+}
+#confirm-dialog button {
+    padding:  10px;
+    border: 0px;
+    border-radius: 2px;
+}
+.button-place{
+  width: 100%;
+  bottom: 0;
+  margin:0 !important;
+  padding: 0 !important;
+  display: flex;
+}
+.button-yes{
+  background-color: $button-main;
+  color:$light;
+  flex: 1;
+}
+.button-yes:hover{
+  background-color: $button-main-hover;
+  color:$light;
+}
+.button-no{
+  background-color: $button-red;
+  color: $light;
+  flex: 1;
+}
+.button-no:hover{
+  background-color: $button-red-hover;
+  color:$light;
+}
+
+#confirm-dialog button.alert {
+  background: $button-red;
+}
+#confirm-dialog button.save {
+  background: $button-main;
+}
+
+.delete-confirm-custom {
+  margin-top: 10px;
+}
+
+
+
+.loader-section {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  top: 0;
+}
+.loader-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity: 0.7;
+  z-index: 9991;
+  top: 0;
+  left: 0;
+  cursor: progress;
+}
+
+.indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%) scale(3);
+  z-index: 9999;
+  display: flex;
+  svg {
+    polyline {
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      &#back {
+        stroke: rgba(#3BD3AB,.3);
+      }
+      &#front {
+        stroke: #3BD3AB;
+        stroke-dasharray: 12, 36;
+        stroke-dashoffset: 48;
+        animation: dash 1s linear infinite;
+      }
+    }
+  }
+  span {
+    color: white;
+  }
+}
+@keyframes dash {
+  62.5% {
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.cta {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  color: #222;
+  font-weight: bold;
+}

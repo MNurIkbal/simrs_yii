@@ -1,0 +1,145 @@
+@import '../variables.scss';
+.flex-container{
+    justify-content: space-between;
+	flex-wrap: wrap;
+}
+.flex-info{
+    width:70%;
+}
+.flex-photo-pasien{
+    width: 14%;
+}
+.border-img{
+    margin-top:5px;
+    width: 100%;
+    max-width: 116px;
+    height: auto;
+    max-height: 116px;
+    overflow:hidden;
+    border: 1px solid $shadow;
+    padding:2px;
+}
+.icon-list {
+    li{
+    margin-top:50%;
+    }
+}
+.flex-info-pasien{
+    width:43%; 
+    margin-top:5px;
+    p{
+        font-size: 1.2em;
+    }
+}
+.flex-detail{
+    flex:30%;
+    p{
+        font-size: 1.2em;
+    }
+}
+.flex-detail-info{
+    width:50%;
+}
+.column-info{
+    min-height:150px;
+}
+.column-detail{
+    height:150px;
+}
+.flex-60{
+    width:60%;
+}
+.flex-40{
+    width:40%;
+}
+.no-padding{
+    padding-top:0px !important;
+    padding-bottom:0px !important;
+}
+.flex-asesbar{
+    width:20%;
+}
+.flex-asesmen{
+    width:78%;
+}
+.border-bar{
+    border: 1px solid $shadow;
+}
+.panel-shadow{
+    box-shadow: 1px 1px 1px $shadow;
+}
+.font-design{
+    font-family: Arial, Helvetica, sans-serif;
+    color:$button-main;
+    font-size:1.1em;
+}
+.nav-tabs-highlight >li{
+    width:100%;
+}
+.panel-heading{ //style from bootstrap
+    color: #606060;
+    background-color: #fcfcfc;
+    border-color: #ddd;
+    border-top-color: rgb(221, 221, 221);
+    border-right-color: rgb(221, 221, 221);
+    border-bottom-color: rgb(221, 221, 221);
+    border-left-color: rgb(221, 221, 221);
+}
+.table-container{
+    overflow:auto;
+}
+.dataTables_wrapper{
+    //overflow: auto;
+}
+@media only screen and (max-width: 768px) {
+    .flex-info-pasien{
+        p{
+            font-size:1em;
+        }
+    }
+    .flex-detail{
+        p{
+            font-size: 1em;
+        }
+    }
+    .flex-detail-info{
+        width:100%;
+    }
+    .font-design{
+        b{
+            font-size:0.9em;
+        }
+    }
+    .panel-heading{
+        .panel-title{
+            font-size: 1.1em;
+        } 
+    }
+    .column-info{
+       height:220px;
+    }
+    .column-detail{
+        height:220px;
+    }
+    .flex-60{
+        width: 100%;
+    }
+    .flex-40{
+        width:100%;
+    }
+}
+@media only screen and (max-width: 415px) {
+    .flex-info{
+        width:100%;
+    }
+    .flex-detail{
+        width:100px;
+    }
+    .column-info{
+        height:380px;
+    }
+    .column-detail{
+        height:225px;
+    }
+
+}

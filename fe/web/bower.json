@@ -1,0 +1,30 @@
+{
+  "name": "all new simrs",
+  "authors": [
+    "ali padilah <alipadilah@docotel.co.id>"
+  ],
+  "description": "all new simrs",
+  "main": "",
+  "keywords": [
+    "simrs",
+    "docotel",
+    "bandung"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "crypto-js": "^3.1.9",
+    "i18next": "^10.2.2",
+    "i18next-xhr-backend": "^1.5.1",
+    "i18next-browser-languagedetector": "^2.1.0",
+    "bootstrap-timepicker":"0.5.2"
+  }
+}

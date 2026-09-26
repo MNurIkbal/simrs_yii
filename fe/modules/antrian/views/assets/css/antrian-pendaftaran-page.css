@@ -1,0 +1,465 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800,900&display=swap');
+html.overflow {
+  overflow: hidden !important; 
+}
+body.fullpage {
+  overflow-y: hidden;
+}
+.page-container{
+  background-image: url('/media/img/background/bg.png');
+  background-size: cover;
+  background-position: top right;
+  background-repeat: no-repeat;
+  margin-left: 8px;
+}
+.content-header {
+  margin-top: 15px;
+  height: 36px;
+}
+.content-header, .content-body {
+  font-family: 'Montserrat', sans-serif;
+}
+.content-body {
+  height: calc(100vw * (9/16) - 114px);
+  box-sizing: border-box;
+  margin-top:-15px;
+}
+.content-header a {
+  color: #014d8a;
+}
+.content-header-title {
+  color: #014d8a;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-align: center;
+    margin:0;
+}
+.wrapper-back-button {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.wrapper-back-button a img{
+  
+}
+.card {
+  text-align: center;
+  background: #fff;
+  padding:20px 20px;
+  border-radius: 8px;
+  box-shadow: 3px 3px 10px 0 rgba(42, 92, 147, 0.7); 
+  box-sizing: border-box;
+  margin-bottom: 0px;
+  position: relative;
+  cursor: pointer;
+  height: 100%;
+}
+.card.card-pasien, .card.card-carabayar {
+  height: auto;
+}
+.card.card-pasien .nama, .card.card-carabayar .nama{
+  height: 40px;
+}
+.inactive span, .inactive .nama, .inactive h6 {
+  color: #7b7b7b !important;
+}
+
+.inactive button, .inactive button:focus {
+  background: #7b7b7b !important;
+}
+.card.active {
+  background: #d5e8ff !important;
+}
+.card:hover {
+  background: #d5e8ff;
+}
+.card.inactive {
+  pointer-events: none;
+  cursor: default;
+}
+.card.inactive:hover {
+  background: #ecebeb !important;
+}
+
+.card.inactive::after {
+    content: "";
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    opacity: .2;
+    border-radius: 10px;
+}
+.card img {
+  width: 55px;
+  height: 55px;
+}
+.card .nama {
+    color: #02335a;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 20px;
+    height: 57px;
+    margin-bottom: 10px;
+}
+.card span {
+    font-size: 15px;
+    line-height: 1.27;
+    color: #707070;
+    font-weight: normal;
+}
+.card .jam-operasional {
+  margin-bottom: 15px;
+}
+.card .jam-operasional span{
+  margin-bottom: 4px;
+}
+.card .jam-operasional h6{
+  margin:0;
+  font-size: 15px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.27;
+  letter-spacing: normal;
+  color: #002846;
+}
+
+.card .quota{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.card .quota .sisa-kuota {
+    font-size: 16pt;
+    color: #ff9900;
+    font-weight: 900;
+}
+.card button {
+  font-size: 14px;
+  font-weight: bold;
+  width: 100%;
+  background: #014d8a;
+    outline: none;
+    border: none;
+}
+.card button:hover {
+  background: #156fb7;
+  border:none;
+}
+.wrapper-empty-state {
+  height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;;
+}
+.empty-state{
+  height: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: none !important;
+  border: 1px solid #eee;
+  background: #f9f9f9;
+}
+.empty-state:hover {
+  background: #f9f9f9 !important;
+}
+.empty-state img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+}
+.empty-state h6 {
+  font-size: 20px;
+    color: #bababa;
+    margin:0;
+}
+.empty-state p {
+  font-size: 14px;
+    color: #bababa;
+    margin:0;
+}
+/*Step by Step*/
+.stepy-header {
+  /*margin-top: -10px;*/
+}
+.stepy-step {
+    padding: 0;
+    padding-top: 0;
+}
+.stepy-header li.stepy-active~li div {
+    border-color: #eee;
+    background-color: #e1f2ff;
+    color: #bfbdbd;
+}
+.stepy-header li.stepy-active span {
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
+.stepy-header li.stepy-active div {
+  border-color: #014d8a;
+  background-color: #014d8a;
+  color: #fff;
+}
+.carousel-indicators {
+  display: none;
+}
+.carousel-indicators li{
+    background-color: #d7d6d7;
+    border-color: #d7d6d7;
+}
+.carousel-indicators .active {
+    background-color: #014d8a;
+    border-color: #014d8a;
+}
+.carousel-control.hide {
+  display: none;
+}
+.carousel-indicators.hide {
+  display: none;
+}
+.carousel-control.left {
+  position: absolute !important;
+    top: 50% !important;
+    left: -50px !important;
+    transform: translateY(-50%) !important;
+}
+.carousel-control.right {
+  position: absolute !important;
+    top: 50% !important;
+    right: -50px !important;
+    transform: translateY(-50%) !important;
+}
+.carousel-control {
+  display: block;
+  background: #fff !important;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 6px 9px 0 rgba(0, 40, 70, 0.2);
+  opacity: 1;
+}
+
+.carousel-control i {
+  color: #004f8a;
+  opacity: 0.3;
+  font-weight: 800;
+}
+.carousel-control.active > i {
+  opacity: 1;
+}
+.carousel-indicators {
+    bottom: -8px;
+}
+#slide-dokter .carousel-inner {
+  min-height: 250px;
+}
+.carousel-inner .item{
+  box-sizing: border-box;
+  padding: 15px;
+}
+.content-wrapper {
+  padding: 5px !important;
+  box-sizing: border-box;
+}
+.wrapper-pesien {
+  height: 350px;
+}
+
+/*Stepy*/
+.stepy-navigator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.stepy-navigator a.button-back{
+  padding: 10px;
+    background: #00bcd4;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    margin-right: 15px;
+    font-weight: 600;
+}
+.stepy-navigator a i{
+  margin-right: 10px;
+}
+.stepy-header span {
+  font-size: 14px;
+  font-weight: 600;
+}
+.stepy-header li div {
+  background-color: #014d8a;
+  border: 2px solid #014d8a;
+}
+.button-print {
+  padding: 10px;
+    background: #00bcd4;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    margin-right: 15px;
+    border: none;
+}
+.button-print i {
+  margin-right: 10px;
+}
+.button-print:hover {
+  color:#fff;
+}
+.card-checked {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top:3px;
+  right: 3px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold; 
+  background: #00bcd4;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.back-form {
+  display: none;
+  cursor: pointer;
+}
+.btn-primary:active:hover, .btn-primary.active:hover, .open > .dropdown-toggle.btn-primary:hover, .btn-primary:active:focus, .btn-primary.active:focus, .open > .dropdown-toggle.btn-primary:focus, .btn-primary:active.focus, .btn-primary.active.focus, .open > .dropdown-toggle.btn-primary.focus {
+    background-color: #2196F3 !important;
+    border-color: #2196F3 !important;
+}
+.stepy-header li.stepy-active:after, .stepy-header li.stepy-active~li:after, .stepy-header li.stepy-active~li:before {
+    background-color: #fff;
+    border: 1px dashed #cac1c1;
+}
+.stepy-header li:after, .stepy-header li:before {
+    background-color: #fff;
+    border: 1px dashed #00bcd4;
+}
+a.disabled {
+
+  pointer-events: none;
+  cursor: default;
+}
+a.disabled > i {
+  color: #004f8a;
+  opacity: 0.3;
+  font-weight: 800;
+}
+#btn-cetak-antrian {
+  display: none;
+}
+.get-parent {
+  height: 100%;
+}
+.footer {
+  margin: 0px auto 0px auto;
+}
+#ambil-antrian-form {
+  height: calc(100% - 109px);
+  box-sizing: border-box;
+}
+fieldset {
+  box-sizing: border-box;
+  height: 100%;
+}
+.carousel, .carousel-inner, .item {
+  box-sizing: border-box;
+  /*height: 100%;*/
+  height: 545.38px;
+}
+.carousel-inner .item {
+  padding :10px 15px 0 !important;
+}
+
+.carousel-inner .item .row .col-sm-3 {
+  height: calc(50% - 20px);
+  margin-bottom: 20px;
+}
+
+.stepy-navigator {
+  display: none;
+}
+.btn-primary:active:hover, .btn-primary.active:hover, .open > .dropdown-toggle.btn-primary:hover, .btn-primary:active:focus, .btn-primary.active:focus, .open > .dropdown-toggle.btn-primary:focus, .btn-primary:active.focus, .btn-primary.active.focus, .open > .dropdown-toggle.btn-primary.focus {
+  background: #014d8a !important;
+  border-color: #014d8a !important;
+}
+.btn-primary:focus, .btn-primary.focus, .btn-primary:hover {
+  background: #014d8a !important;
+  border-color: #014d8a !important;
+}
+@media screen and (width: 1366px) , screen and (height: 768px) {
+  body {
+    overflow: hidden !important;
+  }
+}
+@media screen and (width: 1280px) , screen and (height: 1024px) {
+    body {
+      overflow: hidden !important;
+    }
+    .content-body {
+      height: calc(100vw * (16/20) - 114px);
+      box-sizing: border-box;
+      margin-top:-15px;
+    }
+    .carousel, .carousel-inner, .item {
+      height: 100%;
+    }
+    .carousel-control.left {
+      right: -41px !important;
+    }
+    .carousel-control.right {
+      right: -41px !important;
+    }
+    .carousel-control.left {
+      left: -49px !important;
+    }
+    .card {
+      padding: 24px 22px;
+    }
+    .card .nama {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 35px;
+      height: 150px;
+      margin-bottom: 15px;
+    }
+    .card .jam-operasional {
+        margin-bottom: 25px;
+    }
+    .card .jam-operasional span {
+        margin-bottom: 20px;
+    }
+    .card span {
+      font-size: 17px;
+      line-height: 20px;
+    }
+    .card .quota {
+        margin-bottom: 25px;
+    }
+
+    .card.card-pasien, .card.card-carabayar {
+      height: auto;
+    }
+    .card.card-pasien .nama, .card.card-carabayar .nama{
+      height: 60px;
+    }
+}

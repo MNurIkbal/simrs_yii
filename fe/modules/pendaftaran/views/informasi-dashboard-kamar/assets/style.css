@@ -1,0 +1,400 @@
+html.overflow {
+  overflow-y: hidden !important; 
+}
+.content-wrapper {
+	padding: 0 99px !important;
+}
+.fixed-header{
+	position: fixed;
+	top:0;
+	width: 100%;
+	height: 100px;
+	z-index: 1;
+	background-image: url('/media/img/layar-ketersediaan-kamar/layar-header.png');
+	padding: 19px 99px;
+	background-size: cover;
+    background-color: #d5e9ff;
+    font-family: HelveticaNeueHv;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.fixed-header .brand {
+	position: absolute;
+	height: 100%;
+	width: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.fixed-header .brand img {
+	width: auto;
+	height: 53%;
+}
+.fixed-header .info{
+	height: 100%;
+	text-align: center;
+	position: relative;
+	width: 100%;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.fixed-header .info h1, .fixed-header .info h2 {
+	margin: 0;
+} 
+.fixed-header .info .info-title{
+	font-size: 28px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.21;
+	letter-spacing: 1.4px;
+	text-align: left;
+	color: #001547;
+	margin: 0 0 4px 0;
+}
+.fixed-header .info .info-subtitle{
+	font-size: 17px;
+	font-weight: 600;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.18;
+	letter-spacing: 3.4px;
+	color: #001547;
+	font-family: HelveticaNeueLt;
+}
+.navbar-fixed-bottom .marquee {
+	font-size: 20px;
+	font-weight: 500;
+	letter-spacing: 3px;
+	color: #ffffff;
+	top: 6vw;
+}
+/* Custme Nav-bar*/
+
+.navbar-brand {
+	height: 100%;
+}
+.navbar-fixed-top .navbar-brand img.brand-logo{
+	width: 60px;
+	height: 60px;
+}
+
+#dashboard-kamar {
+	height: calc(100vw * (9/16));
+	position: relative;
+	padding: 115px 0 75px;
+	box-sizing: border-box;
+}
+#slide-kamar {
+	height: calc(100vw * (9/16) - 112px);
+} 
+.carousel-inner, .carousel-inner .item{
+	width: 100%;
+	height: 100%;
+}
+.carousel-indicators {
+	z-index: 9999;
+	bottom: 60px;
+}
+.carousel-indicators li {
+	width: 16px;
+    height: 16px;
+    border: 1px solid #c2c2c2;
+    background-color: #c2c2c2;
+    margin:0 0 0 5px;
+}
+.carousel-indicators .active {
+	width: 16px;
+    height: 16px;
+    border: 1px solid #233a72;
+    background-color: #233a72;
+    margin-left: 5px;
+}
+
+#dashboard-kamar:before{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background-image: url('/media/img/background/bg.png');
+	background-size: cover;
+	background-repeat: no-repeat;
+    font-family: Helvetica Neue;
+}
+
+.card-wrapper {
+	padding: 15px;
+}
+.card {
+	height: 180px;
+	background-color: #ffffff;
+	border-radius: 10px;
+		box-shadow: 5px 5px 16px 0 rgba(42, 92, 147, 0.3);
+		box-sizing: border-box;
+}
+.card-header {
+	font-family: HelveticaNeueHv;
+	height: 52px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	font-size: 20px;
+	font-weight: 500;
+	line-height: 1;
+	letter-spacing: 1px;
+	background-image: url('/media/img/layar-ketersediaan-kamar/bg-header.png');
+	background-size: cover;
+}
+.card-body{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	height: calc(100% - 52px);
+	padding: 0 16px 16px;
+}
+.card-body h2 {
+	font-family: HelveticaNeueHv;
+	margin: 0;
+	font-size: 70px;
+	font-weight: 500;
+	line-height: 1.19;
+	color: #001547;
+}
+.card-body h4 {
+	font-family: HelveticaNeueLt;
+	margin: 0;
+	color: #5b5b5b;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 1.15;
+	color: #5b5b5b;
+	letter-spacing: 1.2px;
+}
+.card-body h2.empty {
+	color: #e03d3d;
+}
+.footer-time, .footer-date{
+	font-family: HelveticaNeueHv;
+	color: #001547;
+}
+@media screen and (width: 1366px) and (max-height: 768px) {
+	.content-wrapper {
+		padding: 0 74px !important;
+	}
+	.fixed-header{
+		height: 92px;
+		padding: 19px 74px;
+	}
+	.fixed-header .info .info-title{
+		font-size: 24px;
+	}
+	.fixed-header .info .info-subtitle{
+		font-size: 14px;
+	}
+	
+	#dashboard-kamar {
+		height: calc(100vw * (9/16));
+		padding: 107px 0 74px;
+		box-sizing: border-box;
+	}
+	.card-wrapper{
+		padding: 12px 15px;
+	}
+	.card {
+		height: 160px;
+	} 
+	.card-header {
+		height: 51px;
+	}
+	.card-body{
+		height: calc(100% - 51px);
+	}
+}
+
+@media screen and (width: 1440px) and (max-height: 900px) {
+	#dashboard-kamar {
+	    height: calc(100vw * (10/16));
+		padding: 152px 0 0;
+	}
+	#slide-kamar {
+		height: calc(100vw * (10/16) - 152px)
+	}
+  	.card {
+		height: 180px;
+	}
+}
+
+@media screen and (width: 1920px) and (max-height: 1080px) {
+	.content-wrapper {
+		padding: 0 145px !important;
+	}
+	.fixed-header{
+		height: 130px;
+		padding: 24px 141px;
+	}
+	.fixed-header .info .info-title{
+		font-size: 40px;
+		margin-bottom: 8px;
+	}
+	.fixed-header .info .info-subtitle{
+		font-size: 24px;
+	}
+
+	
+	#dashboard-kamar {
+	    height: calc(100vw * (9/16));
+		padding: 145px 0 0;
+	}
+	#slide-kamar {
+		height: calc(100vw * (9/16) - 145px)
+	}
+	.card {
+		height: 230px;
+	} 
+	.card-header {
+		font-size: 28px;
+		height: 60px;
+	}
+	.card-body{
+		height: calc(100% - 70px);
+	}
+	.card-body h2 {
+		font-size: 100px;
+	}
+	.card-body h4 {
+		font-size: 28px;
+	}
+	.navbar-fixed-bottom .marquee {
+		font-size: 28px;
+	}
+}
+
+/* WXGA, HD, FHD (16:9) */
+@media screen and (width: 2560px) and (max-height: 1440px) {
+    .content-wrapper {
+		padding: 0 164px !important;
+	}
+	.fixed-header{
+		height: 172px;
+		padding: 34px 164px;
+	}
+	.fixed-header .info .info-title{
+		font-size: 48px;
+		margin-bottom: 15px;
+	}
+	.fixed-header .info .info-subtitle{
+		font-size: 32px;
+	}
+	
+	
+	#dashboard-kamar {
+	    height: calc(100vw * (9/16));
+		padding: 190px 0 0;
+	}
+	#slide-kamar {
+		height: calc(100vw * (9/16) - 190px)
+	}
+	.carousel-indicators li {
+		width: 24px;
+	    height: 24px;
+	    margin: 0 0 0 8px;
+	}
+	.carousel-indicators .active {
+		width: 24px;
+	    height: 24px;
+	    margin-left: 8px;
+	}
+	.card-wrapper {
+		padding: 24px;
+	}
+	.card {
+		height: 300px;
+	} 
+	.card-header {
+		font-size: 37px;
+		height: 95px;
+	}
+	.card-body{
+		height: calc(100% - 95px);
+		padding: 0 24px 24px;
+	}
+	.card-body h2 {
+		font-size: 132px;
+	}
+	.card-body h4 {
+		font-size: 32px;
+	}
+	.navbar-fixed-bottom .marquee {
+		font-size: 40px;
+	}
+}
+
+
+/* 4K 3840x2160 (16:9) */
+@media screen and (width: 3840px) and (max-height: 2160px) {
+    .content-wrapper {
+		padding: 0 222px !important;
+	}
+	.fixed-header{
+		height: 260px;
+		padding: 56px 222px;
+	}
+	.fixed-header .info .info-title{
+		font-size: 70px;
+		margin-bottom: 26px;
+	}
+	.fixed-header .info .info-subtitle{
+		font-size: 40px;
+	}
+	
+	#dashboard-kamar {
+	    height: calc(100vw * (9/16));
+		padding: 298px 0 0;
+	}
+	#slide-kamar {
+		height: calc(100vw * (9/16) - 298px)
+	}
+	.carousel-indicators li {
+		width: 32px;
+	    height: 32px;
+	    margin-left: 0 0 0 10px;
+	}
+	.carousel-indicators .active {
+		width: 32px;
+	    height: 32px;
+	    margin-left: 10px;
+	}
+	.card-wrapper {
+		padding: 30px;
+	}
+	.card {
+		height: 470px;
+	} 
+	.card-header {
+		font-size: 55px;
+		height: 146px;
+	}
+	.card-body{
+		height: calc(100% - 146px);
+		padding: 0 24px 24px;
+	}
+	.card-body h2 {
+		font-size: 200px;
+	}
+	.card-body h4 {
+		font-size: 56px;
+	}
+	.navbar-fixed-bottom .marquee {
+		font-size: 56px;
+	}
+}
+
+

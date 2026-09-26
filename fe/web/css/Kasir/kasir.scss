@@ -1,0 +1,37 @@
+@import '../variables.scss';
+.info-card{
+    min-height: 160px;
+    b{
+        font-size: 1.2em;
+    }
+    p{
+        font-size: 1.1em;
+    }
+}
+#pemakaian-obat-alkes tfoot th{
+    border:none;
+}
+#pemakaian-obat-alkes_wrapper{
+    overflow:auto;
+    border:1px solid $shadow;
+}
+table#pemakaian-obat-alkes{
+    width: 100%;
+}
+
+.card-payment{
+    background-color: $button-main;
+    height: auto;
+    padding: 20px;
+    margin: 0 5px;
+    color: $dark-grey;
+    border-radius: 3px;
+    box-shadow: 2px 2px $shadow;
+}
+.text-kasir{
+    font-size: 1.1em;
+    line-height: 34px;
+}
+.select2-container--open .select2-dropdown--above{
+    min-width: 200px !important;
+}

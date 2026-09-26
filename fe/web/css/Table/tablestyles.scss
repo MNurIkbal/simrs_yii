@@ -1,0 +1,125 @@
+@import '../variables.scss';
+.dataTables_scroll{
+  max-height: 330px;
+  overflow: auto;
+  position:relative;
+}
+.dataTables_scroll > tr{
+  height:40px !important;
+  }
+.dataTables_scrollHead{
+    overflow: visible !important; 
+    position:sticky !important; 
+    top:0; 
+    border: 0px; 
+    width: 100%;
+    z-index: 10;
+}
+.dataTables_scrollBody{
+  overflow: visible !important;
+}
+.DTFC_LeftBodyLiner{
+  overflow-y: hidden !important;
+}
+td{
+  padding-top:8px !important;
+  padding-bottom: 0 !important;
+}
+td.select-checkbox{
+  position:sticky !important; 
+  left:0; 
+  background-color:$light; 
+  z-index:5;
+}
+.odd > td.select-checkbox {
+  background-color: $odd-row;
+}
+.more-filter{
+  margin: 20px 0px;
+  font-size: 1.2em;
+  background-color: $dark-grey;
+  padding:0px;
+  display: inline-block;
+  max-width:50px;
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid $dark-grey;
+  border-radius: 3px;
+
+  p{
+    color:$light;
+    padding:5px;  
+  }
+}
+
+.more-filter:hover{
+  transition-duration: 0.3s;
+  background-color: $shadow;
+  border: 1px solid $shadow;
+  p{
+    color: $dark;
+  }
+}
+.dataTables_length{
+  float: right !important;
+}
+
+.advancedFilter{
+  margin-bottom:5px;
+  .select2-selection--single{
+    padding:4px 0px !important;
+  }
+  .form-control{
+    height: 28px;
+    font-size: 12px;
+    padding: 0px 8px;
+  }
+}
+.collapse-filter-click{
+  display:none;
+}
+.filter-form{
+  margin-bottom: 8px;
+}
+.select2-container{
+  width:100% !important;
+}
+.select2-selection{
+  height:28px;
+}
+.select2-selection__rendered{
+  padding:0px 8px !important;
+}
+.flex-1{
+  width:4%;
+  margin: 0px auto;
+}
+.flex-filter{
+  width:95%;
+}
+.input-group-addon{
+    padding-bottom: 0px;
+    padding-top: 0px;
+    height: 28px;
+}
+.selection--multiple:not([class*=bg-]):not([class*=border-]) {
+  height: auto !important;
+}
+.select2-selection--multiple{
+  height:auto !important;
+}
+@media only screen and (max-width: 768px) {
+  .dataTables_info{
+    float:left;
+  }
+  .dataTables_paginate{
+    float:right;
+  }
+  .flex-1{
+    width:8%;
+    margin: 0px auto;
+  }
+  .flex-filter{
+    width:90%;
+  }
+}
