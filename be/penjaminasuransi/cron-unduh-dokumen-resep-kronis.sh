@@ -1,0 +1,1 @@
+cd /var/www/sirs/backend/penjaminasuransi && php5.6 yii cron-unduh-dokumen-resep-kronis -s="$(date -d '-1month' +'%Y-%m-%d')" -e="$(date +'%Y-%m-%d')" -c=15

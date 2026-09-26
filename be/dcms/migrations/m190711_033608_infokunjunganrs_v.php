@@ -1,0 +1,564 @@
+<?php
+
+use yii\db\Migration;
+
+/**
+ * Class m190711_033608_infokunjunganrs_v
+ */
+class m190711_033608_infokunjunganrs_v extends Migration
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function safeUp()
+    {
+        $this->execute('
+       DROP VIEW public.orderpenunjang_v_old;
+              ');
+
+        $this->execute('
+       DROP VIEW public.orderpenunjang_v_old2;
+              ');
+
+
+         $this->execute('
+          DROP VIEW public.infokunjunganrs_v;
+              ');
+
+          $this->execute("
+        CREATE OR REPLACE VIEW public.infokunjunganrs_v AS 
+ SELECT pasien_m.pasien_id,
+    pasien_m.jenisidentitas,
+    pasien_m.no_identitas_pasien,
+    nama_depan.lookup_value AS namadepan,
+    pasien_m.nama_pasien,
+    pasien_m.nama_bin,
+    pasien_m.jeniskelamin,
+    pasien_m.tempat_lahir,
+    pasien_m.tanggal_lahir,
+    pasien_m.alamat_pasien,
+    pasien_m.rt,
+    pasien_m.rw,
+    pasien_m.agama,
+    pasien_m.golongandarah,
+    pasien_m.photopasien,
+    pasien_m.alamatemail,
+    pasien_m.statusrekammedis,
+    pasien_m.statusperkawinan,
+    pasien_m.no_rekam_medik,
+    pasien_m.tgl_rekam_medik,
+    propinsi_m.propinsi_id,
+    propinsi_m.propinsi_nama,
+    kabupaten_m.kabupaten_id,
+    kabupaten_m.kabupaten_nama,
+    kelurahan_m.kelurahan_id,
+    kelurahan_m.kelurahan_nama,
+    kecamatan_m.kecamatan_id,
+    kecamatan_m.kecamatan_nama,
+    pendaftaran_t.pendaftaran_id,
+    pekerjaan_m.pekerjaan_id,
+    pekerjaan_m.pekerjaan_nama,
+    pendaftaran_t.no_pendaftaran,
+    pendaftaran_t.tgl_pendaftaran,
+    pendaftaran_t.no_urutantri,
+    pendaftaran_t.transportasi,
+    pendaftaran_t.keadaan_masuk,
+    pendaftaran_t.status_pasien,
+    pendaftaran_t.kunjungan,
+    pendaftaran_t.alih_status,
+    pendaftaran_t.by_phone,
+    pendaftaran_t.kunjungan_rumah,
+    pendaftaran_t.status_masuk,
+    pendaftaran_t.umur,
+    asuransipasien_m.nokartuasuransi AS no_asuransi,
+    asuransipasien_m.namapemilikasuransi AS namapemilik_asuransi,
+    asuransipasien_m.nomorpokokperusahaan AS nopokokperusahaan,
+    carabayar_m.carabayar_id,
+    carabayar_m.carabayar_nama,
+    penjamin_m.penjamin_id,
+    penjamin_m.penjamin_nama,
+    caramasuk_m.caramasuk_id,
+    caramasuk_m.caramasuk_nama,
+    pendaftaran_t.shift_id,
+    golonganumur_m.golonganumur_id,
+    golonganumur_m.golonganumur_nama,
+    rujukan_t.no_rujukan,
+    rujukan_t.nama_perujuk,
+    rujukan_t.tanggal_rujukan,
+    rujukan_t.kodediagnosa_rujukan,
+    asalrujukan_m.asalrujukan_id,
+    asalrujukan_m.asalrujukan_nama,
+    penanggungjawab_m.penanggungjawab_id,
+    penanggungjawab_m.pengantar,
+    penanggungjawab_m.hubungankeluarga,
+    penanggungjawab_m.penanggungjawab_nama,
+    ruangan_m.ruangan_id,
+    ruangan_m.ruangan_nama,
+    instalasi_m.instalasi_id,
+    instalasi_m.instalasi_nama,
+    jeniskasuspenyakit_m.jeniskasuspenyakit_id,
+    jeniskasuspenyakit_m.jeniskasuspenyakit_nama,
+    kelaspelayanan_m.kelaspelayanan_id,
+    kelaspelayanan_m.kelaspelayanan_nama,
+    pegawai_m.gelardepan,
+    pegawai_m.nama_pegawai,
+    pegawai_m.gelarbelakang,
+    pendaftaran_t.rujukan_id,
+    pendaftaran_t.pasienpulang_id,
+    asuransipasien_m.status_konfirmasi,
+    asuransipasien_m.tgl_konfirmasi,
+    pendaftaran_t.pegawai_id,
+    pendaftaran_t.pembayaranpelayanan_id,
+    pasien_m.rhesus,
+    pasien_m.anakke,
+    pasien_m.jumlah_bersaudara,
+    pasien_m.no_telepon_pasien,
+    pasien_m.no_mobile_pasien,
+    pasien_m.warga_negara,
+    pasien_m.nama_ibu,
+    pasien_m.nama_ayah,
+    suku_m.suku_id,
+    suku_m.suku_nama,
+    pendidikan_m.pendidikan_id,
+    pendidikan_m.pendidikan_nama,
+    carakeluar_m.carakeluar_id,
+    carakeluar_m.carakeluar_nama AS carakeluar,
+    kondisikeluar_m.kondisikeluar_id,
+    kondisikeluar_m.kondisikeluar_nama AS kondisipulang,
+    asuransipasien_m.nopeserta,
+    asuransipasien_m.tglcetakkartuasuransi,
+    asuransipasien_m.kodefeskestk1,
+    asuransipasien_m.nama_feskestk1,
+    asuransipasien_m.masaberlakukartu,
+    asuransipasien_m.nokartukeluarga,
+    asuransipasien_m.nopassport,
+    asuransipasien_m.is_active,
+    pendaftaran_t.keterangan_pendaftaran,
+    NULL::integer AS konsulpoli_id,
+    pasien_m.is_deleted,
+    lookup_m.lookup_name AS status_periksa,
+    lookup_jeniskelamin.lookup_name AS jenis_kelamin,
+    pendaftaran_t.created_by,
+    antrian_t.no_antrian,
+    pendaftaran_t.is_karcis,
+    pendaftaran_t.status_periksa::integer AS status_periksa_id,
+    pendaftaran_t.pasienpulang_id AS pulang_rj_rd,
+    NULL::integer AS pulang_ri,
+    pasienadmisi_t.pasienadmisi_id,
+    pendaftaran_t.is_ranap,
+    pendaftaran_t.bpjs_id,
+    gelar_depan.lookup_name AS gelardepan_nama,
+    gelar_belakang.lookup_name AS gelarbelakang_nama,
+    pendaftaran_t.pendaftaranibu_id
+   FROM pendaftaran_t
+     LEFT JOIN pasienadmisi_t ON pendaftaran_t.pasienadmisi_id = pasienadmisi_t.pasienadmisi_id
+     LEFT JOIN antrian_t ON antrian_t.antrian_id = pendaftaran_t.antrian_id
+     JOIN pasien_m ON pendaftaran_t.pasien_id = pasien_m.pasien_id
+     JOIN kelaspelayanan_m ON pendaftaran_t.kelaspelayanan_id = kelaspelayanan_m.kelaspelayanan_id
+     JOIN carabayar_m ON pendaftaran_t.carabayar_id = carabayar_m.carabayar_id
+     JOIN penjamin_m ON pendaftaran_t.penjamin_id = penjamin_m.penjamin_id
+     LEFT JOIN caramasuk_m ON pendaftaran_t.caramasuk_id = caramasuk_m.caramasuk_id
+     LEFT JOIN golonganumur_m ON pendaftaran_t.golonganumur_id = golonganumur_m.golonganumur_id
+     LEFT JOIN rujukan_t ON pendaftaran_t.rujukan_id = rujukan_t.rujukan_id
+     LEFT JOIN penanggungjawab_m ON pendaftaran_t.penanggungjawab_id = penanggungjawab_m.penanggungjawab_id
+     JOIN ruangan_m ON pendaftaran_t.ruangan_id = ruangan_m.ruangan_id
+     JOIN instalasi_m ON pendaftaran_t.instalasi_id = instalasi_m.instalasi_id
+     JOIN jeniskasuspenyakit_m ON pendaftaran_t.jeniskasuspenyakit_id = jeniskasuspenyakit_m.jeniskasuspenyakit_id
+     LEFT JOIN pegawai_m ON pendaftaran_t.pegawai_id = pegawai_m.pegawai_id
+     LEFT JOIN pasienpulang_t ON pendaftaran_t.pasienpulang_id = pasienpulang_t.pasienpulang_id
+     LEFT JOIN asuransipasien_m ON pendaftaran_t.asuransipasien_id = asuransipasien_m.asuransipasien_id
+     LEFT JOIN propinsi_m ON pasien_m.propinsi_id = propinsi_m.propinsi_id
+     LEFT JOIN kabupaten_m ON pasien_m.kabupaten_id = kabupaten_m.kabupaten_id
+     LEFT JOIN kelurahan_m ON pasien_m.kelurahan_id = kelurahan_m.kelurahan_id
+     LEFT JOIN kecamatan_m ON pasien_m.kecamatan_id = kecamatan_m.kecamatan_id
+     LEFT JOIN pekerjaan_m ON pasien_m.pekerjaan_id = pekerjaan_m.pekerjaan_id
+     LEFT JOIN suku_m ON pasien_m.suku_id = suku_m.suku_id
+     LEFT JOIN pendidikan_m ON pasien_m.pendidikan_id = pendidikan_m.pendidikan_id
+     LEFT JOIN asalrujukan_m ON rujukan_t.asalrujukan_id = asalrujukan_m.asalrujukan_id
+     LEFT JOIN carakeluar_m ON pasienpulang_t.carakeluar_id = carakeluar_m.carakeluar_id
+     LEFT JOIN kondisikeluar_m ON pasienpulang_t.kondisikeluar_id = kondisikeluar_m.kondisikeluar_id
+     LEFT JOIN lookup_m ON pendaftaran_t.status_periksa::integer = lookup_m.lookup_id
+     LEFT JOIN lookup_m lookup_jeniskelamin ON pasien_m.jeniskelamin::integer = lookup_jeniskelamin.lookup_id
+     LEFT JOIN lookup_m nama_depan ON pasien_m.namadepan::integer = nama_depan.lookup_id
+     LEFT JOIN lookup_m gelar_depan ON pegawai_m.gelardepan::integer = gelar_depan.lookup_id
+     LEFT JOIN lookup_m gelar_belakang ON pegawai_m.gelarbelakang::integer = gelar_depan.lookup_id
+  WHERE pendaftaran_t.instalasi_id <> 3
+UNION ALL
+ SELECT pasien_m.pasien_id,
+    pasien_m.jenisidentitas,
+    pasien_m.no_identitas_pasien,
+    nama_depan.lookup_value AS namadepan,
+    pasien_m.nama_pasien,
+    pasien_m.nama_bin,
+    pasien_m.jeniskelamin,
+    pasien_m.tempat_lahir,
+    pasien_m.tanggal_lahir,
+    pasien_m.alamat_pasien,
+    pasien_m.rt,
+    pasien_m.rw,
+    pasien_m.agama,
+    pasien_m.golongandarah,
+    pasien_m.photopasien,
+    pasien_m.alamatemail,
+    pasien_m.statusrekammedis,
+    pasien_m.statusperkawinan,
+    pasien_m.no_rekam_medik,
+    pasien_m.tgl_rekam_medik,
+    propinsi_m.propinsi_id,
+    propinsi_m.propinsi_nama,
+    kabupaten_m.kabupaten_id,
+    kabupaten_m.kabupaten_nama,
+    kelurahan_m.kelurahan_id,
+    kelurahan_m.kelurahan_nama,
+    kecamatan_m.kecamatan_id,
+    kecamatan_m.kecamatan_nama,
+    pendaftaran_t.pendaftaran_id,
+    pekerjaan_m.pekerjaan_id,
+    pekerjaan_m.pekerjaan_nama,
+    pendaftaran_t.no_pendaftaran,
+    pendaftaran_t.tgl_pendaftaran,
+    pendaftaran_t.no_urutantri,
+    pendaftaran_t.transportasi,
+    pendaftaran_t.keadaan_masuk,
+    pendaftaran_t.status_pasien,
+    pendaftaran_t.kunjungan,
+    pendaftaran_t.alih_status,
+    pendaftaran_t.by_phone,
+    pendaftaran_t.kunjungan_rumah,
+    pendaftaran_t.status_masuk,
+    pendaftaran_t.umur,
+    asuransipasien_m.nokartuasuransi AS no_asuransi,
+    asuransipasien_m.namapemilikasuransi AS namapemilik_asuransi,
+    asuransipasien_m.nomorpokokperusahaan AS nopokokperusahaan,
+    carabayar_m.carabayar_id,
+    carabayar_m.carabayar_nama,
+    penjamin_m.penjamin_id,
+    penjamin_m.penjamin_nama,
+    caramasuk_m.caramasuk_id,
+    caramasuk_m.caramasuk_nama,
+    pendaftaran_t.shift_id,
+    golonganumur_m.golonganumur_id,
+    golonganumur_m.golonganumur_nama,
+    rujukan_t.no_rujukan,
+    rujukan_t.nama_perujuk,
+    rujukan_t.tanggal_rujukan,
+    rujukan_t.kodediagnosa_rujukan,
+    asalrujukan_m.asalrujukan_id,
+    asalrujukan_m.asalrujukan_nama,
+    penanggungjawab_m.penanggungjawab_id,
+    penanggungjawab_m.pengantar,
+    penanggungjawab_m.hubungankeluarga,
+    penanggungjawab_m.penanggungjawab_nama,
+    ruangan_m.ruangan_id,
+    ruangan_m.ruangan_nama,
+    instalasi_m.instalasi_id,
+    instalasi_m.instalasi_nama,
+    jeniskasuspenyakit_m.jeniskasuspenyakit_id,
+    jeniskasuspenyakit_m.jeniskasuspenyakit_nama,
+    kelaspelayanan_m.kelaspelayanan_id,
+    kelaspelayanan_m.kelaspelayanan_nama,
+    pegawai_m.gelardepan,
+    pegawai_m.nama_pegawai,
+    pegawai_m.gelarbelakang,
+    pendaftaran_t.rujukan_id,
+    pasienadmisi_t.pasienpulang_id,
+    asuransipasien_m.status_konfirmasi,
+    asuransipasien_m.tgl_konfirmasi,
+    pasienadmisi_t.pegawai_id,
+    pendaftaran_t.pembayaranpelayanan_id,
+    pasien_m.rhesus,
+    pasien_m.anakke,
+    pasien_m.jumlah_bersaudara,
+    pasien_m.no_telepon_pasien,
+    pasien_m.no_mobile_pasien,
+    pasien_m.warga_negara,
+    pasien_m.nama_ibu,
+    pasien_m.nama_ayah,
+    suku_m.suku_id,
+    suku_m.suku_nama,
+    pendidikan_m.pendidikan_id,
+    pendidikan_m.pendidikan_nama,
+    carakeluar_m.carakeluar_id,
+    carakeluar_m.carakeluar_nama AS carakeluar,
+    kondisikeluar_m.kondisikeluar_id,
+    kondisikeluar_m.kondisikeluar_nama AS kondisipulang,
+    asuransipasien_m.nopeserta,
+    asuransipasien_m.tglcetakkartuasuransi,
+    asuransipasien_m.kodefeskestk1,
+    asuransipasien_m.nama_feskestk1,
+    asuransipasien_m.masaberlakukartu,
+    asuransipasien_m.nokartukeluarga,
+    asuransipasien_m.nopassport,
+    asuransipasien_m.is_active,
+    pendaftaran_t.keterangan_pendaftaran,
+    NULL::integer AS konsulpoli_id,
+    pasien_m.is_deleted,
+    lookup_m.lookup_name AS status_periksa,
+    lookup_jeniskelamin.lookup_name AS jenis_kelamin,
+    pendaftaran_t.created_by,
+    antrian_t.no_antrian,
+    pendaftaran_t.is_karcis,
+    pasienadmisi_t.status_ranap AS status_periksa_id,
+    NULL::integer AS pulang_rj_rd,
+    pasienadmisi_t.pasienpulang_id AS pulang_ri,
+    pasienadmisi_t.pasienadmisi_id,
+    pendaftaran_t.is_ranap,
+    pasienadmisi_t.bpjs_id,
+    gelar_depan.lookup_name AS gelardepan_nama,
+    gelar_belakang.lookup_name AS gelarbelakang_nama,
+    pendaftaran_t.pendaftaranibu_id
+   FROM pendaftaran_t
+     JOIN pasienadmisi_t ON pendaftaran_t.pasienadmisi_id = pasienadmisi_t.pasienadmisi_id
+     LEFT JOIN antrian_t ON antrian_t.antrian_id = pendaftaran_t.antrian_id
+     JOIN pasien_m ON pendaftaran_t.pasien_id = pasien_m.pasien_id
+     JOIN kelaspelayanan_m ON pasienadmisi_t.kelaspelayanan_id = kelaspelayanan_m.kelaspelayanan_id
+     JOIN carabayar_m ON pasienadmisi_t.carabayar_id = carabayar_m.carabayar_id
+     JOIN penjamin_m ON pasienadmisi_t.penjamin_id = penjamin_m.penjamin_id
+     LEFT JOIN caramasuk_m ON pendaftaran_t.caramasuk_id = caramasuk_m.caramasuk_id
+     LEFT JOIN golonganumur_m ON pendaftaran_t.golonganumur_id = golonganumur_m.golonganumur_id
+     LEFT JOIN rujukan_t ON pendaftaran_t.rujukan_id = rujukan_t.rujukan_id
+     LEFT JOIN penanggungjawab_m ON pendaftaran_t.penanggungjawab_id = penanggungjawab_m.penanggungjawab_id
+     JOIN ruangan_m ON pasienadmisi_t.ruangan_id = ruangan_m.ruangan_id
+     JOIN instalasi_m ON ruangan_m.instalasi_id = instalasi_m.instalasi_id
+     JOIN jeniskasuspenyakit_m ON pendaftaran_t.jeniskasuspenyakit_id = jeniskasuspenyakit_m.jeniskasuspenyakit_id
+     LEFT JOIN pegawai_m ON pasienadmisi_t.pegawai_id = pegawai_m.pegawai_id
+     LEFT JOIN pasienpulang_t ON pasienadmisi_t.pasienpulang_id = pasienpulang_t.pasienpulang_id
+     LEFT JOIN asuransipasien_m ON pendaftaran_t.asuransipasien_id = asuransipasien_m.asuransipasien_id
+     LEFT JOIN propinsi_m ON pasien_m.propinsi_id = propinsi_m.propinsi_id
+     LEFT JOIN kabupaten_m ON pasien_m.kabupaten_id = kabupaten_m.kabupaten_id
+     LEFT JOIN kelurahan_m ON pasien_m.kelurahan_id = kelurahan_m.kelurahan_id
+     LEFT JOIN kecamatan_m ON pasien_m.kecamatan_id = kecamatan_m.kecamatan_id
+     LEFT JOIN pekerjaan_m ON pasien_m.pekerjaan_id = pekerjaan_m.pekerjaan_id
+     LEFT JOIN suku_m ON pasien_m.suku_id = suku_m.suku_id
+     LEFT JOIN pendidikan_m ON pasien_m.pendidikan_id = pendidikan_m.pendidikan_id
+     LEFT JOIN asalrujukan_m ON rujukan_t.asalrujukan_id = asalrujukan_m.asalrujukan_id
+     LEFT JOIN carakeluar_m ON pasienpulang_t.carakeluar_id = carakeluar_m.carakeluar_id
+     LEFT JOIN kondisikeluar_m ON pasienpulang_t.kondisikeluar_id = kondisikeluar_m.kondisikeluar_id
+     LEFT JOIN lookup_m ON pendaftaran_t.status_periksa::integer = lookup_m.lookup_id
+     LEFT JOIN lookup_m lookup_jeniskelamin ON pasien_m.jeniskelamin::integer = lookup_jeniskelamin.lookup_id
+     LEFT JOIN lookup_m nama_depan ON pasien_m.namadepan::integer = nama_depan.lookup_id
+     LEFT JOIN lookup_m gelar_depan ON pegawai_m.gelardepan::integer = gelar_depan.lookup_id
+     LEFT JOIN lookup_m gelar_belakang ON pegawai_m.gelarbelakang::integer = gelar_depan.lookup_id;
+              ");
+
+           $this->execute('
+        ALTER TABLE public.infokunjunganrs_v
+  OWNER TO postgres;
+              ');
+
+            
+             $this->execute("
+       CREATE OR REPLACE VIEW public.orderpenunjang_v_old AS 
+ SELECT pendaftaran_t.pendaftaran_id,
+    pendaftaran_t.no_pendaftaran,
+    infokunjunganrs_v.instalasi_nama,
+    infokunjunganrs_v.ruangan_nama,
+    infokunjunganrs_v.no_rekam_medik,
+    infokunjunganrs_v.nama_pasien,
+    ruangan_v.instalasi_nama AS instalasi_penunjang,
+    ruangan_v.ruangan_nama AS ruangan_penunjang,
+    infokunjunganrs_v.tanggal_lahir,
+    infokunjunganrs_v.jenis_kelamin,
+    infokunjunganrs_v.carabayar_nama,
+    infokunjunganrs_v.penjamin_nama,
+    permintaankepenunjang_t.tglpermintaankepenunjang,
+    pasienkirimkeunitlain_t.no_orderkeunitlain,
+    pegawai_m.nama_pegawai AS dokter_perujuk,
+    permintaankepenunjang_t.pemeriksaanlab_id,
+    jenispemeriksaanlab_m.jenispemeriksaanlab_nama,
+    pemeriksaanlab_m.pemeriksaanlab_nama,
+    permintaankepenunjang_t.pemeriksaanrad_id,
+    jenispemeriksaanrad_m.jenispemeriksaanrad_nama,
+    pemeriksaanrad_m.pemeriksaanrad_nama,
+    permintaankepenunjang_t.operasi_id,
+    operasi_v.kegiatanoperasi_nama,
+    operasi_v.operasi_nama,
+    tindakanpelayanan_t.tarif_satuan,
+    tindakanpelayanan_t.cyto_tindakan,
+    tindakanpelayanan_t.tarif_tindakan AS sub_total,
+    pasienkirimkeunitlain_t.pasienadmisi_id,
+    pasienkirimkeunitlain_t.instruksi_id,
+    tindakanpelayanan_t.tarifcyto_tindakan
+   FROM permintaankepenunjang_t
+     JOIN pasienkirimkeunitlain_t ON permintaankepenunjang_t.pasienkirimkeunitlain_id = pasienkirimkeunitlain_t.pasienkirimkeunitlain_id
+     JOIN pendaftaran_t ON pasienkirimkeunitlain_t.pendaftaran_id = pendaftaran_t.pendaftaran_id
+     JOIN infokunjunganrs_v ON pendaftaran_t.pendaftaran_id = infokunjunganrs_v.pendaftaran_id
+     JOIN ruangan_v ON pasienkirimkeunitlain_t.ruangan_id = ruangan_v.ruangan_id
+     JOIN pegawai_m ON pasienkirimkeunitlain_t.pegawai_id = pegawai_m.pegawai_id
+     LEFT JOIN pemeriksaanlab_m ON permintaankepenunjang_t.pemeriksaanlab_id = pemeriksaanlab_m.pemeriksaanlab_id
+     LEFT JOIN jenispemeriksaanlab_m ON jenispemeriksaanlab_m.jenispemeriksaanlab_id = pemeriksaanlab_m.jenispemeriksaanlab_id
+     LEFT JOIN pemeriksaanrad_m ON permintaankepenunjang_t.pemeriksaanrad_id = pemeriksaanrad_m.pemeriksaanradiologi_id
+     LEFT JOIN jenispemeriksaanrad_m ON jenispemeriksaanrad_m.jenispemeriksaanrad_id = pemeriksaanrad_m.jenispemeriksaanrad_id
+     LEFT JOIN operasi_v ON permintaankepenunjang_t.operasi_id = operasi_v.operasi_id
+     JOIN tindakanpelayanan_t ON permintaankepenunjang_t.tindakanpelayanan_id = tindakanpelayanan_t.tindakanpelayanan_id
+UNION ALL
+ SELECT pendaftaran_t.pendaftaran_id,
+    pendaftaran_t.no_pendaftaran,
+    infokunjunganrs_v.instalasi_nama,
+    infokunjunganrs_v.ruangan_nama,
+    infokunjunganrs_v.no_rekam_medik,
+    infokunjunganrs_v.nama_pasien,
+    ruangan_v.instalasi_nama AS instalasi_penunjang,
+    ruangan_v.ruangan_nama AS ruangan_penunjang,
+    infokunjunganrs_v.tanggal_lahir,
+    infokunjunganrs_v.jenis_kelamin,
+    infokunjunganrs_v.carabayar_nama,
+    infokunjunganrs_v.penjamin_nama,
+    permintaankepenunjang_t.tglpermintaankepenunjang,
+    pasienkirimkeunitlain_t.no_orderkeunitlain,
+    pegawai_m.nama_pegawai AS dokter_perujuk,
+    permintaankepenunjang_t.pemeriksaanlab_id,
+    jenispemeriksaanlab_m.jenispemeriksaanlab_nama,
+    pemeriksaanlab_m.pemeriksaanlab_nama,
+    permintaankepenunjang_t.pemeriksaanrad_id,
+    jenispemeriksaanrad_m.jenispemeriksaanrad_nama,
+    pemeriksaanrad_m.pemeriksaanrad_nama,
+    permintaankepenunjang_t.operasi_id,
+    operasi_v.kegiatanoperasi_nama,
+    operasi_v.operasi_nama,
+    tindakanpelayanan_t.tarif_satuan,
+    tindakanpelayanan_t.cyto_tindakan,
+    tindakanpelayanan_t.tarif_tindakan AS sub_total,
+    pasienkirimkeunitlain_t.pasienadmisi_id,
+    pasienkirimkeunitlain_t.instruksi_id,
+    tindakanpelayanan_t.tarifcyto_tindakan
+   FROM permintaankepenunjang_t
+     JOIN pasienkirimkeunitlain_t ON permintaankepenunjang_t.pasienkirimkeunitlain_id = pasienkirimkeunitlain_t.pasienkirimkeunitlain_id
+     JOIN pasienadmisi_t ON pasienkirimkeunitlain_t.pasienadmisi_id = pasienadmisi_t.pasienadmisi_id
+     JOIN pendaftaran_t ON pasienadmisi_t.pendaftaran_id = pendaftaran_t.pendaftaran_id
+     JOIN infokunjunganrs_v ON pendaftaran_t.pendaftaran_id = infokunjunganrs_v.pendaftaran_id
+     JOIN ruangan_v ON pasienkirimkeunitlain_t.ruangan_id = ruangan_v.ruangan_id
+     JOIN pegawai_m ON pasienkirimkeunitlain_t.pegawai_id = pegawai_m.pegawai_id
+     LEFT JOIN pemeriksaanlab_m ON permintaankepenunjang_t.pemeriksaanlab_id = pemeriksaanlab_m.pemeriksaanlab_id
+     LEFT JOIN jenispemeriksaanlab_m ON jenispemeriksaanlab_m.jenispemeriksaanlab_id = pemeriksaanlab_m.jenispemeriksaanlab_id
+     LEFT JOIN pemeriksaanrad_m ON permintaankepenunjang_t.pemeriksaanrad_id = pemeriksaanrad_m.pemeriksaanradiologi_id
+     LEFT JOIN jenispemeriksaanrad_m ON jenispemeriksaanrad_m.jenispemeriksaanrad_id = pemeriksaanrad_m.jenispemeriksaanrad_id
+     LEFT JOIN operasi_v ON permintaankepenunjang_t.operasi_id = operasi_v.operasi_id
+     JOIN tindakanpelayanan_t ON permintaankepenunjang_t.tindakanpelayanan_id = tindakanpelayanan_t.tindakanpelayanan_id;
+
+              ");
+
+              $this->execute('
+        ALTER TABLE public.orderpenunjang_v_old
+  OWNER TO postgres;
+              ');
+
+               $this->execute("
+        CREATE OR REPLACE VIEW public.orderpenunjang_v_old2 AS 
+ SELECT pendaftaran_t.pendaftaran_id,
+    pendaftaran_t.no_pendaftaran,
+    infokunjunganrs_v.instalasi_nama,
+    infokunjunganrs_v.ruangan_nama,
+    infokunjunganrs_v.no_rekam_medik,
+    infokunjunganrs_v.nama_pasien,
+    ruangan_v.instalasi_nama AS instalasi_penunjang,
+    ruangan_v.ruangan_nama AS ruangan_penunjang,
+    infokunjunganrs_v.tanggal_lahir,
+    infokunjunganrs_v.jenis_kelamin,
+    infokunjunganrs_v.carabayar_nama,
+    infokunjunganrs_v.penjamin_nama,
+    permintaankepenunjang_t.tglpermintaankepenunjang,
+    pasienkirimkeunitlain_t.no_orderkeunitlain,
+    pegawai_m.nama_pegawai AS dokter_perujuk,
+    permintaankepenunjang_t.pemeriksaanlab_id,
+    jenispemeriksaanlab_m.jenispemeriksaanlab_nama,
+    pemeriksaanlab_m.pemeriksaanlab_nama,
+    permintaankepenunjang_t.pemeriksaanrad_id,
+    jenispemeriksaanrad_m.jenispemeriksaanrad_nama,
+    pemeriksaanrad_m.pemeriksaanrad_nama,
+    permintaankepenunjang_t.operasi_id,
+    operasi_v.kegiatanoperasi_nama,
+    operasi_v.operasi_nama,
+    permintaankepenunjang_t.tarif_pelayanan,
+    permintaankepenunjang_t.is_cyto,
+    permintaankepenunjang_t.tarif_cytotindakan,
+    pasienkirimkeunitlain_t.pasienadmisi_id,
+    pasienkirimkeunitlain_t.instruksi_id,
+    pasienkirimkeunitlain_t.pasienkirimkeunitlain_id
+   FROM permintaankepenunjang_t
+     JOIN pasienkirimkeunitlain_t ON permintaankepenunjang_t.pasienkirimkeunitlain_id = pasienkirimkeunitlain_t.pasienkirimkeunitlain_id
+     JOIN pendaftaran_t ON pasienkirimkeunitlain_t.pendaftaran_id = pendaftaran_t.pendaftaran_id
+     JOIN infokunjunganrs_v ON pendaftaran_t.pendaftaran_id = infokunjunganrs_v.pendaftaran_id
+     JOIN ruangan_v ON pasienkirimkeunitlain_t.ruangan_id = ruangan_v.ruangan_id
+     JOIN pegawai_m ON pasienkirimkeunitlain_t.pegawai_id = pegawai_m.pegawai_id
+     LEFT JOIN pemeriksaanlab_m ON permintaankepenunjang_t.pemeriksaanlab_id = pemeriksaanlab_m.pemeriksaanlab_id
+     LEFT JOIN jenispemeriksaanlab_m ON jenispemeriksaanlab_m.jenispemeriksaanlab_id = pemeriksaanlab_m.jenispemeriksaanlab_id
+     LEFT JOIN pemeriksaanrad_m ON permintaankepenunjang_t.pemeriksaanrad_id = pemeriksaanrad_m.pemeriksaanradiologi_id
+     LEFT JOIN jenispemeriksaanrad_m ON jenispemeriksaanrad_m.jenispemeriksaanrad_id = pemeriksaanrad_m.jenispemeriksaanrad_id
+     LEFT JOIN operasi_v ON permintaankepenunjang_t.operasi_id = operasi_v.operasi_id
+UNION ALL
+ SELECT pendaftaran_t.pendaftaran_id,
+    pendaftaran_t.no_pendaftaran,
+    infokunjunganrs_v.instalasi_nama,
+    infokunjunganrs_v.ruangan_nama,
+    infokunjunganrs_v.no_rekam_medik,
+    infokunjunganrs_v.nama_pasien,
+    ruangan_v.instalasi_nama AS instalasi_penunjang,
+    ruangan_v.ruangan_nama AS ruangan_penunjang,
+    infokunjunganrs_v.tanggal_lahir,
+    infokunjunganrs_v.jenis_kelamin,
+    infokunjunganrs_v.carabayar_nama,
+    infokunjunganrs_v.penjamin_nama,
+    permintaankepenunjang_t.tglpermintaankepenunjang,
+    pasienkirimkeunitlain_t.no_orderkeunitlain,
+    pegawai_m.nama_pegawai AS dokter_perujuk,
+    permintaankepenunjang_t.pemeriksaanlab_id,
+    jenispemeriksaanlab_m.jenispemeriksaanlab_nama,
+    pemeriksaanlab_m.pemeriksaanlab_nama,
+    permintaankepenunjang_t.pemeriksaanrad_id,
+    jenispemeriksaanrad_m.jenispemeriksaanrad_nama,
+    pemeriksaanrad_m.pemeriksaanrad_nama,
+    permintaankepenunjang_t.operasi_id,
+    operasi_v.kegiatanoperasi_nama,
+    operasi_v.operasi_nama,
+    permintaankepenunjang_t.tarif_pelayanan,
+    permintaankepenunjang_t.is_cyto,
+    permintaankepenunjang_t.tarif_cytotindakan,
+    pasienkirimkeunitlain_t.pasienadmisi_id,
+    pasienkirimkeunitlain_t.instruksi_id,
+    pasienkirimkeunitlain_t.pasienkirimkeunitlain_id
+   FROM permintaankepenunjang_t
+     JOIN pasienkirimkeunitlain_t ON permintaankepenunjang_t.pasienkirimkeunitlain_id = pasienkirimkeunitlain_t.pasienkirimkeunitlain_id
+     JOIN pasienadmisi_t ON pasienkirimkeunitlain_t.pasienadmisi_id = pasienadmisi_t.pasienadmisi_id
+     JOIN pendaftaran_t ON pasienadmisi_t.pendaftaran_id = pendaftaran_t.pendaftaran_id
+     JOIN infokunjunganrs_v ON pendaftaran_t.pendaftaran_id = infokunjunganrs_v.pendaftaran_id
+     JOIN ruangan_v ON pasienkirimkeunitlain_t.ruangan_id = ruangan_v.ruangan_id
+     JOIN pegawai_m ON pasienkirimkeunitlain_t.pegawai_id = pegawai_m.pegawai_id
+     LEFT JOIN pemeriksaanlab_m ON permintaankepenunjang_t.pemeriksaanlab_id = pemeriksaanlab_m.pemeriksaanlab_id
+     LEFT JOIN jenispemeriksaanlab_m ON jenispemeriksaanlab_m.jenispemeriksaanlab_id = pemeriksaanlab_m.jenispemeriksaanlab_id
+     LEFT JOIN pemeriksaanrad_m ON permintaankepenunjang_t.pemeriksaanrad_id = pemeriksaanrad_m.pemeriksaanradiologi_id
+     LEFT JOIN jenispemeriksaanrad_m ON jenispemeriksaanrad_m.jenispemeriksaanrad_id = pemeriksaanrad_m.jenispemeriksaanrad_id
+     LEFT JOIN operasi_v ON permintaankepenunjang_t.operasi_id = operasi_v.operasi_id;
+              ");
+
+                $this->execute('
+        ALTER TABLE public.orderpenunjang_v_old2
+  OWNER TO postgres;
+              ');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
+    {
+        echo "m190711_033608_infokunjunganrs_v cannot be reverted.\n";
+
+        return false;
+    }
+
+    /*
+    // Use up()/down() to run migration code without a transaction.
+    public function up()
+    {
+
+    }
+
+    public function down()
+    {
+        echo "m190711_033608_infokunjunganrs_v cannot be reverted.\n";
+
+        return false;
+    }
+    */
+}

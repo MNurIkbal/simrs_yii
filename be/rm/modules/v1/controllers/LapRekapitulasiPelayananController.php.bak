@@ -1,0 +1,526 @@
+<?php
+
+namespace app\modules\v1\controllers;
+
+use Yii;
+use app\modules\v1\models\DataPasienPerdokter;
+use app\modules\v1\models\Instalasi;
+use app\modules\v1\models\LaporanRekapKunjunganPerpoli;
+use app\modules\v1\models\LaporanRekapKunjunganPerpoliHeader;
+use app\modules\v1\models\Lookup;
+use app\modules\v1\models\Ruangan;
+use app\modules\v1\models\Pegawai;
+use Doco\components\DocoActiveController;
+use Doco\components\DocoHelpers;
+use Doco\components\DocoPrint;
+use Doco\components\DocoRestActiveFilter;
+use yii\data\ActiveDataProvider;
+
+class LapRekapitulasiPelayananController extends DocoActiveController
+{
+    /**
+     * @inheritdoc
+     */
+	public $modelClass = 'app\modules\v1\models\LaporanRekapKunjunganPerpoli';
+
+    public function verbs()
+    {
+        $verbs = parent::verbs();
+
+        return $verbs;
+    }
+
+    public function actions()
+    {
+        $actions = parent::actions();
+        unset($actions['index']);
+
+        return $actions;
+    }
+
+    public function actionIndex()
+    {
+        $request = Yii::$app->request;
+        $getRequest = $request->get();
+        
+        return $this->generateData($getRequest);
+    }
+
+    public function actionGetDataPasien()
+    {
+        $request = Yii::$app->request;
+        $instalasi_id = $request->get('instalasi_id');
+        $ruangan_id = $request->get('ruangan_id');
+        $pegawai_id = $request->get('pegawai_id');
+        $status_bayar = $request->get('status_bayar');
+        $status_periksa = $request->get('status_periksa');
+        $startdate = $request->get('startdate');
+        $enddate = $request->get('enddate');  
+     
+        $model = new DataPasienPerdokter;
+        $query = $model::find()->andWhere([
+            'instalasi_id' => $instalasi_id,
+            'ruangan_id' => $ruangan_id,
+            'pegawai_id' => $pegawai_id
+        ]);
+
+        if ($status_bayar && $status_bayar != 'undefined') {
+            $query->andWhere(['status_bayar' => $status_bayar]);
+        }
+
+        if ($status_periksa && $status_periksa != 'undefined') {
+            $query->andWhere(['status_periksa' => $status_periksa]);
+        }
+
+        $query->andWhere(['between', 'tgl_pendaftarans', $startdate, $enddate]);
+        $query = DocoRestActiveFilter::advancedFilter($model, $query);
+
+        return new ActiveDataProvider([
+            'query' => $query,
+        ]);
+    }
+
+    public function actionGetNama()
+    {
+        $getRequest = Yii::$app->request->get();
+        $instalasi_id = $getRequest['instalasi_id'];
+        $ruangan_id = $getRequest['ruangan_id'];
+
+        $instalasi_nama = Instalasi::findOne($instalasi_id)->instalasi_nama;
+        $ruangan_nama = Ruangan::findOne($ruangan_id)->ruangan_nama;
+
+        return [
+            'instalasi_nama' => $instalasi_nama,
+            'ruangan_nama' => $ruangan_nama
+        ];
+    }
+
+    /**
+    * @controller actionExportPdf
+    * @attribute #pdfrekapperpoli# => Table
+    * @attribute #tgl_pendaftaran# => Filter tanggal pendaftaran
+    * @attribute #instalasi# => Filter instalasi
+    * @attribute #ruangan# => Filter ruangan
+    * @attribute #dokter# => Filter dokter
+    * @attribute #status_bayar# => Filter status bayar
+    * @attribute #status_periksa# => Filter status periksa
+    **/
+    public function actionExportPdf() 
+    {
+        $getRequest = Yii::$app->request->get();
+        $start = date('Y-m-d');
+        $end = date('Y-m-d');
+        $instalasi = '-';
+        $ruangan = '-';
+        $dokter = '-';
+        $statusBayar = '-';
+        $statusPeriksa = '-';
+        $print = new DocoPrint();
+        $data = $this->generateDataExcelPdf($getRequest);
+
+        if (isset($getRequest['advanced-filter'])) {
+            if (isset($getRequest['advanced-filter']['tgl_pendaftaran'])) {
+                $explode = explode(" - ", $getRequest['advanced-filter']['tgl_pendaftaran']);
+                
+                if (count($explode) == 2) {
+                    $start = date('Y-m-d', strtotime($explode[0]));
+                    $end = date('Y-m-d', strtotime($explode[1]));
+                }
+            }
+
+            if (isset($getRequest['advanced-filter']['instalasi_id'])) {
+                $instalasi = Instalasi::findOne($getRequest['advanced-filter']['instalasi_id'])->instalasi_nama;
+            }
+
+            if (isset($getRequest['advanced-filter']['ruangan_id'])) {
+                $ruangan = Ruangan::findOne($getRequest['advanced-filter']['ruangan_id'])->ruangan_nama;
+            }
+
+            if (isset($getRequest['advanced-filter']['pegawai_id'])) {
+                $dokter = Pegawai::findOne($getRequest['advanced-filter']['pegawai_id'])->nama_pegawai;
+            }
+
+            if (isset($getRequest['advanced-filter']['status_bayar'])) {
+                $statusBayar = Lookup::findOne($getRequest['advanced-filter']['status_bayar'])->lookup_name;
+            }
+
+            if (isset($getRequest['advanced-filter']['status_periksa'])) {
+                $statusPeriksa = Lookup::findOne($getRequest['advanced-filter']['status_periksa'])->lookup_name;
+            }
+        }
+
+        $print->attributes = [
+            '#title#' => 'LAPORAN REKAP KUNJUNGAN PERPOLI',
+            '#tgl_pendaftaran#' => $start.' - '.$end,
+            '#instalasi#' => $instalasi,
+            '#ruangan#' => $ruangan,
+            '#dokter#' => $dokter,
+            '#status_bayar#' => $statusBayar,
+            '#status_periksa#' => $statusPeriksa,
+            '#pdfrekapperpoli#' => $this->renderPartial('index', [
+                'data' => $data['data']
+            ]),
+        ];
+        $print->Output();
+    }
+
+    public function actionExportExcel()
+    {
+        $getRequest = Yii::$app->request->get();
+        $start = date('Y-m-d');
+        $end = date('Y-m-d');
+        $instalasi = '-';
+        $ruangan = '-';
+        $dokter = '-';
+        $statusBayar = '-';
+        $statusPeriksa = '-';
+        $data = array();
+        $tempData = $this->generateDataExcelPdf($getRequest);
+
+        if (isset($getRequest['advanced-filter'])) {
+            if (isset($getRequest['advanced-filter']['tgl_pendaftaran'])) {
+                $explode = explode(" - ", $getRequest['advanced-filter']['tgl_pendaftaran']);
+                
+                if (count($explode) == 2) {
+                    $start = date('Y-m-d', strtotime($explode[0]));
+                    $end = date('Y-m-d', strtotime($explode[1]));
+                }
+            }
+
+            if (isset($getRequest['advanced-filter']['instalasi_id'])) {
+                $instalasi = Instalasi::findOne($getRequest['advanced-filter']['instalasi_id'])->instalasi_nama;
+            }
+
+            if (isset($getRequest['advanced-filter']['ruangan_id'])) {
+                $ruangan = Ruangan::findOne($getRequest['advanced-filter']['ruangan_id'])->ruangan_nama;
+            }
+
+            if (isset($getRequest['advanced-filter']['pegawai_id'])) {
+                $dokter = Pegawai::findOne($getRequest['advanced-filter']['pegawai_id'])->nama_pegawai;
+            }
+
+            if (isset($getRequest['advanced-filter']['status_bayar'])) {
+                $statusBayar = Lookup::findOne($getRequest['advanced-filter']['status_bayar'])->lookup_name;
+            }
+
+            if (isset($getRequest['advanced-filter']['status_periksa'])) {
+                $statusPeriksa = Lookup::findOne($getRequest['advanced-filter']['status_periksa'])->lookup_name;
+            }
+        }
+
+        if (!empty($tempData['data'])) {
+            foreach ($tempData['data'] as $key => $value) {
+                $data[$key]['Instalasi'] = $value['instalasi_nama'];
+                $data[$key]['Ruangan'] = $value['ruangan_nama'];
+                $data[$key]['Dokter'] = $value['nama_dokter'];
+                $data[$key]['Jumlah Pasien'] = $value['jumlah_pasien'] ? $value['jumlah_pasien'] : 0;
+            }
+        }
+
+        $header = [
+            'Tanggal Pendaftaran' => $start.' - '.$end,
+            'Instalasi' => $instalasi,
+            'Ruangan' => $ruangan,
+            'Dokter' => $dokter,
+            'Status Pembayaran' => $statusBayar,
+            'Status Pemeriksaan' => $statusPeriksa
+        ];
+        $filePath = DocoHelpers::exportExcel(
+            'LAPORAN REKAPITULASI KUNJUNGAN PERPOLI',
+            $data,
+            $header,
+            [
+                'uploadPath' => './uploads'
+            ],
+            [],
+            [],
+            true
+        );
+        $filePath->save('php://output');
+        die;
+    }
+
+    public function actionGenerateApi()
+    {
+        $modelInstalasi = new Instalasi;
+        $queryInstalasi = $modelInstalasi::find()
+        ->andWhere([
+            'instalasi_id' => [1,2,3],
+            'is_active' => true,
+            'is_deleted' => false,
+            'is_pelayanan' => true,
+            'is_penunjang' => false
+        ]);
+        $queryInstalasi = DocoRestActiveFilter::advancedFilter($modelInstalasi, $queryInstalasi);
+        $queryInstalasi = new ActiveDataProvider([
+            'query' => $queryInstalasi,
+            'pagination' => false
+        ]);
+
+        $modelRuangan = new Ruangan;
+        $queryRuangan = $modelRuangan::find() 
+        ->andWhere([
+            'instalasi_id' => [1,2,3] 
+        ]);
+        $queryRuangan = DocoRestActiveFilter::advancedFilter($modelRuangan, $queryRuangan);
+        $queryRuangan = new ActiveDataProvider([
+            'query' => $queryRuangan,
+            'pagination' => false
+        ]);
+
+        $modelDokter = new Pegawai;
+        $queryDokter = $modelDokter::find()->where(['kelompokpegawai_id' => Pegawai::KELOMPOK_DOKTER]);
+        $queryDokter = DocoRestActiveFilter::advancedFilter($modelDokter, $queryDokter);
+        $queryDokter = new ActiveDataProvider([
+            'query' => $queryDokter,
+            'pagination' => false
+        ]);
+
+        $modelStatusBayar = new Lookup;
+        $queryStatusBayar = $modelStatusBayar::find()->where(['lookup_type' => Lookup::STATUS_BAYAR]);
+        $queryStatusBayar = DocoRestActiveFilter::advancedFilter($modelStatusBayar, $queryStatusBayar);
+        $queryStatusBayar = new ActiveDataProvider([
+            'query' => $queryStatusBayar,
+            'pagination' => false
+        ]);
+
+        $modelStatusPeriksa = new Lookup;
+        $queryStatusPeriksa = $modelStatusPeriksa::find()->where(['lookup_type' => Lookup::STATUS_PERIKSA]);
+        $queryStatusPeriksa = DocoRestActiveFilter::advancedFilter($modelStatusPeriksa, $queryStatusPeriksa);
+        $queryStatusPeriksa = new ActiveDataProvider([
+            'query' => $queryStatusPeriksa,
+            'pagination' => false
+        ]);
+
+        return [
+            'instalasi' => $queryInstalasi->getModels(),
+            'ruangan' => $queryRuangan->getModels(),
+            'dokter' => $queryDokter->getModels(),
+            'statusBayar' => $queryStatusBayar->getModels(),
+            'statusPeriksa' => $queryStatusPeriksa->getModels()
+        ];
+    }
+
+    public function actionListPegawai()
+    {
+        $model = new Pegawai;
+        $query = $model::find()->joinWith(['jabatan']);
+
+        $query = DocoRestActiveFilter::advancedFilter($model, $query->asArray());
+        return new ActiveDataProvider([
+            'query' => $query,
+        ]);
+    }
+
+    public function actionGetTotal($status_pasien, $total, $type = null)
+    {
+        if($type == 'pasien_baru') {
+            if($status_pasien == 'Pasien Baru') {
+                $total_pasien =  $total;
+            } else {
+                $total_pasien = 0;
+            }
+        }
+        else {
+            if($status_pasien == 'Pasien Lama') {
+                $total_pasien =  $total;
+            } else {
+                $total_pasien = 0;
+            }
+        }
+
+        return $total_pasien;
+    }
+
+    private function generateData($filter)
+    {
+        $start = date('Y-m-d');
+        $end = date('Y-m-d');
+        $data = array();
+        $status_bayar = null;
+        $status_periksa = null;
+        $model = new LaporanRekapKunjunganPerpoliHeader;
+
+        $subQuery = (new \yii\db\Query())
+        ->select([
+            'tgl_pendaftaran',
+            'instalasi_id',
+            'ruangan_id',
+            'pegawai_id',
+            'SUM(jumlah_pasien) AS total_pasien'
+        ])
+        ->from('laporanrekapkunjunganperpoli_v');
+
+        if (array_key_exists('advanced-filter', $filter)) {
+            if (array_key_exists('tgl_pendaftaran', $filter['advanced-filter'])) {
+                $explode = explode(' - ', $filter['advanced-filter']['tgl_pendaftaran']);
+                
+                if (count($explode) == 2) {
+                    $start = date('Y-m-d', strtotime($explode[0]));
+                    $end = date('Y-m-d', strtotime($explode[1]));
+                }
+
+                unset($_GET['advanced-filter']['tgl_pendaftaran']);
+                $subQuery->andWhere(['BETWEEN', 'tgl_pendaftaran', $start, $end]);
+            } else {
+                $subQuery->andWhere(['BETWEEN', 'tgl_pendaftaran', $start, $end]);
+            }
+
+            if (array_key_exists('instalasi_id', $filter['advanced-filter'])) {
+                $instalasi_id = ['instalasi_id' => $filter['advanced-filter']['instalasi_id']];
+                unset($_GET['advanced-filter']['instalasi_id']);
+                $subQuery->andWhere(['instalasi_id' => $instalasi_id]);
+            } 
+
+            if (array_key_exists('ruangan_id', $filter['advanced-filter'])) {
+                $ruangan_id = ['ruangan_id' => $filter['advanced-filter']['ruangan_id']];
+                unset($_GET['advanced-filter']['ruangan_id']);
+                $subQuery->andWhere(['ruangan_id' => $ruangan_id]);
+            }
+
+            if (array_key_exists('status_bayar', $filter['advanced-filter'])) {
+                $status_bayar = ['status_bayar' => $filter['advanced-filter']['status_bayar']];
+                unset($_GET['advanced-filter']['status_bayar']);
+                $subQuery->andWhere(['status_bayar' => $status_bayar]);
+            }
+
+            if (array_key_exists('status_periksa', $filter['advanced-filter'])) {
+                $status_periksa = ['status_periksa' => $filter['advanced-filter']['status_periksa']];
+                unset($_GET['advanced-filter']['status_periksa']);
+                $subQuery->andWhere(['status_periksa' => $status_periksa]);
+            }
+        } else {
+            $subQuery->andWhere(['BETWEEN', 'tgl_pendaftaran', $start, $end]);
+            $subQuery->andWhere(['instalasi_id' => [1,2,3] ]);
+        }
+
+        $subQuery->groupBy('tgl_pendaftaran, instalasi_id, ruangan_id, pegawai_id');
+
+        $query = (new \yii\db\Query())
+        ->select([
+            'details.instalasi_id',
+            'details.ruangan_id',
+            'details.pegawai_id',
+            'instalasi_nama',
+            'ruangan_nama',
+            'nama_pegawai AS nama_dokter',
+            'details.total_pasien AS jumlah_pasien'
+        ])
+        ->from('laporanrekapkunjunganperpoliheader_v')
+        ->leftJoin(['details' => $subQuery], 'details.instalasi_id = laporanrekapkunjunganperpoliheader_v.instalasi_id AND details.ruangan_id = laporanrekapkunjunganperpoliheader_v.ruangan_id AND details.pegawai_id = laporanrekapkunjunganperpoliheader_v.pegawai_id');
+
+        if (array_key_exists('advanced-filter', $filter)) {
+            if (array_key_exists('instalasi_id', $filter['advanced-filter'])) {
+                $instalasi_id = ['instalasi_id' => $filter['advanced-filter']['instalasi_id']];
+                unset($_GET['advanced-filter']['instalasi_id']);
+                $query->andWhere(['laporanrekapkunjunganperpoliheader_v.instalasi_id' => $instalasi_id]);
+            }
+
+            if (array_key_exists('ruangan_id', $filter['advanced-filter'])) {
+                $ruangan_id = ['ruangan_id' => $filter['advanced-filter']['ruangan_id']];
+                unset($_GET['advanced-filter']['ruangan_id']);
+                $query->andWhere(['laporanrekapkunjunganperpoliheader_v.ruangan_id' => $ruangan_id]);
+            }
+        }else{
+            $query->andWhere(['details.instalasi_id' => [1,2,3] ]);
+        }
+
+        $query = DocoRestActiveFilter::advancedFilter($model, $query);
+
+        return new ActiveDataProvider([
+            'query' => $query,
+        ]);
+    }
+
+    private function generateDataExcelPdf($filter)
+    {
+        $start = date('Y-m-d');
+        $end = date('Y-m-d');
+        $instalasi_id = null;
+        $ruangan_id = null;
+        $status_bayar = null;
+        $status_periksa = null;
+        
+        $subQuery = (new \yii\db\Query())
+        ->select([
+            'tgl_pendaftaran',
+            'instalasi_id',
+            'ruangan_id',
+            'pegawai_id',
+            'SUM(jumlah_pasien) AS total_pasien'
+        ])
+        ->from('laporanrekapkunjunganperpoli_v');
+
+        if (array_key_exists('advanced-filter', $filter)) {
+            if (array_key_exists('tgl_pendaftaran', $filter['advanced-filter'])) {
+                $explode = explode(' - ', $filter['advanced-filter']['tgl_pendaftaran']);
+                
+                if (count($explode) == 2) {
+                    $start = date('Y-m-d', strtotime($explode[0]));
+                    $end = date('Y-m-d', strtotime($explode[1]));
+                }
+
+                $subQuery->andWhere(['BETWEEN', 'tgl_pendaftaran', $start, $end]);
+            } else {
+                $subQuery->andWhere(['BETWEEN', 'tgl_pendaftaran', $start, $end]);
+            }
+
+            if (array_key_exists('instalasi_id', $filter['advanced-filter'])) {
+                $instalasi_id = ['instalasi_id' => $filter['advanced-filter']['instalasi_id']];
+                $subQuery->andWhere(['instalasi_id' => $instalasi_id]);
+            }
+
+            if (array_key_exists('ruangan_id', $filter['advanced-filter'])) {
+                $ruangan_id = ['ruangan_id' => $filter['advanced-filter']['ruangan_id']];
+                $subQuery->andWhere(['ruangan_id' => $ruangan_id]);
+            }
+
+            if (array_key_exists('status_bayar', $filter['advanced-filter'])) {
+                $status_bayar = ['status_bayar' => $filter['advanced-filter']['status_bayar']];
+                $subQuery->andWhere(['status_bayar' => $status_bayar]);
+            }
+
+            if (array_key_exists('status_periksa', $filter['advanced-filter'])) {
+                $status_periksa = ['status_periksa' => $filter['advanced-filter']['status_periksa']];
+                $subQuery->andWhere(['status_periksa' => $status_periksa]);
+            }
+        } else {
+            $subQuery->andWhere(['BETWEEN', 'tgl_pendaftaran', $start, $end]);
+            $subQuery->andWhere(['instalasi_id' => [1,2,3] ]);
+        }
+
+        $subQuery->groupBy('tgl_pendaftaran, instalasi_id, ruangan_id, pegawai_id');
+
+        $query = (new \yii\db\Query())
+        ->select([
+            'headers.instalasi_id',
+            'headers.ruangan_id',
+            'headers.pegawai_id',
+            'headers.instalasi_nama',
+            'headers.ruangan_nama',
+            'headers.nama_pegawai AS nama_dokter',
+            'details.total_pasien AS jumlah_pasien'
+        ])
+        ->from('laporanrekapkunjunganperpoliheader_v headers')
+        ->leftJoin(['details' => $subQuery], 'details.instalasi_id = headers.instalasi_id AND details.ruangan_id = headers.ruangan_id AND details.pegawai_id = headers.pegawai_id');
+
+        if (array_key_exists('advanced-filter', $filter)) {
+            if (array_key_exists('instalasi_id', $filter['advanced-filter'])) {
+                $instalasi_id = ['instalasi_id' => $filter['advanced-filter']['instalasi_id']];
+                $query->andWhere(['headers.instalasi_id' => $instalasi_id]);
+            }
+
+            if (array_key_exists('ruangan_id', $filter['advanced-filter'])) {
+                $ruangan_id = ['ruangan_id' => $filter['advanced-filter']['ruangan_id']];
+                $query->andWhere(['headers.ruangan_id' => $ruangan_id]);
+            }
+        }else{
+            $query->andWhere(['details.instalasi_id' => [1,2,3] ]);
+        }
+
+        return [
+            'data' => $query->all(),
+            'totalCount' => count($query->all())
+        ];
+    }
+}

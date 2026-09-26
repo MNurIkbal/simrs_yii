@@ -1,0 +1,181 @@
+<?php
+
+use yii\db\Migration;
+
+/**
+ * Class m201222_094215_migrate_20201222_infopo_v
+ */
+class m201222_094215_migrate_20201222_infopo_v extends Migration
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function safeUp()
+    {
+        $this->execute('DROP VIEW if exists "public"."infopo_v";');
+
+        $this->execute("
+            CREATE VIEW \"public\".\"infopo_v\" AS  SELECT
+        CASE
+            WHEN validasipoobat_t.is_manual = false AND validasipoobat_t.additional_data IS NOT NULL THEN 'PURCHASE REQUEST'::text
+            WHEN validasipoobat_t.is_manual = false THEN 'REKOMENDASI'::text
+            ELSE 'PO_MANUAL'::text
+        END AS asal_transaksi,
+    'obat'::text AS type_po,
+    validasipoobat_t.validasipoobat_id AS transaksi_id,
+    validasipoobat_t.tgl_validasi AS tanggal_po,
+    COALESCE(rekomendasi_obat.tgl_rekomendasiobat, pr.tgl_pr) AS tgl_rekomendasi,
+        CASE
+            WHEN validasipoobat_t.is_manual = false AND validasipoobat_t.additional_data IS NOT NULL THEN pr.no_pr
+            WHEN validasipoobat_t.is_manual = false THEN rekomendasi_obat.no_rekomendasiobat
+            ELSE NULL::character varying
+        END AS nomor,
+    validasipoobat_t.no_poobat AS no_transaksi,
+    validasipoobat_t.supplier_id,
+    supplier_m.supplier_nama,
+    validasipoobat_t.ruangan_id,
+    ruangan_m.ruangan_nama,
+    instalasi_m.instalasi_nama,
+    validasipoobat_t.is_validasi,
+        CASE
+            WHEN validasipoobat_t.is_validasi = false THEN 'Belum Validasi'::text
+            ELSE 'Sudah Validasi'::text
+        END AS status_validasi,
+    validasipoobat_t.status_penerimaan,
+    fgetnamalookup(validasipoobat_t.status_penerimaan) AS stat_penerimaan,
+    payterm_m.jumlah_hari AS payment_term,
+    validasipoobat_t.total AS total_harga_po,
+    validasipoobat_t.tgl_rencanaterima,
+    validasipoobat_t.peg_mengetahui_id,
+    peg_mengetahui.nama_pegawai AS peg_mengetahui,
+    validasipoobat_t.peg_menyetujui_id,
+    peg_menyetujui.nama_pegawai AS peg_menyetujui,
+    validasipoobat_t.sub_total,
+    validasipoobat_t.total_discount,
+    validasipoobat_t.ppn_persen,
+    validasipoobat_t.ppn_nilai,
+    validasipoobat_t.total,
+    validasipoobat_t.status_penerimaan AS lookup_id,
+    payterm_m.payterm_id,
+    validasipoobat_t.diorder_oleh,
+    diorder_oleh.nama_pegawai AS diorder_oleh_nama,
+    validasipoobat_t.pajak_id,
+    validasipoobat_t.catatan1,
+    validasipoobat_t.catatan2,
+    validasipoobat_t.is_closing,
+    ruangan_m.instalasi_id
+   FROM validasipoobat_t
+     JOIN supplier_m ON validasipoobat_t.supplier_id = supplier_m.supplier_id
+     JOIN ruangan_m ON validasipoobat_t.ruangan_id = ruangan_m.ruangan_id
+     JOIN instalasi_m ON ruangan_m.instalasi_id = instalasi_m.instalasi_id
+     LEFT JOIN payterm_m ON validasipoobat_t.payterm_id = payterm_m.payterm_id
+     LEFT JOIN pegawai_m peg_mengetahui ON validasipoobat_t.peg_mengetahui_id = peg_mengetahui.pegawai_id
+     LEFT JOIN pegawai_m peg_menyetujui ON validasipoobat_t.peg_menyetujui_id = peg_menyetujui.pegawai_id
+     LEFT JOIN pegawai_m diorder_oleh ON validasipoobat_t.diorder_oleh = diorder_oleh.pegawai_id
+     LEFT JOIN ( SELECT rekomendasiobat_t.no_rekomendasiobat,
+            rekomendasiobat_t.tgl_rekomendasiobat,
+            validasipoobatdetail_t.validasipoobat_id
+           FROM rekomendasiobat_t
+             JOIN rekomendasiobatdetail_t ON rekomendasiobat_t.rekomendasiobat_id = rekomendasiobatdetail_t.rekomendasiobat_id
+             JOIN validasipoobatdetail_t ON rekomendasiobatdetail_t.rekomendasiobatdetail_id = validasipoobatdetail_t.rekomendasiobatdetail_id
+          GROUP BY rekomendasiobat_t.no_rekomendasiobat, rekomendasiobat_t.tgl_rekomendasiobat, validasipoobatdetail_t.validasipoobat_id) rekomendasi_obat ON validasipoobat_t.validasipoobat_id = rekomendasi_obat.validasipoobat_id
+     LEFT JOIN ( SELECT purchasereq_t.no_pr,
+            purchasereq_t.tgl_pr::timestamp without time zone AS tgl_pr,
+            validasipoobatdetail_t.validasipoobat_id
+           FROM purchasereq_t
+             JOIN purchasereqdetail_t ON purchasereq_t.purchasereq_id = purchasereqdetail_t.purchasereq_id
+             JOIN validasipoobatdetail_t ON purchasereqdetail_t.purchasereqdetail_id = validasipoobatdetail_t.purchasereqdetail_id
+          WHERE purchasereq_t.is_deleted = false
+          GROUP BY purchasereq_t.no_pr, purchasereq_t.tgl_pr, validasipoobatdetail_t.validasipoobat_id) pr ON validasipoobat_t.validasipoobat_id = pr.validasipoobat_id
+  WHERE validasipoobat_t.is_deleted = false
+UNION ALL
+ SELECT
+        CASE
+            WHEN validasipobarang_t.is_manual = false THEN 'REKOMENDASI'::text
+            ELSE 'PO_MANUAL'::text
+        END AS asal_transaksi,
+    'barang'::text AS type_po,
+    validasipobarang_t.validasipobarang_id AS transaksi_id,
+    validasipobarang_t.tgl_validasi AS tanggal_po,
+    rekomendasi_barang.tgl_rekomendasibarang AS tgl_rekomendasi,
+    rekomendasi_barang.no_rekomendasibarang AS nomor,
+    validasipobarang_t.no_pobarang AS no_transaksi,
+    validasipobarang_t.supplier_id,
+    supplier_m.supplier_nama,
+    validasipobarang_t.ruangan_id,
+    ruangan_m.ruangan_nama,
+    instalasi_m.instalasi_nama,
+    validasipobarang_t.is_validasi,
+        CASE
+            WHEN validasipobarang_t.is_validasi = false THEN 'Belum Validasi'::text
+            ELSE 'Sudah Validasi'::text
+        END AS status_validasi,
+    validasipobarang_t.status_penerimaan,
+    fgetnamalookup(validasipobarang_t.status_penerimaan) AS stat_penerimaan,
+    payterm_m.jumlah_hari AS payment_term,
+    validasipobarang_t.total AS total_harga_po,
+    validasipobarang_t.tgl_rencanaterima,
+    validasipobarang_t.peg_mengetahui_id,
+    peg_mengetahui.nama_pegawai AS peg_mengetahui,
+    validasipobarang_t.peg_menyetujui_id,
+    peg_menyetujui.nama_pegawai AS peg_menyetujui,
+    validasipobarang_t.sub_total,
+    validasipobarang_t.total_discount,
+    validasipobarang_t.ppn_persen,
+    validasipobarang_t.ppn_nilai,
+    validasipobarang_t.total,
+    validasipobarang_t.status_penerimaan AS lookup_id,
+    payterm_m.payterm_id,
+    validasipobarang_t.diorder_oleh,
+    diorder_oleh.nama_pegawai AS diorder_oleh_nama,
+    validasipobarang_t.pajak_id,
+    validasipobarang_t.catatan1,
+    validasipobarang_t.catatan2,
+    validasipobarang_t.is_closing,
+    ruangan_m.instalasi_id
+   FROM validasipobarang_t
+     JOIN supplier_m ON validasipobarang_t.supplier_id = supplier_m.supplier_id
+     JOIN ruangan_m ON validasipobarang_t.ruangan_id = ruangan_m.ruangan_id
+     JOIN instalasi_m ON ruangan_m.instalasi_id = instalasi_m.instalasi_id
+     LEFT JOIN payterm_m ON validasipobarang_t.payterm_id = payterm_m.payterm_id
+     LEFT JOIN pegawai_m peg_mengetahui ON validasipobarang_t.peg_mengetahui_id = peg_mengetahui.pegawai_id
+     LEFT JOIN pegawai_m peg_menyetujui ON validasipobarang_t.peg_menyetujui_id = peg_menyetujui.pegawai_id
+     LEFT JOIN pegawai_m diorder_oleh ON validasipobarang_t.diorder_oleh = diorder_oleh.pegawai_id
+     LEFT JOIN ( SELECT rekomendasibarang_t.no_rekomendasibarang,
+            rekomendasibarang_t.tgl_rekomendasibarang,
+            validasipobarangdetail_t.validasipobarang_id
+           FROM rekomendasibarang_t
+             JOIN rekomendasibarangdetail_t ON rekomendasibarang_t.rekomendasibarang_id = rekomendasibarangdetail_t.rekomendasibarang_id
+             JOIN validasipobarangdetail_t ON rekomendasibarangdetail_t.rekomendasibarangdetail_id = validasipobarangdetail_t.rekomendasibarangdetail_id
+          GROUP BY rekomendasibarang_t.no_rekomendasibarang, rekomendasibarang_t.tgl_rekomendasibarang, validasipobarangdetail_t.validasipobarang_id) rekomendasi_barang ON validasipobarang_t.validasipobarang_id = rekomendasi_barang.validasipobarang_id
+  WHERE validasipobarang_t.is_deleted = false;");
+        
+        $this->execute('ALTER TABLE "public"."infopo_v" OWNER TO "postgres";');
+
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
+    {
+        echo "m201222_094215_migrate_20201222_infopo_v cannot be reverted.\n";
+
+        return false;
+    }
+
+    /*
+    // Use up()/down() to run migration code without a transaction.
+    public function up()
+    {
+
+    }
+
+    public function down()
+    {
+        echo "m201222_094215_migrate_20201222_infopo_v cannot be reverted.\n";
+
+        return false;
+    }
+    */
+}

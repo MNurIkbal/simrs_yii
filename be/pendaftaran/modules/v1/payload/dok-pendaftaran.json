@@ -1,0 +1,75 @@
+{
+    "tipe_pasien" : {
+        "asalrujukan_id" : 2,
+        "carabayar_id" : 5,
+        "no_rekam_medik" : "0000001",
+        "penjamin_id" : 1
+    },
+    "kunjungan" : {
+        "dokter_id": 1,
+        "is_pj" : 0,
+        "jeniskasuspenyakit_id":1,
+        "keadaan_masuk" : "",
+        "kelaspelayanan_id" : 1,
+        "keterangan": "Dadang Kriptograp",
+        "ruangan_id": 1,
+        "tgl_pendaftaran": "05-08-2019 12:05",
+        "tindakan_karcis": "[2,1053,5]",
+        "transportasi": ""
+    },
+    "rujukan" : {
+        "diagnosa_id" : 748,
+        "nama_perujuk" : "Maman",
+        "no_rujukan":"8127389",
+        "rujukandari_id": 40,
+        "tanggal_rujukan": "08-11-1993"
+    },
+    "pj_pasien" : {
+        "pj_pengantar" : 240,
+        "pj_nama": "Setyabudi Dwisandi Arifin",
+        "pj_jk": 15
+    },
+    "asuransi" : {
+        "kelastanggungan_id": "1",
+        "namapemilikasuransi": "Dwi Rahmat Zuliyanto",
+        "namaperusahaan": "PT. Docotel x",
+        "nokartuasuransi": "000001",
+        "nomorpokokperusahaan": "00001",
+        "status_konfirmasi": "0",
+        "tgl_konfirmasi": ""
+    },
+    "bpjs" : {
+        "asal_rujukan": "1",
+        "catatan_sep": "Dadang",
+        "cob": null,
+        "diagnosa_awal": "B60.1",
+        "jenis_kartu": "1",
+        "jenis_pelayanan": "2",
+        "jenis_rujukan": "2",
+        "kasus_kecelakaan": "0",
+        "katarak": "1",
+        "kelas_rawat": "1",
+        "keterangan": "",
+        "kode_dpjp": "",
+        "kode_kabupaten": null,
+        "kode_kecamatan": null,
+        "kode_provinsi": "",
+        "nama_pasien": null,
+        "noKartu": null,
+        "no_asuransi": null,
+        "no_kartu": "0001889207357 ",
+        "no_rekam_medik": "00000042",
+        "no_rujukan": "123321",
+        "no_rujukan_f": "",
+        "no_sep_suplesi": "",
+        "no_surat_kontrol": "",
+        "no_telp": "08123456789",
+        "poli_eksekutif": "1",
+        "poli_tujuan": "022",
+        "ppk_rujukan": "00040006",
+        "status_suplesi": "0",
+        "tanggal_kejadian": "2019-08-27",
+        "tanggal_rujukan": "2019-08-27",
+        "tanggal_sep": "2019-08-27"
+    }
+}

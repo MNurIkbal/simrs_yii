@@ -1,0 +1,85 @@
+vendor/
+.vscode/
+
+bankdarah/*
+informasi/*
+ambulan/*
+jenazah/*
+rajal/*
+bedahsentral/*
+rm/*
+kasir/*
+apotek/*
+pendaftaran/*
+antrian/*
+master/*
+gudang/*
+ranap/*
+radiologi/*
+bedah/*
+igd/*
+pengadaan/*
+gizi/*
+penjamin-asuransi/*
+sinkronisasi/*
+
+/bankdarah/*
+/ambulan/*
+/jenazah/*
+/informasi/*
+/bedahsentral/*
+/rajal/*
+/rm/*
+/radiologi/*
+/kasir/*
+/apotek/*
+/pendaftaran/*
+/antrian/*
+/master/*
+/gudang/*
+/laboratorium/*
+/radiologi/*
+/ranap/*
+/bedah/*
+/igd/*
+/pengadaan/*
+/gizi/*
+/penjamin-asuransi/*
+/sinkronisasi/*
+
+runtime/
+config/env/*
+/corecomponents/temp/*
+corecomponents/src/temp/
+
+# phpstorm project files
+.idea
+
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# windows thumbnail cache
+Thumbs.db
+
+# composer vendor dir
+/vendor
+
+# composer itself is not needed
+composer.phar
+
+# Mac DS_Store Files
+.DS_Store
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+
+tests/_output/*
+tests/_support/_generated
+config/env/.env

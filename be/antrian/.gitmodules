@@ -1,0 +1,3 @@
+[submodule "antrian"]
+	path = antrian
+	url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-antrian.git

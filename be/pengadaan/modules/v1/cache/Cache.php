@@ -1,0 +1,74 @@
+<?php
+
+/**
+* @author yaya
+**/
+
+namespace app\modules\v1\cache;
+
+use Yii;
+
+use Doco\components\DocoConstants;
+use app\modules\v1\models\Ruangan;
+use app\modules\v1\models\Instalasi;
+use app\modules\v1\models\Lookup;
+use app\modules\v1\models\CaraBayar;
+use app\modules\v1\models\KonfigFarmasi;
+
+class Cache {
+
+    const AUTO_VALIDASI = 'AUTO_VALIDASI';
+
+    public static function getListRuangan($instalasi_id = '')
+    {
+        return Yii::$app->cache->getOrSet(DocoConstants::CACHE_RUANGAN .'-'. $instalasi_id, 
+                            function ($cache) use ($instalasi_id) {
+            $query = Ruangan::find()->where(['is_active' => true]);
+            if ($instalasi_id) {
+                $query->andWhere(['instalasi_id' => $instalasi_id]);
+            }
+            return $query->all();
+        });
+    }
+
+    public static function getListInstalasi()
+    {
+        return Yii::$app->cache->getOrSet(DocoConstants::CACHE_INSTALASI, function ($cache) {
+            $query = Instalasi::find()->where(['is_active' => 't']);
+            return $query->all();
+        });
+    }
+
+    public static function getListStatus()
+    {
+        return Yii::$app->cache->getOrSet(DocoConstants::STATUS_KIRIM, function ($cache) {
+            $query = Lookup::find()->where(['lookup_type' => 'status_kirim']);
+            return $query->all();
+        });
+    }
+
+
+    /**
+    * @var $duration intger untuk seting duration cache
+    * @return array
+    **/
+
+    public static function getCaraBayar($duration = 3600)
+    {
+        return Yii::$app->cache->getOrSet(DocoConstants::CACHE_CB, function ($cache) {
+            return CaraBayar::find()->where([
+                'is_active' => true
+            ])->all();
+        });
+    }
+
+    public static function getKonfigAutoValidasi()
+    {
+        return Yii::$app->cache->getOrSet(self::AUTO_VALIDASI, function ($cache) {
+            return KonfigFarmasi::find()->select(['auto_validasi_po_manual'])->where([
+                'is_active' => true
+            ])->scalar();
+        });
+    }
+
+}

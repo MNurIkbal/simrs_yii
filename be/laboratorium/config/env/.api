@@ -1,0 +1,48 @@
+;---------------- List Integrasi Internal -----------------------
+[internal]
+dcms = "http://localhost:8858/dcms/v1/"
+master = "http://localhost:8858/master/v1/"
+antrian = "http://localhost:8858/antrian/v1/"
+pendaftaran = "http://localhost:8858/pendaftaran/v1/"
+rajal = "http://localhost:8858/rajal/v1/"
+kasir = "http://localhost:8858/kasir/v1/"
+apotek = "http://localhost:8858/apotek/v1/"
+ambulan = "http://localhost:8858/ambulan/v1/"
+bedahsentral = "http://localhost:8858/bedah/v1/"
+bedah = "http://localhost:8858/bedah/v1/"
+gizi = "http://localhost:8858/gizi/v1/"
+gudang = "http://localhost:8858/gudang/v1/"
+igd = "http://localhost:8858/igd/v1/"
+informasi = "http://localhost:8858/informasi/v1/"
+jenazah = "http://localhost:8858/jenazah/v1/"
+laboratorium = "http://localhost:8858/laboratorium/v1/"
+pengadaan = "http://localhost:8858/pengadaan/v1/"
+penjaminasuransi = "http://localhost:8858/penjaminasuransi/v1/"
+radiologi = "http://localhost:8858/radiologi/v1/"
+ranap = "http://localhost:8858/ranap/v1/"
+rm = "http://localhost:8858/rm/v1/"
+bankdarah = "http://localhost:8858/bankdarah/v1/"
+penatajasa = "http://localhost:8858/penatajasa/v1/"
+mcu = "http://localhost:8858/mcu/v1/"
+
+;--------------- List Integrasi External ------------------------
+[external]
+;akuntansi = "Akunting"
+ris = "Ris"
+;mhg = "Mhg"
+odoo = "Odoo"
+roche = "Roche"
+
+[extensions]
+rajal:reseptur = "Extensions\reseptur\ResepturTypeAlpha"
+rajal:tindakan_bmhp = "Extensions\bmhp\TindakanBmhpWithApproval"
+;kasir:cetak_invoice = "Extensions\kasir\CetakInvoiceKramat"
+;kasir:cetak_invoice = "Extensions\kasir\CetakInvoiceMhbg"
+
+
+
+;kasir:cetak_detail_invoice = "Extensions\kasir\CetakDetailInvoiceBg"
+;bedahsentral:get_bills = "Extensions\bedah\GetBills"
+;bedahsentral:save_bills = "Extensions\bedah\SaveBills"
+;bedahsentral:save_verifikasi = "Extensions\bedah\SaveVerifikasi"
+;bedahsentral:save_verifikasi = "Extensions\bedah\SaveVerifikasi"

@@ -1,0 +1,372 @@
+<?php
+
+namespace app\modules\v1\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "asesmenperawatrd_t".
+ *
+ * @property int $asesmenperawatrd_id
+ * @property int $pendaftaran_id
+ * @property int $ruangan_id
+ * @property string $tgl_asesmen
+ * @property int $perawat_id
+ * @property string $tgl_pendaftaran
+ * @property string $tgl_datang
+ * @property int $prioritas_triage 1=merah, 2=kuning, 3=hijau, 4=hitam
+ * @property bool $is_trauma
+ * @property int $pasien_datang lookup_m.lookup_type='pengantar'
+ * @property int $jenis_asmenperawat lookupkeperawatan_m.lookup_type='jenis_asmen_perawat'
+ * @property string $alasan_kunjungan
+ * @property bool $is_alergi
+ * @property bool $is_alergiobat
+ * @property string $alergi_obat
+ * @property bool $is_alergilainnya
+ * @property string $alergi_lainnya
+ * @property int $keadaan_umum lookupkeperawatan_m.lookup_type='keadaan_umum'
+ * @property bool $is_nyeri
+ * @property string $lokasi_nyeri
+ * @property int $skala_nyeri
+ * @property string $metode_nyeri
+ * @property bool $is_resikojatuh update pendaftaran_t.label_gelang -->"alergi":"#8B0000"
+ * @property string $keluhan
+ * @property int $lama_sakit
+ * @property string $r_penyakitdahulu
+ * @property string $r_penyakitkeluarga
+ * @property string $catatan_asesmen
+ * @property int $gcseye_id
+ * @property int $gcsverbal_id
+ * @property int $gcsmotorik_id
+ * @property string $hasil_gcs
+ * @property bool $is_kapitis
+ * @property double $td_systolic
+ * @property double $td_diastolic
+ * @property string $tekanan_darah
+ * @property string $hasil_td
+ * @property double $detak_nadi
+ * @property double $pernapasan
+ * @property double $suhu_tubuh
+ * @property double $tinggi_badan
+ * @property double $berat_badan
+ * @property double $bb_ideal
+ * @property double $imt
+ * @property string $ket_imt
+ * @property double $spo2
+ * @property string $kelaianan_tubuh
+ * @property string $detail_asesmen
+ * @property string $additional_data
+ * @property string $created_date
+ * @property int $created_by
+ * @property int $modified_count
+ * @property string $last_modified_date
+ * @property int $last_modified_by
+ * @property bool $is_deleted
+ * @property bool $is_active
+ * @property string $deleted_date
+ * @property int $deleted_by
+ */
+class AsesmenPerawatRD extends \Doco\components\DocoActiveRecord
+{
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'asesmenperawatrd_t';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['pendaftaran_id', 'ruangan_id', 'perawat_id', 'tgl_pendaftaran', 'tgl_asesmen', 'tgl_datang', 'prioritas_triage', 'pasien_datang', 'jenis_asmenperawat', 'is_nyeri', 'alasan_kunjungan', 'is_alergi', 'keadaan_umum', 'is_nyeri', 'is_resikojatuh', 'keluhan', 'gcsmotorik_id', 'td_systolic', 'td_diastolic', 'detak_nadi', 'pernapasan', 'suhu_tubuh', 'tinggi_badan', 'berat_badan', 'spo2'], 'required'],
+            ['alergi_obat', 'required', 'when' => function ($model) {
+                return $model->is_alergiobat && $model->is_alergi == 1;
+            }],
+            ['alergi_lainnya', 'required', 'when' => function ($model) {
+                return $model->is_alergilainnya && $model->is_alergi == 1;
+            }],
+            ['lokasi_nyeri', 'required', 'when' => function ($model) {
+                return $model->is_nyeri == 1;
+            }],
+            ['skala_nyeri', 'required', 'when' => function ($model) {
+                return $model->is_nyeri == 1;
+            }],
+            ['metode_nyeri', 'required', 'when' => function ($model) {
+                return $model->is_nyeri == 1;
+            }],
+            [['asesmenperawatrd_id', 'pendaftaran_id', 'ruangan_id', 'perawat_id', 'prioritas_triage', 'pasien_datang', 'jenis_asmenperawat', 'skala_nyeri', 'lama_sakit', 'gcseye_id', 'gcsverbal_id', 'gcsmotorik_id', 'keadaan_umum', 'metode_nyeri'], 'integer'],
+            [['tgl_asesmen', 'tgl_pendaftaran'], 'date', 'format' => 'yyyy-M-d H:m:s'],
+            [
+                [
+                    'pendaftaran_id',
+                    'ruangan_id',
+                    'tgl_asesmen',
+                    'perawat_id',
+                    'tgl_pendaftaran',
+                    'tgl_datang',
+                    'prioritas_triage',
+                    'is_trauma',
+                    'pasien_datang',
+                    'jenis_asmenperawat',
+                    'alasan_kunjungan',
+                    'is_alergi',
+                    'is_alergiobat',
+                    'alergi_obat',
+                    'is_alergilainnya',
+                    'alergi_lainnya',
+                    'keadaan_umum',
+                    'is_nyeri',
+                    'lokasi_nyeri',
+                    'skala_nyeri',
+                    'metode_nyeri',
+                    'is_resikojatuh',
+                    'keluhan',
+                    'lama_sakit',
+                    'r_penyakitdahulu',
+                    'r_penyakitkeluarga',
+                    'catatan_asesmen',
+                    'gcseye_id',
+                    'gcsverbal_id',
+                    'gcsmotorik_id',
+                    'hasil_gcs',
+                    'is_kapitis',
+                    'td_systolic',
+                    'td_diastolic',
+                    'tekanan_darah',
+                    'hasil_td',
+                    'detak_nadi',
+                    'pernapasan',
+                    'suhu_tubuh',
+                    'tinggi_badan',
+                    'berat_badan',
+                    'bb_ideal',
+                    'imt',
+                    'ket_imt',
+                    'spo2',
+                    'kelaianan_tubuh',
+                    'detail_asesmen',
+                    'additional_data',
+                    'created_date',
+                    'created_by',
+                    'modified_count',
+                    'last_modified_date',
+                    'last_modified_by',
+                    'deleted_date',
+                    'deleted_by',
+                    'formulir_triage',
+                    'formulir_fisik',
+                    'tgl_keluar',
+                    'agama_id',
+                    'pekerjaan_id',
+                    'caramasuk_id',
+                    'pendidikan_id',
+                    'jalur_nafas',
+                    'jalur_nafas_oksigen',
+                    'pernafasan',
+                    'pernafasan_spontan',
+                    'pernafasan_takipnea',
+                    'tensi',
+                    'reguler',
+                    'ireguler',
+                    'capilary_refill',
+                    'perfusi',
+                    'akral',
+                    'pendarahan',
+                    'pendarahan_cc',
+                    'is_bradikarida',
+                    'is_takikardia',
+                    'pupil',
+                    'reaksi_pupil',
+                    'reaksi_pupil_lainnya',
+                    'kepala',
+                    'abdomen',
+                    'maksilofacial',
+                    'parineum',
+                    'tulan_leher',
+                    'muskuloskeletal',
+                    'paru_paru',
+                    'extremitas',
+                    'skala_wong_baker',
+                    'asesmen_auto',
+                    'asesmen_allo',
+                    'r_penyakitsaatini',
+                    'r_pengobatan',
+                    'jalan_nafas_bersin',
+                    'nilai_decubitus',
+                    'nilai_luka_bakar',
+                    'survey_kepala',
+                    'survey_kepala_lacerasi',
+                    'survey_kepala_battle_sign',
+                    'survey_kepala_lainnya',
+                    'survey_mata',
+                    'survey_mulut',
+                    'survey_mulut_luka_dalam',
+                    'survey_mulut_lainnya',
+                    'survey_telinga',
+                    'survey_leher',
+                    'survey_leher_lainnya',
+                    'survey_extremitas',
+                    'survey_extremitas_pulsasi',
+                    'survey_dada',
+                    'survey_dada_simetris_asimetris',
+                    'survey_dada_pneumo_hamatotoraks',
+                    'survey_dada_nyeri_lokasi',
+                    'survey_dada_nyeri_kapan',
+                    'survey_dada_nyeri_durasi',
+                    'survey_dada_nyeri_kegiatan',
+                    'survey_dada_bunyi_jantung',
+                    'survey_abdomen',
+                    'survey_abdomen_memas',
+                    'survey_abdomen_nyeri',
+                    'survey_abdomen_lainnya',
+                    'survey_abdomen_bising_usus',
+                    'survey_pelvis',
+                    'survey_pelvis_lainnya',
+                    'survey_medulla_spinalis',
+                    'survey_kolumna_vertebralis',
+                    'perasaan_klien',
+                    'sosial_support',
+                    'hubungan_pasien',
+                    'keluarga_lain',
+                    'keadaan_emosi',
+                    'suku_id',
+                    'bahasa_dipakai',
+                    'bahasa_dipakai_lainnya',
+                    'is_penerjemah',
+                    'media',
+                    'media_lainnya',
+                    'identifikasi_hambatan',
+                    'is_sistem_rujukan',
+                    'materi',
+                    'edukator',
+                    'is_ketersediaan_pasien',
+                    'is_kemampuan_membaca',
+                    'bahasa',
+                    'is_dibutuhkan_penerjemah',
+                    'penerjemah_bahasa',
+                    'is_hambatan_emotional',
+                    'hambatan_emotional_lainnya',
+                    'is_keterbatasan_fisik',
+                    'keterbatasan_fisik',
+                    'bersihan_jalan',
+                    'pola_nafas',
+                    'gangguan_gas',
+                    'nyeri',
+                    'penurunan_jantung',
+                    'gangguan_perfusi_cerebral',
+                    'gangguan_perfusi_perifer',
+                    'valume_cairan_tubuh',
+                    'gangguan_thermoregulasi_hypertermi',
+                    'gangguan_thermoregulasi_hypotermi',
+                    'tujuan_pulang',
+                    'tujuan_pulang_lainnya',
+                    'transportasi',
+                    'orang_merawat',
+                    'sarana_kesehatan',
+                    'masuk_ke',
+                    'persen_luka_bakar',
+                    'kategori_triase_sehari',
+                    'kategori_triase_disaster',
+                    'nutrisi_1a',
+                    'nutrisi_1b',
+                    'nutrisi_2',
+                    'diagnosa_khusus',
+                    'jenis_diagnosa_khusus',
+                    'strongkids_kurus',
+                    'strongkids_turunbb',
+                    'strongkids_kondisikhusus',
+                    'strongkids_keadaan_beresiko',
+                    'resusitasi',
+                    'extremitas_utuh',
+                    'extremitas_fraktur',
+                    'extremitas_nyeri',
+                    'extremitas_deformitas',
+                    'extremitas_defisit_neurologis',
+                    'extremitas_jejas',
+                    'extremitas_pulsasi',
+                    'is_verifikasigizi',
+                    'pegawaiverifikasigizi_id',
+                    'pegawaiverifikasigizi_nama',
+                    'tgl_verifikasi'
+                ],
+                'safe'
+            ],
+            [['is_verifikasigizi'], 'default', 'value' => false],
+            [['is_alergi', 'is_nyeri', 'is_resikojatuh', 'is_kapitis'], 'boolean'],
+            [['alasan_kunjungan', 'keluhan', 'r_penyakitkeluarga', 'catatan_asesmen', 'kelaianan_tubuh', 'formulir_triage', 'formulir_fisik'], 'string'],
+            [['tinggi_badan', 'berat_badan', 'bb_ideal', 'imt',  'td_systolic', 'td_diastolic', 'detak_nadi', 'pernapasan', 'suhu_tubuh', 'spo2'], 'number'],
+            [['ket_imt'], 'string', 'max' => 100]
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'asesmenperawatrd_id' => 'Asesmenperawatrd ID',
+            'pendaftaran_id' => 'Pendaftaran ID',
+            'ruangan_id' => 'Ruangan ID',
+            'tgl_asesmen' => 'Tgl Asesmen',
+            'perawat_id' => 'Perawat ID',
+            'tgl_pendaftaran' => 'Tgl Pendaftaran',
+            'tgl_datang' => 'Tgl Datang',
+            'prioritas_triage' => 'Prioritas Triage',
+            'is_trauma' => 'Is Trauma',
+            'pasien_datang' => 'Pasien Datang',
+            'jenis_asmenperawat' => 'Jenis Asmenperawat',
+            'alasan_kunjungan' => 'Alasan Kunjungan',
+            'is_alergi' => 'Is Alergi',
+            'is_alergiobat' => 'Is Alergiobat',
+            'alergi_obat' => 'Alergi Obat',
+            'is_alergilainnya' => 'Is Alergilainnya',
+            'alergi_lainnya' => 'Alergi Lainnya',
+            'keadaan_umum' => 'Keadaan Umum',
+            'is_nyeri' => 'Is Nyeri',
+            'lokasi_nyeri' => 'Lokasi Nyeri',
+            'skala_nyeri' => 'Skala Nyeri',
+            'metode_nyeri' => 'Metode Nyeri',
+            'is_resikojatuh' => 'Is Resikojatuh',
+            'keluhan' => 'Keluhan',
+            'lama_sakit' => 'Lama Sakit',
+            'r_penyakitdahulu' => 'R Penyakitdahulu',
+            'r_penyakitkeluarga' => 'R Penyakitkeluarga',
+            'catatan_asesmen' => 'Catatan Asesmen',
+            'gcseye_id' => 'Gcseye ID',
+            'gcsverbal_id' => 'Gcsverbal ID',
+            'gcsmotorik_id' => 'Gcsmotorik ID',
+            'hasil_gcs' => 'Hasil Gcs',
+            'is_kapitis' => 'Is Kapitis',
+            'td_systolic' => 'Td Systolic',
+            'td_diastolic' => 'Td Diastolic',
+            'tekanan_darah' => 'Tekanan Darah',
+            'hasil_td' => 'Hasil Td',
+            'detak_nadi' => 'Detak Nadi',
+            'pernapasan' => 'Pernapasan',
+            'suhu_tubuh' => 'Suhu Tubuh',
+            'tinggi_badan' => 'Tinggi Badan',
+            'berat_badan' => 'Berat Badan',
+            'bb_ideal' => 'Bb Ideal',
+            'imt' => 'Imt',
+            'ket_imt' => 'Ket Imt',
+            'spo2' => 'Spo2',
+            'kelaianan_tubuh' => 'Kelaianan Tubuh',
+            'detail_asesmen' => 'Detail Asesmen',
+            'additional_data' => 'Additional Data',
+            'created_date' => 'Created Date',
+            'created_by' => 'Created By',
+            'modified_count' => 'Modified Count',
+            'last_modified_date' => 'Last Modified Date',
+            'last_modified_by' => 'Last Modified By',
+            'is_deleted' => 'Is Deleted',
+            'is_active' => 'Is Active',
+            'deleted_date' => 'Deleted Date',
+            'deleted_by' => 'Deleted By',
+        ];
+    }
+}

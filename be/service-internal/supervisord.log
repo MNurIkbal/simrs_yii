@@ -1,0 +1,223 @@
+2024-12-02 17:43:52,521 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-12-02 17:43:52,527 INFO supervisord started with pid 1
+2024-12-02 17:43:53,531 INFO spawned: 'docolisten' with pid 8
+2024-12-02 17:43:53,535 INFO spawned: 'nginx' with pid 9
+2024-12-02 17:43:53,538 INFO spawned: 'php-fpm' with pid 10
+2024-12-02 17:43:54,642 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-12-02 17:43:54,642 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-12-02 17:43:54,642 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-12-02 17:44:02,651 WARN received SIGQUIT indicating exit request
+2024-12-02 17:44:02,652 INFO waiting for docolisten, nginx, php-fpm to die
+2024-12-02 17:44:02,659 INFO stopped: php-fpm (exit status 0)
+2024-12-02 17:44:02,718 INFO stopped: nginx (exit status 0)
+2024-12-02 17:44:02,721 INFO stopped: docolisten (terminated by SIGTERM)
+2024-12-02 17:45:10,227 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-12-02 17:45:10,234 INFO supervisord started with pid 1
+2024-12-02 17:45:11,238 INFO spawned: 'docolisten' with pid 8
+2024-12-02 17:45:11,241 INFO spawned: 'nginx' with pid 9
+2024-12-02 17:45:11,250 INFO spawned: 'php-fpm' with pid 10
+2024-12-02 17:45:12,365 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-12-02 17:45:12,365 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-12-02 17:45:12,366 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-12-02 17:48:21,641 WARN received SIGQUIT indicating exit request
+2024-12-02 17:48:21,766 INFO waiting for docolisten, nginx, php-fpm to die
+2024-12-02 17:48:21,801 INFO stopped: php-fpm (exit status 0)
+2024-12-02 17:48:21,852 INFO stopped: nginx (exit status 0)
+2024-12-02 17:48:21,855 INFO stopped: docolisten (terminated by SIGTERM)
+2024-12-02 17:48:37,912 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-12-02 17:48:37,917 INFO supervisord started with pid 1
+2024-12-02 17:48:38,922 INFO spawned: 'docolisten' with pid 8
+2024-12-02 17:48:38,928 INFO spawned: 'nginx' with pid 9
+2024-12-02 17:48:38,933 INFO spawned: 'php-fpm' with pid 10
+2024-12-02 17:48:40,139 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-12-02 17:48:40,139 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-12-02 17:48:40,139 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-08 09:40:50,177 INFO exited: docolisten (exit status 255; not expected)
+2025-01-08 09:40:51,187 INFO spawned: 'docolisten' with pid 79
+2025-01-08 09:40:52,189 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-08 10:09:46,951 INFO exited: docolisten (exit status 255; not expected)
+2025-01-08 10:09:47,955 INFO spawned: 'docolisten' with pid 82
+2025-01-08 10:09:48,957 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-08 10:35:30,455 INFO exited: docolisten (exit status 255; not expected)
+2025-01-08 10:35:31,460 INFO spawned: 'docolisten' with pid 84
+2025-01-08 10:35:32,463 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-15 10:54:53,962 WARN received SIGQUIT indicating exit request
+2025-04-15 10:54:53,969 INFO waiting for docolisten, nginx, php-fpm to die
+2025-04-15 10:54:54,070 INFO stopped: php-fpm (exit status 0)
+2025-04-15 10:54:54,070 INFO exited: docolisten (exit status 255; not expected)
+2025-04-15 10:54:54,156 INFO stopped: nginx (exit status 0)
+2025-04-15 10:55:08,835 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-04-15 10:55:08,909 INFO supervisord started with pid 1
+2025-04-15 10:55:09,920 INFO spawned: 'docolisten' with pid 9
+2025-04-15 10:55:09,925 INFO spawned: 'nginx' with pid 10
+2025-04-15 10:55:09,939 INFO spawned: 'php-fpm' with pid 11
+2025-04-15 10:55:11,142 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-15 10:55:11,142 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-04-15 10:55:11,142 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 10:53:07,734 WARN received SIGQUIT indicating exit request
+2025-05-02 10:53:07,739 INFO waiting for docolisten, nginx, php-fpm to die
+2025-05-02 10:53:07,792 INFO stopped: php-fpm (exit status 0)
+2025-05-02 10:53:07,836 INFO exited: docolisten (exit status 255; not expected)
+2025-05-02 10:53:07,836 INFO stopped: nginx (exit status 0)
+2025-05-02 10:53:23,951 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-02 10:53:23,968 INFO supervisord started with pid 1
+2025-05-02 10:53:24,971 INFO spawned: 'docolisten' with pid 7
+2025-05-02 10:53:24,974 INFO spawned: 'nginx' with pid 8
+2025-05-02 10:53:24,981 INFO spawned: 'php-fpm' with pid 9
+2025-05-02 10:53:26,213 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 10:53:26,214 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 10:53:26,214 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 10:54:10,799 WARN received SIGQUIT indicating exit request
+2025-05-02 10:54:10,800 INFO waiting for docolisten, nginx, php-fpm to die
+2025-05-02 10:54:10,806 INFO exited: docolisten (exit status 255; not expected)
+2025-05-02 10:54:10,807 INFO stopped: php-fpm (exit status 0)
+2025-05-02 10:54:10,838 INFO stopped: nginx (exit status 0)
+2025-05-02 10:54:26,008 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-02 10:54:26,012 INFO supervisord started with pid 1
+2025-05-02 10:54:27,015 INFO spawned: 'docolisten' with pid 8
+2025-05-02 10:54:27,023 INFO spawned: 'nginx' with pid 9
+2025-05-02 10:54:27,044 INFO spawned: 'php-fpm' with pid 10
+2025-05-02 10:54:28,250 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 10:54:28,250 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 10:54:28,250 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 10:57:40,481 INFO exited: docolisten (exit status 255; not expected)
+2025-05-02 10:57:40,481 WARN received SIGQUIT indicating exit request
+2025-05-02 10:57:40,482 INFO waiting for nginx, php-fpm to die
+2025-05-02 10:57:40,488 INFO stopped: php-fpm (exit status 0)
+2025-05-02 10:57:40,530 INFO stopped: nginx (exit status 0)
+2025-05-02 10:57:53,714 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-02 10:57:53,718 INFO supervisord started with pid 1
+2025-05-02 10:57:54,721 INFO spawned: 'docolisten' with pid 8
+2025-05-02 10:57:54,724 INFO spawned: 'nginx' with pid 9
+2025-05-02 10:57:54,726 INFO spawned: 'php-fpm' with pid 10
+2025-05-02 10:57:55,926 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 10:57:55,926 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 10:57:55,926 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 12:48:14,523 WARN received SIGQUIT indicating exit request
+2025-05-02 12:48:14,528 INFO waiting for docolisten, nginx, php-fpm to die
+2025-05-02 12:48:14,692 INFO stopped: php-fpm (exit status 0)
+2025-05-02 12:48:14,751 INFO exited: docolisten (exit status 255; not expected)
+2025-05-02 12:48:14,751 INFO stopped: nginx (exit status 0)
+2025-05-02 12:48:28,221 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-02 12:48:28,240 INFO supervisord started with pid 1
+2025-05-02 12:48:29,245 INFO spawned: 'docolisten' with pid 7
+2025-05-02 12:48:29,248 INFO spawned: 'nginx' with pid 8
+2025-05-02 12:48:29,263 INFO spawned: 'php-fpm' with pid 9
+2025-05-02 12:48:30,664 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 12:48:30,664 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 12:48:30,664 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 12:49:08,250 WARN received SIGQUIT indicating exit request
+2025-05-02 12:49:08,253 INFO waiting for docolisten, nginx, php-fpm to die
+2025-05-02 12:49:08,313 INFO exited: docolisten (exit status 255; not expected)
+2025-05-02 12:49:08,313 INFO stopped: php-fpm (exit status 0)
+2025-05-02 12:49:08,364 INFO stopped: nginx (exit status 0)
+2025-05-02 12:49:20,988 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-02 12:49:21,005 INFO supervisord started with pid 1
+2025-05-02 12:49:22,010 INFO spawned: 'docolisten' with pid 8
+2025-05-02 12:49:22,015 INFO spawned: 'nginx' with pid 9
+2025-05-02 12:49:22,023 INFO spawned: 'php-fpm' with pid 10
+2025-05-02 12:49:23,291 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 12:49:23,291 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 12:49:23,291 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 12:52:41,817 WARN received SIGQUIT indicating exit request
+2025-05-02 12:52:41,823 INFO waiting for docolisten, nginx, php-fpm to die
+2025-05-02 12:52:41,927 INFO stopped: php-fpm (exit status 0)
+2025-05-02 12:52:41,983 INFO stopped: nginx (exit status 0)
+2025-05-02 12:52:41,987 INFO stopped: docolisten (terminated by SIGTERM)
+2025-05-02 12:53:01,232 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-02 12:53:01,249 INFO supervisord started with pid 1
+2025-05-02 12:53:02,257 INFO spawned: 'docolisten' with pid 7
+2025-05-02 12:53:02,279 INFO spawned: 'nginx' with pid 8
+2025-05-02 12:53:02,296 INFO spawned: 'php-fpm' with pid 9
+2025-05-02 12:53:03,525 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 12:53:03,525 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 12:53:03,531 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 12:55:21,557 WARN received SIGQUIT indicating exit request
+2025-05-02 12:55:21,562 INFO waiting for docolisten, nginx, php-fpm to die
+2025-05-02 12:55:21,615 INFO exited: docolisten (exit status 255; not expected)
+2025-05-02 12:55:21,616 INFO stopped: php-fpm (exit status 0)
+2025-05-02 12:55:21,648 INFO stopped: nginx (exit status 0)
+2025-05-02 12:55:34,984 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-02 12:55:34,993 INFO supervisord started with pid 1
+2025-05-02 12:55:35,996 INFO spawned: 'docolisten' with pid 8
+2025-05-02 12:55:36,005 INFO spawned: 'nginx' with pid 9
+2025-05-02 12:55:36,043 INFO spawned: 'php-fpm' with pid 10
+2025-05-02 12:55:37,241 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 12:55:37,242 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 12:55:37,242 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 13:51:44,547 WARN received SIGQUIT indicating exit request
+2025-05-02 13:51:44,553 INFO waiting for docolisten, nginx, php-fpm to die
+2025-05-02 13:51:44,554 INFO stopped: php-fpm (exit status 0)
+2025-05-02 13:51:44,607 INFO stopped: nginx (exit status 0)
+2025-05-02 13:51:44,610 INFO stopped: docolisten (terminated by SIGTERM)
+2025-05-02 13:52:01,232 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-02 13:52:01,258 INFO supervisord started with pid 1
+2025-05-02 13:52:02,263 INFO spawned: 'docolisten' with pid 8
+2025-05-02 13:52:02,267 INFO spawned: 'nginx' with pid 9
+2025-05-02 13:52:02,279 INFO spawned: 'php-fpm' with pid 10
+2025-05-02 13:52:03,439 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 13:52:03,440 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 13:52:03,440 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 13:55:59,579 WARN received SIGQUIT indicating exit request
+2025-05-02 13:55:59,580 INFO waiting for docolisten, nginx, php-fpm to die
+2025-05-02 13:55:59,586 INFO exited: docolisten (exit status 255; not expected)
+2025-05-02 13:55:59,586 INFO stopped: php-fpm (exit status 0)
+2025-05-02 13:55:59,633 INFO stopped: nginx (exit status 0)
+2025-05-02 13:56:15,082 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-02 13:56:15,098 INFO supervisord started with pid 1
+2025-05-02 13:56:16,102 INFO spawned: 'docolisten' with pid 8
+2025-05-02 13:56:16,106 INFO spawned: 'nginx' with pid 9
+2025-05-02 13:56:16,126 INFO spawned: 'php-fpm' with pid 10
+2025-05-02 13:56:17,375 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 13:56:17,376 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 13:56:17,376 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 13:56:41,988 WARN received SIGQUIT indicating exit request
+2025-05-02 13:56:41,988 INFO waiting for docolisten, nginx, php-fpm to die
+2025-05-02 13:56:41,993 INFO exited: docolisten (exit status 255; not expected)
+2025-05-02 13:56:41,998 INFO stopped: php-fpm (exit status 0)
+2025-05-02 13:56:42,038 INFO stopped: nginx (exit status 0)
+2025-05-02 13:56:57,527 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-02 13:56:57,535 INFO supervisord started with pid 1
+2025-05-02 13:56:58,539 INFO spawned: 'docolisten' with pid 7
+2025-05-02 13:56:58,542 INFO spawned: 'nginx' with pid 8
+2025-05-02 13:56:58,561 INFO spawned: 'php-fpm' with pid 9
+2025-05-02 13:56:59,773 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 13:56:59,773 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 13:56:59,773 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 14:11:20,016 WARN received SIGQUIT indicating exit request
+2025-05-02 14:11:20,016 INFO waiting for docolisten, nginx, php-fpm to die
+2025-05-02 14:11:20,027 INFO exited: docolisten (exit status 255; not expected)
+2025-05-02 14:11:20,028 INFO stopped: php-fpm (exit status 0)
+2025-05-02 14:11:20,075 INFO stopped: nginx (exit status 0)
+2025-05-02 14:11:33,331 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-02 14:11:33,365 INFO supervisord started with pid 1
+2025-05-02 14:11:34,370 INFO spawned: 'docolisten' with pid 8
+2025-05-02 14:11:34,374 INFO spawned: 'nginx' with pid 9
+2025-05-02 14:11:34,388 INFO spawned: 'php-fpm' with pid 10
+2025-05-02 14:11:35,664 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 14:11:35,665 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-02 14:11:35,665 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-06-04 14:14:53,907 INFO exited: docolisten (exit status 255; not expected)
+2025-06-04 14:14:54,920 INFO spawned: 'docolisten' with pid 178
+2025-06-04 14:14:55,922 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-09-08 15:23:25,308 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-09-08 15:23:25,342 INFO supervisord started with pid 1
+2025-09-08 15:23:26,347 INFO spawned: 'docolisten' with pid 8
+2025-09-08 15:23:26,395 INFO spawned: 'nginx' with pid 9
+2025-09-08 15:23:26,447 INFO spawned: 'php-fpm' with pid 10
+2025-09-08 15:23:28,198 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-09-08 15:23:28,208 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-09-08 15:23:28,208 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-09-08 15:28:50,591 WARN received SIGQUIT indicating exit request
+2025-09-08 15:28:50,592 INFO waiting for docolisten, nginx, php-fpm to die
+2025-09-08 15:28:50,596 INFO stopped: php-fpm (exit status 0)
+2025-09-08 15:28:50,612 INFO stopped: nginx (exit status 0)
+2025-09-08 15:28:50,614 INFO stopped: docolisten (terminated by SIGTERM)
+2025-09-08 15:29:06,550 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-09-08 15:29:06,592 INFO supervisord started with pid 1
+2025-09-08 15:29:07,595 INFO spawned: 'docolisten' with pid 7
+2025-09-08 15:29:07,598 INFO spawned: 'nginx' with pid 8
+2025-09-08 15:29:07,601 INFO spawned: 'php-fpm' with pid 9
+2025-09-08 15:29:08,863 INFO success: docolisten entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-09-08 15:29:08,864 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-09-08 15:29:08,864 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)

@@ -1,0 +1,11 @@
+vendor*/
+.vscode/
+
+runtime/
+web/
+config/env/.env
+/corecomponents/temp/*
+corecomponents/src/temp/
+config/env/.api
+service-internal/Runtime/Cache
+supervisord.log/

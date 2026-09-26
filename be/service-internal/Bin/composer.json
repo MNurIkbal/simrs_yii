@@ -1,0 +1,8 @@
+{
+    "require": {
+        "hollodotme/fast-cgi-client": "^2.0",
+        "ext-redis": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

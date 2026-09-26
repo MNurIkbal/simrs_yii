@@ -1,0 +1,89 @@
+<?php
+
+namespace app\modules\v1\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "tariftindakanlab_v".
+ *
+ * @property int $tariftindakan_id
+ * @property int $ruangan_id
+ * @property string $ruangan_nama
+ * @property int $perdatarif_id
+ * @property string $perdanama_sk
+ * @property int $kelaspelayanan_id
+ * @property string $kelaspelayanan_nama
+ * @property int $penjamin_id
+ * @property string $penjamin_nama
+ * @property int $jenispemeriksaanlab_id
+ * @property string $jenispemeriksaanlab_nama
+ * @property int $daftartindakan_id
+ * @property string $daftartindakan_nama
+ * @property int $pemeriksaanlab_id
+ * @property string $pemeriksaanlab_nama
+ * @property int $komponentarif_id
+ * @property string $komponentarif_nama
+ * @property double $harga_tariftindakan
+ * @property int $persencyto_tindakan
+ * @property int $persendiskon_tindakan
+ * @property bool $is_default
+ */
+class TarifTindakanLabView extends \yii\db\ActiveRecord
+{
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'tariftindakanlab_v';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['tariftindakan_id', 'ruangan_id', 'perdatarif_id', 'kelaspelayanan_id', 'penjamin_id', 'jenispemeriksaanlab_id', 'daftartindakan_id', 'pemeriksaanlab_id', 'komponentarif_id', 'persencyto_tindakan', 'persendiskon_tindakan'], 'default', 'value' => null],
+            [['tariftindakan_id', 'ruangan_id', 'perdatarif_id', 'kelaspelayanan_id', 'penjamin_id', 'jenispemeriksaanlab_id', 'daftartindakan_id', 'pemeriksaanlab_id', 'komponentarif_id', 'persencyto_tindakan', 'persendiskon_tindakan'], 'integer'],
+            [['harga_tariftindakan'], 'number'],
+            [['is_default'], 'boolean'],
+            [['ruangan_nama', 'kelaspelayanan_nama', 'penjamin_nama'], 'string', 'max' => 50],
+            [['perdanama_sk', 'daftartindakan_nama'], 'string', 'max' => 200],
+            [['jenispemeriksaanlab_nama'], 'string', 'max' => 30],
+            [['pemeriksaanlab_nama'], 'string', 'max' => 500],
+            [['komponentarif_nama'], 'string', 'max' => 25],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'tariftindakan_id' => 'Tariftindakan ID',
+            'ruangan_id' => 'Ruangan ID',
+            'ruangan_nama' => 'Ruangan Nama',
+            'perdatarif_id' => 'Perdatarif ID',
+            'perdanama_sk' => 'Perdanama Sk',
+            'kelaspelayanan_id' => 'Kelaspelayanan ID',
+            'kelaspelayanan_nama' => 'Kelaspelayanan Nama',
+            'penjamin_id' => 'Penjamin ID',
+            'penjamin_nama' => 'Penjamin Nama',
+            'jenispemeriksaanlab_id' => 'Jenispemeriksaanlab ID',
+            'jenispemeriksaanlab_nama' => 'Jenispemeriksaanlab Nama',
+            'daftartindakan_id' => 'Daftartindakan ID',
+            'daftartindakan_nama' => 'Daftartindakan Nama',
+            'pemeriksaanlab_id' => 'Pemeriksaanlab ID',
+            'pemeriksaanlab_nama' => 'Pemeriksaanlab Nama',
+            'komponentarif_id' => 'Komponentarif ID',
+            'komponentarif_nama' => 'Komponentarif Nama',
+            'harga_tariftindakan' => 'Harga Tariftindakan',
+            'persencyto_tindakan' => 'Persencyto Tindakan',
+            'persendiskon_tindakan' => 'Persendiskon Tindakan',
+            'is_default' => 'Is Default',
+        ];
+    }
+}

@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS public.satusehat_zataktif_mp (
+  "satusehat_zataktif_id" serial4 NOT NULL,
+  "obatalkes_id" int4 NOT NULL,
+  "zataktif_id" int4,
+  "bahanbaku_numerator" int4,
+  "bahanbaku_satuan" int4,
+  "bahanbaku_codesystem" varchar(225) COLLATE "pg_catalog"."default",
+  "bahanbaku_denominator" int4,
+  "bahanbaku_ucum" int4,
+  "bahanbaku_denominator_disesuaikan" int4,
+  "bahanbaku_satuan_disesuaikan" int4,
+  "bahanbaku_codesystem_disesuaikan" varchar(225) COLLATE "pg_catalog"."default",
+  "created_date" timestamp(6) DEFAULT ('now'::text)::date,
+  "created_by" int4,
+  "modified_count" int4,
+  "last_modified_date" timestamp(6),
+  "last_modified_by" int4,
+  "is_deleted" bool NOT NULL DEFAULT false,
+  "is_active" bool NOT NULL DEFAULT true,
+  "deleted_date" timestamp(6),
+  "deleted_by" int4,
+  CONSTRAINT "satusehat_zataktif_mp_pkey" PRIMARY KEY ("satusehat_zataktif_id")
+);

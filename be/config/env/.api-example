@@ -1,0 +1,28 @@
+;---------------- List Integrasi Internal -----------------------
+[internal]
+laboratorium = "http://simrs-laboratorium.local/v1/"
+radiologi = "http://simrs-radiologi.local/v1/"
+bedah = "http://simrs-bedah.local/v1/"
+sinkronisasi = "http://simrs-sinkronisasi.local/v1/"
+
+;--------------- List Integrasi External ------------------------
+[external]
+;akuntansi = "Akunting"
+;ris = "Ris"
+;mhg = "Mhg"
+
+[extensions]
+;rajal:tindakan_bmhp = "Extensions\bmhp\TindakanBmhpWithApproval"
+
+;--------------- Extension untuk Kramat ------------------------
+mcu:riwayat_penyakit = "Extensions\mcu\RiwayatPenyakit"
+mcu:get_riwayat_penyakit = "Extensions\mcu\GetRiwayatPenyakit"
+mcu:riwayat_penyakit_kramat = "Extensions\mcu\RiwayatPenyakitKramat"
+bedahsentral:get_bills = "Extensions\bedah\GetBills"
+bedahsentral:save_bills = "Extensions\bedah\SaveBills"
+bedahsentral:save_verifikasi = "Extensions\bedah\SaveVerifikasi"
+kasir:cetak_invoice = "Extensions\kasir\CetakInvoice"
+
+;----------- Cetakan Detail PO MHBG ------------
+pengadaan:cetak_rincian_po = "Extensions\pengadaan\CetakRincianPo"
+;pengadaan:cetak_rincian_po = "Extensions\pengadaan\CetakRincianPoMhbg"

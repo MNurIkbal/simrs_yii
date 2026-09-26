@@ -1,0 +1,93 @@
+[submodule "ambulan"]
+    path = ambulan
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-ambulance.git
+    branch = development
+[submodule "antrian"]
+    path = antrian
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-antrian.git
+    branch = development
+[submodule "apotek"]
+    path = apotek
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-apotek.git
+    branch = development
+[submodule "bankdarah"]
+    path = bankdarah
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-bank-darah.git
+    branch = development
+[submodule "bedah"]
+    path = bedah
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-bedahsentral.git
+    branch = development
+[submodule "gizi"]
+    path = gizi
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-gizi.git
+    branch = development
+[submodule "gudang"]
+    path = gudang
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-gudang.git
+    branch = development
+[submodule "igd"]
+    path = igd
+    url = ssh://git@gitlab.docotel.net:222/dbdg/igd.git
+    branch = development
+[submodule "jenazah"]
+    path = jenazah
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-jenazah.git
+    branch = development
+[submodule "kasir"]
+    path = kasir
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-kasir.git
+    branch = development
+[submodule "laboratorium"]
+    path = laboratorium
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-laboratorium.git
+    branch = development
+[submodule "master"]
+    path = master
+    url = ssh://git@gitlab.docotel.net:222/dbdg/simrs-doco-backend.git
+    branch = development
+[submodule "pendaftaran"]
+    path = pendaftaran
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-pendaftaran.git
+    branch = development
+[submodule "pengadaan"]
+    path = pengadaan
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-pengadaan.git
+    branch = development
+[submodule "penjaminasuransi"]
+    path = penjaminasuransi
+    url = ssh://git@gitlab.docotel.net:222/dbdg/penjamin-asuransi.git
+    branch = development
+[submodule "radiologi"]
+    path = radiologi
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-radiologi.git
+    branch = development
+[submodule "rajal"]
+    path = rajal
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-rajal.git
+    branch = development
+[submodule "ranap"]
+    path = ranap
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-ranap.git
+    branch = development
+[submodule "rm"]
+    path = rm
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-rm.git
+    branch = development
+[submodule "penatajasa"]
+    path = penatajasa
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-penatajasa.git
+    branch = development
+[submodule "mcu"]
+    path = mcu
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-mcu.git
+    branch = development
+[submodule "fisioterapi"]
+	path = fisioterapi
+	url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-fisiotrapi.git
+[submodule "remunerasi"]
+	path = remunerasi
+	url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-remunerasi.git
+[submodule "cssd"]
+    path = cssd
+    url = ssh://git@gitlab.docotel.net:222/dbdg/newsimrs-cssd.git

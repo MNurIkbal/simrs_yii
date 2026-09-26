@@ -1,0 +1,16 @@
+stages:
+  - deploy
+  - fail
+
+pull-development:
+  stage: deploy
+  tags:
+    - development
+    - gwk
+    - dcms
+  only:
+    - develop-gwk
+  script:
+    - cd /var/www/sirs/be
+    - sudo -u root sh -c "git pull origin develop-gwk"
+    - curl -s -X POST https://api.telegram.org/bot1040707253:AAFr54Nhr9t-Aq9zPwomDSmWL5sHh0p_S4s/sendMessage -d chat_id=-379106578 -d text="Pull di <b>Modul DCMS branch develop-gwk</b> --> $CI_COMMIT_MESSAGE" -d "parse_mode=HTML"

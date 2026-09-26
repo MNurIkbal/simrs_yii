@@ -1,0 +1,14 @@
+stages:
+  - deploy
+pull-development:
+  stage: deploy
+  tags:
+    - development
+    - gwk
+    - master
+  only:
+    - develop-gwk
+  script:
+    - cd /var/www/sirs/be/master
+    - sudo -u root sh -c "git pull origin develop-gwk"
+    - curl -s -X POST https://api.telegram.org/$teleBotId/sendMessage -d chat_id=$teleChatId -d text="Pull di <b>Modul Master branch develop-gwk</b> --> $CI_COMMIT_MESSAGE " -d "parse_mode=HTML"

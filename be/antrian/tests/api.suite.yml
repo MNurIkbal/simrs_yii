@@ -1,0 +1,18 @@
+actor: ApiTester
+modules:
+    enabled:
+        - \Helper\Api
+        - REST:
+            url: 'http://localhost:7001/antrian/v1/'
+            depends: PhpBrowser
+            headers:
+                Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiYWNjZXNzX3Rva2VuIjoiMTAwLXRva2VuIiwianRpIjoiYWI0YWUxNmJjZGUzNDM3MGFiNjgzODM4NjhmNzNmYmU2YzYyMDUzNmVmZDQ4YzM1MDYzN2Q4OWMyYmMwNTM1YiIsImlzX21vYmlsZSI6MCwiaXNfYWxsX2V4cGVydGlzZV9sYWIiOnRydWUsInNpZ25hdHVyZV9wYXRoIjoiNjY1LnBuZyJ9.iGI5Qk-3NO-q5E6M56mLzF81bkQItqeghsqd6-_xp2o"
+                Accept: "application/json"
+                X-Owner: "YmRnLXNpbXJzLWRvY28tZGV2ZWxvcG1lbnQ"
+
+        - Db:
+            dsn: 'pgsql:host=192.168.200.121;port=5433;dbname=db_ngv'  # Use your test DB
+            user: 'postgres'
+            password: 'bdgRkamil'
+            cleanup: true
+        - Asserts

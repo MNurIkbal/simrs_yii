@@ -1,0 +1,19 @@
+actor: ApiTester
+step_decorators:
+    - \Codeception\Step\AsJson
+modules:
+    enabled:
+        - Yii2
+        - REST:
+            url: https://backend.dev.prambanan.sirs.co.id/pendaftaran
+            depends: PhpBrowser
+            part: Json
+            configFile: 'config/test.php'
+        - \Helper\Api:
+            username: 'superadmin'
+            password: 'D0coB@ndun9_94'
+            url_login: 'https://backend.dev.prambanan.sirs.co.id/dcms/v1/auth/get-token'
+            base_url: https://backend.dev.prambanan.sirs.co.id/pendaftaran
+            no_pendaftaran: 'RD000522'
+            loop: 10
+        - Asserts:

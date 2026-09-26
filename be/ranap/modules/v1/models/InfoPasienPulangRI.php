@@ -1,0 +1,91 @@
+<?php
+
+/**
+ * @Author: iqbal@docotel.cm
+ * @Date:   2018-08-6 11:36:12
+ * @Last Modified by:   
+ * @Last Modified time: 
+ * @Description: 
+ */
+
+namespace app\modules\v1\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "infokunjunganrj_v".
+ *
+ * @property int $pendaftaran_id
+ * @property int $carabayar_id
+ * @property int $ruanganakhir_id
+ * @property int $penjamin_id
+ * @property int $pegawai_id
+ * @property int $instalasi_id
+ * @property int $kondisikeluar_id
+ * @property int $pasienpulang_id
+ * @property date $tgl_pendaftaran
+ * @property date $tglpasienpulang
+ * @property string $no_rekam_medik
+ * @property string $no_pendaftaran
+ * @property string $nama_pasien
+ * @property string $jenis_kelamin
+ * @property string $kelaspelayanan_nama
+ * @property string $ruangan_nama
+ * @property string $jeniskasuspenyakit_nama
+ * @property string $penjamin_nama
+ * @property string $dokter
+ * @property string $kondisikeluar_nama
+ */
+class InfoPasienPulangRI extends \Doco\components\DocoActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'infopasienpulangri_v';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['pendaftaran_id', 'carabayar_id', 'penjamin_id', 'pasienadmisi_id', 'tgl_admisi', 'tglpasienpulang', 'no_rekam_medik', 'no_pendaftaran', 'nama_pasien', 'kelaspelayanan_nama', 'ruanganakhir_id', 'ruangan_nama', 'jeniskasuspenyakit_nama', 'pegawai_id', 'dokter', 'carakeluar_nama', 'kondisikeluar_nama', 'lama_rawat', 'pasienpulang_id', 'umur', 'tanggal_lahir'], 'default', 'value' => null],
+            [['pendaftaran_id', 'carabayar_id', 'penjamin_id', 'pasienadmisi_id', 'ruanganakhir_id', 'pegawai_id', 'pasienpulang_id'], 'integer'],
+
+            [['no_rekam_medik', 'no_pendaftaran', 'nama_pasien', 'kelaspelayanan_nama', 'ruangan_nama', 'jeniskasuspenyakit_nama', 'dokter', 'carakeluar_nama', 'kondisikeluar_nama', 'umur'], 'string'],
+            [['no_rekam_medik', 'no_pendaftaran', 'jenis_kelamin'], 'string', 'max' => 30],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'pendaftaran_id' => 'Pendaftaran ID',
+            'carabayar_id' => 'Carabayar ID',
+            'penjamin_id' => 'Penjamin ID',
+            'pasienadmisi_id' => 'Pasien Admisi ID',
+            'tgl_admisi' => 'Tgl Admisi',
+            'tglpasienpulang' => 'Tgl Pasien Pulang',
+            'no_rekam_medik' => 'No Rekam Medik',
+            'no_pendaftaran' => 'No Pendaftaran',
+            'nama_pasien' => 'Nama Pasien',
+            'kelaspelayanan_nama' => 'Nama Kelas Pelayanan',
+            'ruanganakhir_id' => 'Ruangan Akhir ID',
+            'ruangan_nama' => 'Nama Ruangan',
+            'jeniskasuspenyakit_nama' => 'Nama Jenis Kasus Penyakit',
+            'pegawai_id' => 'Pegawai ID',
+            'dokter' => 'Dokter Penanggung Jawab',
+            'carakeluar_nama' => 'Nama Cara Keluar',
+            'kondisikeluar_nama' => 'Nama Kondisi Keluar',
+            'lama_rawat' => 'Lama Rawat',
+            'pasienpulang_id' => 'Pasien Pulang ID',
+            'umur' => 'Umur',
+        ];
+    }
+}

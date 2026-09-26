@@ -1,0 +1,1 @@
+<?=$cppt['diagnosa_gizi']?>

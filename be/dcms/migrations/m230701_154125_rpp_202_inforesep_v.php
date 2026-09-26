@@ -1,0 +1,690 @@
+<?php
+
+use yii\db\Migration;
+
+/**
+ * Class m230701_154125_rpp_202_inforesep_v
+ */
+class m230701_154125_rpp_202_inforesep_v extends Migration
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function safeUp()
+    {
+        $this->execute("DROP VIEW IF EXISTS public.inforesep_v");
+
+        $this->execute("
+        -- public.inforesep_v source
+
+        CREATE OR REPLACE VIEW public.inforesep_v
+        AS SELECT resep.jenis,
+            resep.reseptur_id,
+            resep.resep_id,
+            resep.pasien_id,
+            resep.pendaftaran_id,
+            resep.pasienadmisi_id,
+            resep.carabayar_id,
+            resep.penjamin_id,
+            resep.umur,
+            resep.kelaspelayanan_nama,
+            resep.ruangan_id,
+            resep.ruanganreseptur_id,
+            resep.tglreseptur,
+            resep.tglresep,
+            resep.no_reseptur,
+            resep.no_resep,
+            resep.nomor,
+            resep.penjualanresep_id,
+            resep.no_pendaftaran,
+            resep.no_rekam_medik,
+            resep.nama_pasien,
+            resep.tanggal_lahir,
+            resep.jenis_kelamin,
+            resep.carabayar_nama,
+            resep.penjamin_nama,
+            resep.ruangan_tujuan,
+            resep.ruangan_reseptur,
+            resep.status_reseptur,
+            resep.pegawai_id,
+            resep.nama_pegawai,
+            resep.instalasi_reseptur_id,
+            resep.instalasi_reseptur,
+            resep.instalasi_resep_id,
+            resep.instalasi_resep,
+            resep.no_antrian,
+            resep.status_reseptur_id,
+            resep.is_hamil,
+            resep.berat_badan,
+            resep.tinggi_badan,
+            resep.luas_tubuh,
+            resep.diagnosa_id,
+            resep.diagnosa_nama,
+            resep.instruksi_id,
+            resep.antrian_id,
+            resep.catatan,
+            resep.iter,
+            resep.noresep_penjualan,
+            resep.iter_penjualan,
+            resep.riwayat_alergi,
+            resep.diagnosa_text,
+            resep.antrian_racikan,
+            resep.total_harganetto,
+            resep.biayaadministrasi,
+            resep.totalhargajual,
+            resep.totaltagihan,
+            resep.nama_pembeli,
+            resep.status_bayar,
+            resep.tgl_resep_dibuat,
+            resep.nama,
+            resep.jenispenjualan_id,
+            resep.jenispenjualan_nama,
+            resep.status_worklist,
+            resep.nama_depan,
+            resep.kelaspelayanan_id,
+            resep.is_approve,
+            resep.pegawai_approve,
+            resep.tgl_approve,
+            resep.additional_data,
+            resep.alamat_pasien,
+            resep.nosep_bpjs,
+            resep.status_racikan,
+            resep.status_etiket_reseptur,
+            resep.status_etiket_jual_resep,
+            COALESCE(resep.status_etiket_reseptur, resep.status_etiket_jual_resep) AS is_cetak_etiket,
+            resep.ruangan_kamar_bed
+        FROM ( SELECT 'reseptur'::text AS jenis,
+                    reseptur_t.reseptur_id,
+                    reseptur_t.penjualanresep_id AS resep_id,
+                    reseptur_t.pasien_id,
+                    reseptur_t.pendaftaran_id,
+                    reseptur_t.pasienadmisi_id,
+                    COALESCE(penjamin_admisi.carabayar_id, pendaftaran_t.carabayar_id) AS carabayar_id,
+                    COALESCE(pendaftaran_t.penjamin_admisi_id, pendaftaran_t.penjamin_id) AS penjamin_id,
+                    pendaftaran_t.umur,
+                    kelaspelayanan_m.kelaspelayanan_nama,
+                    reseptur_t.ruangan_id,
+                    reseptur_t.ruanganreseptur_id,
+                    reseptur_t.tglreseptur,
+                    penjualanresep_t.tglresep,
+                    reseptur_t.noresep AS no_reseptur,
+                    penjualanresep_t.noresep AS no_resep,
+                    reseptur_t.noresep AS nomor,
+                    penjualanresep_t.penjualanresep_id,
+                    pendaftaran_t.no_pendaftaran,
+                    pasien_m.no_rekam_medik,
+                    pasien_m.nama_pasien,
+                        CASE
+                            WHEN penjualanresep_t.jenispenjualan::text = '345'::text THEN pegawai_m.tgl_lahirpegawai
+                            ELSE pasien_m.tanggal_lahir
+                        END AS tanggal_lahir,
+                    jenis_kelamin.lookup_name AS jenis_kelamin,
+                    COALESCE(carabayar_admisi.carabayar_nama, carabayar_m.carabayar_nama) AS carabayar_nama,
+                    COALESCE(penjamin_admisi.penjamin_nama, penjamin_m.penjamin_nama) AS penjamin_nama,
+                    ruangan_tujuan.ruangan_nama AS ruangan_tujuan,
+                    ruangan_reseptur.ruangan_nama AS ruangan_reseptur,
+                        CASE
+                            WHEN penjualanresep_t.penjualanresep_id IS NULL THEN 'Belum Proses'::character varying
+                            WHEN penjualanresep_t.status_reseptur = 347 THEN 'Dalam Proses'::character varying
+                            ELSE status_reseptur.lookup_name
+                        END AS status_reseptur,
+                    reseptur_t.pegawai_id,
+                    pegawai_m.nama_pegawai,
+                    ruangan_reseptur.instalasi_id AS instalasi_reseptur_id,
+                    instalasi_reseptur.instalasi_nama AS instalasi_reseptur,
+                    ruangan_tujuan.instalasi_id AS instalasi_resep_id,
+                    instalasi_tujuan.instalasi_nama AS instalasi_resep,
+                    antrian_t.no_antrian,
+                    reseptur_t.status_reseptur AS status_reseptur_id,
+                    reseptur_t.is_hamil,
+                        CASE
+                            WHEN pendaftaran_t.pasienadmisi_id IS NULL AND pendaftaran_t.instalasi_id = 1 THEN pemeriksaanfisik_t.bb::text
+                            WHEN pendaftaran_t.pasienadmisi_id IS NULL AND pendaftaran_t.instalasi_id = 2 THEN asesmenmedisrd_t.bb::text
+                            WHEN pendaftaran_t.pasienadmisi_id IS NOT NULL THEN asesmenmedis_t.bb::text
+                            ELSE '-'::text
+                        END AS berat_badan,
+                        CASE
+                            WHEN pendaftaran_t.pasienadmisi_id IS NULL AND pendaftaran_t.instalasi_id = 1 THEN pemeriksaanfisik_t.tb::text
+                            WHEN pendaftaran_t.pasienadmisi_id IS NULL AND pendaftaran_t.instalasi_id = 2 THEN asesmenmedisrd_t.tb::text
+                            WHEN pendaftaran_t.pasienadmisi_id IS NOT NULL THEN asesmenmedis_t.tb::text
+                            ELSE '-'::text
+                        END AS tinggi_badan,
+                    reseptur_t.luas_tubuh,
+                    reseptur_t.diagnosa_id,
+                    concat(diagnosa_m.diagnosa_kode, '-', diagnosa_m.diagnosa_nama) AS diagnosa_nama,
+                    reseptur_t.instruksi_id,
+                    reseptur_t.antrian_id,
+                    penjualanresep_t.catatan,
+                    resepturdetail_t.iter,
+                    penjualanresep_t.noresep AS noresep_penjualan,
+                    resepturdetail_t.iter AS iter_penjualan,
+                        CASE
+                            WHEN ruangan_reseptur.instalasi_id = 1 THEN anamnesa_t.riwayat_alergiobat::character varying
+                            WHEN ruangan_reseptur.instalasi_id = 2 THEN asesmenperawatrd_t.alergi_obat::character varying
+                            ELSE asesmenawal_t.nama_alergi
+                        END AS riwayat_alergi,
+                        CASE
+                            WHEN ruangan_reseptur.instalasi_id = 1 THEN pasienmorbiditas_t.diagnosa_pasien ->> 'text'::text
+                            WHEN ruangan_reseptur.instalasi_id = 2 THEN cppt_rd.diagnosa_utama
+                            WHEN ruangan_reseptur.instalasi_id = 3 THEN cppt_rd.diagnosa_utama
+                            ELSE NULL::text
+                        END AS diagnosa_text,
+                    resepturdetail_t.antrian_racikan,
+                    resepturdetail_t.harga_netto AS total_harganetto,
+                        CASE
+                            WHEN reseptur_t.penjualanresep_id IS NULL THEN reseptur_t.biaya_administrasi
+                            ELSE penjualanresep_t.biayaadministrasi
+                        END AS biayaadministrasi,
+                    penjualanresep_t.totalhargajual,
+                    totaltagihan.totaltagihan,
+                    NULL::character varying AS nama_pembeli,
+                    penjualanresep_t.status_bayar,
+                    COALESCE(penjualanresep_t.tglresep, reseptur_t.tglreseptur) AS tgl_resep_dibuat,
+                    concat(namadepan.lookup_name, ' ', pasien_m.nama_pasien) AS nama,
+                    NULL::character varying AS jenispenjualan_id,
+                    NULL::character varying AS jenispenjualan_nama,
+                    reseptur_t.status_worklist,
+                    namadepan.lookup_name AS nama_depan,
+                    penjualanresep_t.kelaspelayanan_id,
+                    penjualanresep_t.is_approve,
+                    pegawai_approve.nama_pegawai AS pegawai_approve,
+                    penjualanresep_t.tgl_approve,
+                    penjualanresep_t.additional_data,
+                        CASE
+                            WHEN penjualanresep_t.jenispenjualan::text = '345'::text THEN pegawai_m.alamat_pegawai
+                            ELSE pasien_m.alamat_pasien
+                        END AS alamat_pasien,
+                    COALESCE(bpjs_t.nosep, bpjspasienadmisi_t.nosep) AS nosep_bpjs,
+                        CASE
+                            WHEN resepturracikan_t.resepturracikan_id IS NOT NULL AND resepturracikan_t.type::text = 'OR'::text THEN 'Racikan'::text
+                            ELSE
+                            CASE
+                                WHEN resepturdetail_t.racikan_id = 2 THEN 'Non Racikan'::text
+                                WHEN resepturdetail_t.racikan_id = 1 THEN 'Racikan'::text
+                                ELSE NULL::text
+                            END
+                        END AS status_racikan,
+                    reseptur_t.is_cetak_etiket::text AS status_etiket_reseptur,
+                    NULL::text AS status_etiket_jual_resep,
+                        CASE
+                            WHEN pendaftaran_t.ruangan_pasien_admisi IS NOT NULL THEN concat(ruangan_admisi.ruangan_nama, '/', kamarruangan_m.kamarruangan_nokamar, '/', kamartempattidur_m.no_tempattidur)::character varying
+                            ELSE ruangan_daftar.ruangan_nama
+                        END AS ruangan_kamar_bed
+                FROM reseptur_t
+                    LEFT JOIN ( SELECT penjualanresep.penjualanresep_id,
+                            penjualanresep.tglresep,
+                            penjualanresep.noresep,
+                            penjualanresep.status_reseptur,
+                            penjualanresep.status_bayar,
+                            penjualanresep.catatan,
+                            penjualanresep.biayaadministrasi,
+                            penjualanresep.totalhargajual,
+                            penjualanresep.kelaspelayanan_id,
+                            penjualanresep.is_approve,
+                            penjualanresep.tgl_approve,
+                            penjualanresep.pegawai_approve_id,
+                            penjualanresep.additional_data,
+                            penjualanresep.jenispenjualan
+                        FROM penjualanresep_t penjualanresep
+                        WHERE penjualanresep.is_deleted = false) penjualanresep_t ON reseptur_t.penjualanresep_id = penjualanresep_t.penjualanresep_id
+                    JOIN ( SELECT pendaftaran.pendaftaran_id,
+                            pendaftaran.pasienadmisi_id,
+                            pendaftaran.kelaspelayanan_id,
+                            pendaftaran.carabayar_id,
+                            pendaftaran.penjamin_id,
+                            pendaftaran.umur,
+                            pendaftaran.no_pendaftaran,
+                            pendaftaran.instalasi_id,
+                            pasienadmisi_t.penjamin_id AS penjamin_admisi_id,
+                            pasienadmisi_t.bpjs_id AS bpjsadmisi_id,
+                            pendaftaran.bpjs_id,
+                            pendaftaran.ruangan_id,
+                            pasienadmisi_t.ruangan_id AS ruangan_pasien_admisi,
+                            pasienadmisi_t.kamarruangan_id AS kamarruangan_pasien_admisi,
+                            pasienadmisi_t.kamartempattidur_id AS kamartempattidur_pasien_admisi
+                        FROM pendaftaran_t pendaftaran
+                            LEFT JOIN ( SELECT a.pendaftaran_id,
+                                    a.pasienadmisi_id,
+                                    a.penjamin_id,
+                                    a.bpjs_id,
+                                    a.kamarruangan_id,
+                                    a.kamartempattidur_id,
+                                    a.ruangan_id
+                                FROM pasienadmisi_t a) pasienadmisi_t ON pendaftaran.pasienadmisi_id = pasienadmisi_t.pasienadmisi_id) pendaftaran_t ON reseptur_t.pendaftaran_id = pendaftaran_t.pendaftaran_id
+                    JOIN ( SELECT pasien.pasien_id,
+                            pasien.nama_pasien,
+                            pasien.no_rekam_medik,
+                            pasien.tanggal_lahir,
+                            pasien.jeniskelamin,
+                            pasien.namadepan,
+                            pasien.alamat_pasien
+                        FROM pasien_m pasien) pasien_m ON reseptur_t.pasien_id = pasien_m.pasien_id
+                    JOIN ( SELECT ruangan_1.ruangan_id,
+                            ruangan_1.ruangan_nama,
+                            ruangan_1.instalasi_id
+                        FROM ruangan_m ruangan_1) ruangan_tujuan ON reseptur_t.ruangan_id = ruangan_tujuan.ruangan_id
+                    JOIN ( SELECT ruangan_2.ruangan_id,
+                            ruangan_2.ruangan_nama,
+                            ruangan_2.instalasi_id
+                        FROM ruangan_m ruangan_2) ruangan_reseptur ON reseptur_t.ruanganreseptur_id = ruangan_reseptur.ruangan_id
+                    JOIN ( SELECT instalasi_1.instalasi_id,
+                            instalasi_1.instalasi_nama
+                        FROM instalasi_m instalasi_1) instalasi_reseptur ON ruangan_reseptur.instalasi_id = instalasi_reseptur.instalasi_id
+                    JOIN ( SELECT instalasi_2.instalasi_id,
+                            instalasi_2.instalasi_nama
+                        FROM instalasi_m instalasi_2) instalasi_tujuan ON ruangan_tujuan.instalasi_id = instalasi_tujuan.instalasi_id
+                    JOIN ( SELECT kelas.kelaspelayanan_id,
+                            kelas.kelaspelayanan_nama
+                        FROM kelaspelayanan_m kelas) kelaspelayanan_m ON pendaftaran_t.kelaspelayanan_id = kelaspelayanan_m.kelaspelayanan_id
+                    LEFT JOIN ( SELECT carabayar.carabayar_id,
+                            carabayar.carabayar_nama
+                        FROM carabayar_m carabayar) carabayar_m ON pendaftaran_t.carabayar_id = carabayar_m.carabayar_id
+                    LEFT JOIN ( SELECT penjamin.penjamin_id,
+                            penjamin.penjamin_nama
+                        FROM penjamin_m penjamin) penjamin_m ON pendaftaran_t.penjamin_id = penjamin_m.penjamin_id
+                    LEFT JOIN ( SELECT penjamin.penjamin_id,
+                            penjamin.penjamin_nama,
+                            penjamin.carabayar_id
+                        FROM penjamin_m penjamin) penjamin_admisi ON pendaftaran_t.penjamin_admisi_id = penjamin_admisi.penjamin_id
+                    LEFT JOIN ( SELECT carabayar.carabayar_id,
+                            carabayar.carabayar_nama
+                        FROM carabayar_m carabayar) carabayar_admisi ON penjamin_admisi.carabayar_id = carabayar_admisi.carabayar_id
+                    JOIN ( SELECT pegawai.pegawai_id,
+                            pegawai.tgl_lahirpegawai,
+                            pegawai.nama_pegawai,
+                            pegawai.alamat_pegawai
+                        FROM pegawai_m pegawai) pegawai_m ON reseptur_t.pegawai_id = pegawai_m.pegawai_id
+                    LEFT JOIN ( SELECT reseptur_detail.reseptur_id,
+                            reseptur_detail.iter,
+                            sum(reseptur_detail.harganetto_reseptur) AS harga_netto,
+                            string_agg(reseptur_detail.racikan_id::text, '-'::text) AS antrian_racikan,
+                            reseptur_detail.racikan_id
+                        FROM resepturdetail_t reseptur_detail
+                        WHERE reseptur_detail.is_deleted = false
+                        GROUP BY reseptur_detail.reseptur_id, reseptur_detail.iter, reseptur_detail.racikan_id) resepturdetail_t ON reseptur_t.reseptur_id = resepturdetail_t.reseptur_id
+                    LEFT JOIN ( SELECT antrian.antrian_id,
+                            antrian.no_antrian
+                        FROM antrian_t antrian) antrian_t ON reseptur_t.antrian_id = antrian_t.antrian_id
+                    LEFT JOIN ( SELECT diagnosa.diagnosa_id,
+                            diagnosa.diagnosa_kode,
+                            diagnosa.diagnosa_nama
+                        FROM diagnosa_m diagnosa) diagnosa_m ON reseptur_t.diagnosa_id = diagnosa_m.diagnosa_id
+                    LEFT JOIN ( SELECT DISTINCT ON (anamnesa.pendaftaran_id) anamnesa.pendaftaran_id,
+                            anamnesa.riwayat_alergiobat
+                        FROM anamnesa_t anamnesa) anamnesa_t ON pendaftaran_t.pendaftaran_id = anamnesa_t.pendaftaran_id
+                    LEFT JOIN ( SELECT DISTINCT ON (asesmenperawatrd.pendaftaran_id) asesmenperawatrd.pendaftaran_id,
+                            asesmenperawatrd.alergi_obat
+                        FROM asesmenperawatrd_t asesmenperawatrd) asesmenperawatrd_t ON pendaftaran_t.pendaftaran_id = asesmenperawatrd_t.pendaftaran_id
+                    LEFT JOIN ( SELECT DISTINCT ON (asesmenawal.pendaftaran_id) asesmenawal.pendaftaran_id,
+                            asesmenawal.nama_alergi
+                        FROM asesmenawal_t asesmenawal) asesmenawal_t ON pendaftaran_t.pendaftaran_id = asesmenawal_t.pendaftaran_id
+                    LEFT JOIN ( SELECT DISTINCT ON (ass_medisrd.pendaftaran_id) ass_medisrd.pendaftaran_id,
+                            ass_medisrd.tinggi_badan AS tb,
+                            ass_medisrd.berat_badan AS bb
+                        FROM asesmenmedisrd_t ass_medisrd
+                        WHERE ass_medisrd.is_deleted = false) asesmenmedisrd_t ON pendaftaran_t.pendaftaran_id = asesmenmedisrd_t.pendaftaran_id
+                    LEFT JOIN ( SELECT DISTINCT ON (ass_medis.pendaftaran_id) ass_medis.pendaftaran_id,
+                            ass_medis.tinggi_badan AS tb,
+                            ass_medis.berat_badan AS bb
+                        FROM asesmenmedis_t ass_medis
+                        WHERE ass_medis.is_deleted = false) asesmenmedis_t ON pendaftaran_t.pendaftaran_id = asesmenmedis_t.pendaftaran_id
+                    LEFT JOIN ( SELECT DISTINCT ON (pemeriksaan_fisik.pendaftaran_id) pemeriksaan_fisik.pendaftaran_id,
+                            pemeriksaan_fisik.beratbadan_kg AS tb,
+                            pemeriksaan_fisik.tinggibadan_cm AS bb
+                        FROM pemeriksaanfisik_t pemeriksaan_fisik
+                        WHERE pemeriksaan_fisik.is_deleted = false) pemeriksaanfisik_t ON pendaftaran_t.pendaftaran_id = pemeriksaanfisik_t.pendaftaran_id
+                    LEFT JOIN ( SELECT DISTINCT ON (pasienmorbiditas.pendaftaran_id) pasienmorbiditas.pendaftaran_id,
+                            pasienmorbiditas.diagnosa_pasien
+                        FROM pasienmorbiditas_t pasienmorbiditas
+                        WHERE pasienmorbiditas.is_deleted = false AND pasienmorbiditas.kelompokdiagnosa_id = 2) pasienmorbiditas_t ON pendaftaran_t.pendaftaran_id = pasienmorbiditas_t.pendaftaran_id
+                    LEFT JOIN ( SELECT instruksi_t.instruksi_id,
+                            cppt_t.cppt_id,
+                            cppt_t.pendaftaran_id,
+                            cppt_t.a_diag_utama ->> 'text'::text AS diagnosa_utama
+                        FROM instruksi_t
+                            JOIN ( SELECT DISTINCT ON (cppt.pendaftaran_id) cppt.pendaftaran_id,
+                                    cppt.cppt_id,
+                                    cppt.a_diag_utama
+                                FROM cppt_t cppt
+                                WHERE cppt.is_deleted = false) cppt_t ON instruksi_t.cppt_id = cppt_t.cppt_id
+                        WHERE instruksi_t.is_deleted = false AND instruksi_t.is_active = true) cppt_rd ON pendaftaran_t.pendaftaran_id = cppt_rd.pendaftaran_id AND reseptur_t.instruksi_id = cppt_rd.instruksi_id
+                    LEFT JOIN ( SELECT a.pegawai_id,
+                            a.nama_pegawai
+                        FROM pegawai_m a) pegawai_approve ON penjualanresep_t.pegawai_approve_id = pegawai_approve.pegawai_id
+                    LEFT JOIN ( SELECT resepturdetail_t_1.reseptur_id,
+                            sum(resepturdetail_t_1.hargajual_reseptur) AS totaltagihan
+                        FROM resepturdetail_t resepturdetail_t_1
+                        WHERE resepturdetail_t_1.is_deleted = false AND resepturdetail_t_1.is_active = true
+                        GROUP BY resepturdetail_t_1.reseptur_id) totaltagihan ON reseptur_t.reseptur_id = totaltagihan.reseptur_id
+                    LEFT JOIN ( SELECT lookup_m.lookup_id,
+                            lookup_m.lookup_name
+                        FROM lookup_m) jenis_kelamin ON pasien_m.jeniskelamin::integer = jenis_kelamin.lookup_id
+                    LEFT JOIN ( SELECT lookup_m.lookup_id,
+                            lookup_m.lookup_name
+                        FROM lookup_m) status_reseptur ON penjualanresep_t.status_reseptur::integer = status_reseptur.lookup_id
+                    LEFT JOIN ( SELECT lookup_m.lookup_id,
+                            lookup_m.lookup_name
+                        FROM lookup_m) namadepan ON pasien_m.namadepan::integer = namadepan.lookup_id
+                    LEFT JOIN ( SELECT a.bpjs_id,
+                            a.nosep,
+                            a.norujukan,
+                            a.pendaftaran_id
+                        FROM bpjs_t a) bpjs_t ON bpjs_t.bpjs_id = pendaftaran_t.bpjs_id
+                    LEFT JOIN ( SELECT a.bpjs_id,
+                            a.nosep,
+                            a.norujukan,
+                            a.pendaftaran_id
+                        FROM bpjs_t a) bpjspasienadmisi_t ON bpjspasienadmisi_t.bpjs_id = pendaftaran_t.bpjsadmisi_id
+                    LEFT JOIN ( SELECT a.resepturracikan_id,
+                            a.reseptur_id,
+                            a.type
+                        FROM resepturracikan_t a
+                        WHERE a.is_deleted = false) resepturracikan_t ON resepturracikan_t.reseptur_id = reseptur_t.reseptur_id
+                    LEFT JOIN ( SELECT ruangan_daftar_1.ruangan_id,
+                            ruangan_daftar_1.ruangan_nama,
+                            ruangan_daftar_1.instalasi_id
+                        FROM ruangan_m ruangan_daftar_1) ruangan_daftar ON ruangan_daftar.ruangan_id = pendaftaran_t.ruangan_id
+                    LEFT JOIN ( SELECT ruangan_admisi_1.ruangan_id,
+                            ruangan_admisi_1.ruangan_nama,
+                            ruangan_admisi_1.instalasi_id
+                        FROM ruangan_m ruangan_admisi_1) ruangan_admisi ON ruangan_admisi.ruangan_id = pendaftaran_t.ruangan_pasien_admisi
+                    LEFT JOIN ( SELECT a.kamarruangan_id,
+                            a.kamarruangan_nokamar
+                        FROM kamarruangan_m a) kamarruangan_m ON pendaftaran_t.kamarruangan_pasien_admisi = kamarruangan_m.kamarruangan_id
+                    LEFT JOIN ( SELECT a.kamartempattidur_id,
+                            a.no_tempattidur
+                        FROM kamartempattidur_m a) kamartempattidur_m ON pendaftaran_t.kamartempattidur_pasien_admisi = kamartempattidur_m.kamartempattidur_id
+                WHERE reseptur_t.is_deleted = false AND reseptur_t.is_active = true AND reseptur_t.penjualanresep_id IS NULL
+                UNION ALL
+                SELECT 'resep'::text AS jenis,
+                    reseptur_t.reseptur_id,
+                    penjualanresep_t.penjualanresep_id AS resep_id,
+                    penjualanresep_t.pasien_id,
+                    penjualanresep_t.pendaftaran_id,
+                    penjualanresep_t.pasienadmisi_id,
+                    penjualanresep_t.carabayar_id,
+                    penjualanresep_t.penjamin_id,
+                    pendaftaran_t.umur,
+                    kelaspelayanan_m.kelaspelayanan_nama,
+                    penjualanresep_t.ruangan_id,
+                    COALESCE(reseptur_t.ruanganreseptur_id, penjualanresep_t.ruangan_id) AS ruanganreseptur_id,
+                    reseptur_t.tglreseptur,
+                    penjualanresep_t.tglresep,
+                    reseptur_t.noresep AS no_reseptur,
+                    penjualanresep_t.noresep AS no_resep,
+                    penjualanresep_t.noresep AS nomor,
+                    penjualanresep_t.penjualanresep_id,
+                    pendaftaran_t.no_pendaftaran,
+                    pasien_m.no_rekam_medik,
+                    pasien_m.nama_pasien,
+                        CASE
+                            WHEN penjualanresep_t.jenispenjualan::text = '345'::text THEN karyawan.tgl_lahirpegawai
+                            ELSE pasien_m.tanggal_lahir
+                        END AS tanggal_lahir,
+                    jenis_kelamin.lookup_name AS jenis_kelamin,
+                    carabayar_m.carabayar_nama,
+                    penjamin_m.penjamin_nama,
+                    ruangan_resep.ruangan_nama AS ruangan_tujuan,
+                        CASE
+                            WHEN reseptur_t.reseptur_id IS NULL THEN ruangan_resep.ruangan_nama
+                            WHEN reseptur_t.reseptur_id IS NOT NULL THEN rm.ruangan_nama
+                            ELSE NULL::character varying
+                        END AS ruangan_reseptur,
+                        CASE
+                            WHEN penjualanresep_t.status_reseptur = 347 THEN 'Dalam Proses'::character varying
+                            ELSE status_reseptur.lookup_name
+                        END AS status_reseptur,
+                    penjualanresep_t.pegawai_id,
+                    pegawai_m.nama_pegawai,
+                    COALESCE(rm.instalasi_id, ruangan_resep.instalasi_id) AS instalasi_reseptur_id,
+                        CASE
+                            WHEN reseptur_t.reseptur_id IS NULL THEN instalasi_resep.instalasi_nama
+                            WHEN reseptur_t.reseptur_id IS NOT NULL THEN im.instalasi_nama
+                            ELSE NULL::character varying
+                        END AS instalasi_reseptur,
+                    ruangan_resep.instalasi_id AS instalasi_resep_id,
+                    instalasi_resep.instalasi_nama AS instalasi_resep,
+                    antrian_t.no_antrian,
+                    penjualanresep_t.status_reseptur AS status_reseptur_id,
+                    NULL::boolean AS is_hamil,
+                        CASE
+                            WHEN pendaftaran_t.pasienadmisi_id IS NULL AND pendaftaran_t.instalasi_id = 1 THEN periksa_fisik_rj.bb::text
+                            WHEN pendaftaran_t.pasienadmisi_id IS NULL AND pendaftaran_t.instalasi_id = 2 THEN periksa_fisik_rd.bb::text
+                            WHEN pendaftaran_t.pasienadmisi_id IS NOT NULL THEN periksa_fisik_ri.bb::text
+                            ELSE '-'::text
+                        END AS berat_badan,
+                        CASE
+                            WHEN pendaftaran_t.pasienadmisi_id IS NULL AND pendaftaran_t.instalasi_id = 1 THEN periksa_fisik_rj.tb::text
+                            WHEN pendaftaran_t.pasienadmisi_id IS NULL AND pendaftaran_t.instalasi_id = 2 THEN periksa_fisik_rd.tb::text
+                            WHEN pendaftaran_t.pasienadmisi_id IS NOT NULL THEN periksa_fisik_ri.tb::text
+                            ELSE '-'::text
+                        END AS tinggi_badan,
+                    NULL::character varying AS luas_tubuh,
+                    NULL::integer AS diagnosa_id,
+                    NULL::text AS diagnosa_nama,
+                    NULL::integer AS instruksi_id,
+                    NULL::integer AS antrian_id,
+                    penjualanresep_t.catatan,
+                    penjualanresep_t.iter,
+                    penjualanresep_t.noresep AS noresep_penjualan,
+                    NULL::integer AS iter_penjualan,
+                    NULL::text AS riwayat_alergi,
+                    NULL::text AS diagnosa_text,
+                    NULL::text AS antrian_racikan,
+                    NULL::double precision AS total_harganetto,
+                    penjualanresep_t.biayaadministrasi,
+                    obatalkespasien_t.hargajual_oa AS totalhargajual,
+                    COALESCE(obatalkespasien_t.hargajual_oa, 0::double precision) + COALESCE(penjualanresep_t.biayaadministrasi, 0::double precision) AS totaltagihan,
+                    penjualanresep_t.nama_pembeli,
+                    penjualanresep_t.status_bayar,
+                    penjualanresep_t.tglresep AS tgl_resep_dibuat,
+                        CASE
+                            WHEN penjualanresep_t.jenispenjualan::text = '343'::text THEN penjualanresep_t.nama_pembeli
+                            WHEN penjualanresep_t.jenispenjualan::text = '344'::text THEN concat(namadepan.lookup_name, ' ', pasien_m.nama_pasien)::character varying
+                            WHEN penjualanresep_t.jenispenjualan::text = '345'::text THEN concat(gelar.lookup_name, ' ', karyawan.nama_pegawai)::character varying
+                            ELSE NULL::character varying
+                        END AS nama,
+                    penjualanresep_t.jenispenjualan AS jenispenjualan_id,
+                    jenispenjualan.lookup_name AS jenispenjualan_nama,
+                    penjualanresep_t.status_worklist,
+                        CASE
+                            WHEN penjualanresep_t.jenispenjualan::text = '343'::text THEN NULL::character varying
+                            WHEN penjualanresep_t.jenispenjualan::text = '344'::text THEN namadepan.lookup_name
+                            WHEN penjualanresep_t.jenispenjualan::text = '345'::text THEN gelar.lookup_name
+                            ELSE NULL::character varying
+                        END AS nama_depan,
+                    penjualanresep_t.kelaspelayanan_id,
+                    penjualanresep_t.is_approve,
+                    pegawai_approve.nama_pegawai AS pegawai_approve,
+                    penjualanresep_t.tgl_approve,
+                    penjualanresep_t.additional_data,
+                        CASE
+                            WHEN penjualanresep_t.jenispenjualan::text = '345'::text THEN karyawan.alamat_pegawai
+                            ELSE pasien_m.alamat_pasien
+                        END AS alamat_pasien,
+                    COALESCE(bpjs_t.nosep, bpjspasienadmisi_t.nosep) AS nosep_bpjs,
+                        CASE
+                            WHEN resepturracikan_t.resepturracikan_id IS NOT NULL AND resepturracikan_t.type::text = 'OR'::text THEN 'Racikan'::text
+                            ELSE
+                            CASE
+                                WHEN obatalkespasien_t.racikan_id = 2 THEN 'Non Racikan'::text
+                                WHEN obatalkespasien_t.racikan_id = 1 THEN 'Racikan'::text
+                                ELSE NULL::text
+                            END
+                        END AS status_racikan,
+                    NULL::text AS status_etiket_reseptur,
+                    penjualanresep_t.is_cetak_etiket::text AS status_etiket_jual_resep,
+                        CASE
+                            WHEN pasienadmisi_t.ruangan_id IS NOT NULL THEN concat(ruangan_admisi.ruangan_nama, '/', kamarruangan_m.kamarruangan_nokamar, '/', kamartempattidur_m.no_tempattidur)::character varying
+                            ELSE ruangan_daftar.ruangan_nama
+                        END AS ruangan_kamar_bed
+                FROM penjualanresep_t
+                    LEFT JOIN ( SELECT sum(a.hargajual_oa) AS hargajual_oa,
+                            a.penjualanresep_id,
+                                CASE
+                                    WHEN b.racikan_id::integer > 1 THEN 1
+                                    ELSE 2
+                                END AS racikan_id
+                        FROM obatalkespasien_t a
+                            LEFT JOIN ( SELECT count(a_1.racikan_id) AS racikan_id,
+                                    a_1.penjualanresep_id
+                                FROM ( SELECT DISTINCT ON (b_1.racikan_id) b_1.racikan_id,
+                                            b_1.penjualanresep_id
+                                        FROM obatalkespasien_t b_1) a_1
+                                GROUP BY a_1.penjualanresep_id) b ON a.penjualanresep_id = b.penjualanresep_id
+                        WHERE a.is_deleted = false AND a.penjualanresep_id IS NOT NULL
+                        GROUP BY a.penjualanresep_id, b.racikan_id) obatalkespasien_t ON obatalkespasien_t.penjualanresep_id = penjualanresep_t.penjualanresep_id
+                    LEFT JOIN ( SELECT pendaftaran.pendaftaran_id,
+                            pendaftaran.pasien_id,
+                            pendaftaran.pasienadmisi_id,
+                            pendaftaran.instalasi_id,
+                            pendaftaran.umur,
+                            pendaftaran.no_pendaftaran,
+                            pendaftaran.bpjs_id,
+                            pendaftaran.ruangan_id
+                        FROM pendaftaran_t pendaftaran) pendaftaran_t ON penjualanresep_t.pendaftaran_id = pendaftaran_t.pendaftaran_id
+                    LEFT JOIN ( SELECT a.pasienadmisi_id,
+                            a.pendaftaran_id,
+                            a.bpjs_id,
+                            a.kamartempattidur_id,
+                            a.kamarruangan_id,
+                            a.ruangan_id
+                        FROM pasienadmisi_t a) pasienadmisi_t ON pendaftaran_t.pendaftaran_id = pasienadmisi_t.pendaftaran_id
+                    LEFT JOIN ( SELECT pasien.pasien_id,
+                            pasien.nama_pasien,
+                            pasien.no_rekam_medik,
+                            pasien.tanggal_lahir,
+                            pasien.jeniskelamin,
+                            pasien.namadepan,
+                            pasien.alamat_pasien
+                        FROM pasien_m pasien) pasien_m ON penjualanresep_t.pasien_id = pasien_m.pasien_id
+                    JOIN ( SELECT ruangan.ruangan_id,
+                            ruangan.ruangan_nama,
+                            ruangan.instalasi_id
+                        FROM ruangan_m ruangan) ruangan_resep ON penjualanresep_t.ruangan_id = ruangan_resep.ruangan_id
+                    JOIN ( SELECT instalasi.instalasi_id,
+                            instalasi.instalasi_nama
+                        FROM instalasi_m instalasi) instalasi_resep ON ruangan_resep.instalasi_id = instalasi_resep.instalasi_id
+                    LEFT JOIN ( SELECT kelas.kelaspelayanan_id,
+                            kelas.kelaspelayanan_nama
+                        FROM kelaspelayanan_m kelas) kelaspelayanan_m ON penjualanresep_t.kelaspelayanan_id = kelaspelayanan_m.kelaspelayanan_id
+                    LEFT JOIN ( SELECT carabayar.carabayar_id,
+                            carabayar.carabayar_nama
+                        FROM carabayar_m carabayar) carabayar_m ON penjualanresep_t.carabayar_id = carabayar_m.carabayar_id
+                    LEFT JOIN ( SELECT penjamin.penjamin_id,
+                            penjamin.penjamin_nama
+                        FROM penjamin_m penjamin) penjamin_m ON penjualanresep_t.penjamin_id = penjamin_m.penjamin_id
+                    LEFT JOIN ( SELECT peg_1.pegawai_id,
+                            peg_1.nama_pegawai,
+                            peg_1.gelardepan
+                        FROM pegawai_m peg_1) pegawai_m ON penjualanresep_t.pegawai_id = pegawai_m.pegawai_id
+                    LEFT JOIN ( SELECT antrian.antrian_id,
+                            antrian.no_antrian
+                        FROM antrian_t antrian) antrian_t ON penjualanresep_t.antrian_id = antrian_t.antrian_id
+                    LEFT JOIN ( SELECT peg_2.pegawai_id,
+                            peg_2.nama_pegawai,
+                            peg_2.alamat_pegawai,
+                            peg_2.tgl_lahirpegawai
+                        FROM pegawai_m peg_2) karyawan ON penjualanresep_t.karyawan_id = karyawan.pegawai_id
+                    LEFT JOIN ( SELECT DISTINCT ON (pemeriksaanfisik_t.pendaftaran_id) pemeriksaanfisik_t.pendaftaran_id,
+                            pemeriksaanfisik_t.tinggibadan_cm AS tb,
+                            pemeriksaanfisik_t.beratbadan_kg AS bb
+                        FROM pemeriksaanfisik_t
+                        WHERE pemeriksaanfisik_t.is_deleted = false) periksa_fisik_rj ON pendaftaran_t.pendaftaran_id = periksa_fisik_rj.pendaftaran_id
+                    LEFT JOIN ( SELECT DISTINCT ON (asesmenperawatrd_t.pendaftaran_id) asesmenperawatrd_t.pendaftaran_id,
+                            asesmenperawatrd_t.tinggi_badan AS tb,
+                            asesmenperawatrd_t.berat_badan AS bb
+                        FROM asesmenperawatrd_t
+                        WHERE asesmenperawatrd_t.is_deleted = false) periksa_fisik_rd ON pendaftaran_t.pendaftaran_id = periksa_fisik_rd.pendaftaran_id
+                    LEFT JOIN ( SELECT DISTINCT ON (asesmenmedis_t.pendaftaran_id) asesmenmedis_t.pendaftaran_id,
+                            asesmenmedis_t.tinggi_badan AS tb,
+                            asesmenmedis_t.berat_badan AS bb
+                        FROM asesmenmedis_t
+                        WHERE asesmenmedis_t.is_deleted = false) periksa_fisik_ri ON pendaftaran_t.pendaftaran_id = periksa_fisik_ri.pendaftaran_id
+                    LEFT JOIN ( SELECT a.reseptur_id,
+                            a.tglreseptur,
+                            a.noresep,
+                            a.ruanganreseptur_id
+                        FROM reseptur_t a) reseptur_t ON reseptur_t.reseptur_id = penjualanresep_t.reseptur_id
+                    LEFT JOIN ( SELECT a.ruangan_id,
+                            a.ruangan_nama,
+                            a.instalasi_id
+                        FROM ruangan_m a) rm ON rm.ruangan_id = reseptur_t.ruanganreseptur_id
+                    LEFT JOIN ( SELECT a.instalasi_id,
+                            a.instalasi_nama
+                        FROM instalasi_m a) im ON im.instalasi_id = rm.instalasi_id
+                    LEFT JOIN ( SELECT a.pegawai_id,
+                            a.nama_pegawai
+                        FROM pegawai_m a) pegawai_approve ON penjualanresep_t.pegawai_approve_id = pegawai_approve.pegawai_id
+                    LEFT JOIN ( SELECT lookup_m.lookup_id,
+                            lookup_m.lookup_name
+                        FROM lookup_m) jenis_kelamin ON pasien_m.jeniskelamin::integer = jenis_kelamin.lookup_id
+                    LEFT JOIN ( SELECT lookup_m.lookup_id,
+                            lookup_m.lookup_name
+                        FROM lookup_m) status_reseptur ON penjualanresep_t.status_reseptur::integer = status_reseptur.lookup_id
+                    LEFT JOIN ( SELECT lookup_m.lookup_id,
+                            lookup_m.lookup_name
+                        FROM lookup_m) namadepan ON pasien_m.namadepan::integer = namadepan.lookup_id
+                    LEFT JOIN ( SELECT lookup_m.lookup_id,
+                            lookup_m.lookup_name
+                        FROM lookup_m) gelar ON pegawai_m.gelardepan::integer = gelar.lookup_id
+                    LEFT JOIN ( SELECT lookup_m.lookup_id,
+                            lookup_m.lookup_name
+                        FROM lookup_m) jenispenjualan ON penjualanresep_t.jenispenjualan::integer = gelar.lookup_id
+                    LEFT JOIN ( SELECT a.bpjs_id,
+                            a.nosep,
+                            a.norujukan,
+                            a.pendaftaran_id
+                        FROM bpjs_t a) bpjs_t ON bpjs_t.bpjs_id = pendaftaran_t.bpjs_id
+                    LEFT JOIN ( SELECT a.resepturracikan_id,
+                            a.reseptur_id,
+                            a.type
+                        FROM resepturracikan_t a
+                        WHERE a.is_deleted = false) resepturracikan_t ON resepturracikan_t.reseptur_id = reseptur_t.reseptur_id
+                    LEFT JOIN ( SELECT a.bpjs_id,
+                            a.nosep,
+                            a.norujukan,
+                            a.pendaftaran_id
+                        FROM bpjs_t a) bpjspasienadmisi_t ON bpjspasienadmisi_t.bpjs_id = pasienadmisi_t.bpjs_id
+                    LEFT JOIN ( SELECT ruangan_daftar_1.ruangan_id,
+                            ruangan_daftar_1.ruangan_nama,
+                            ruangan_daftar_1.instalasi_id
+                        FROM ruangan_m ruangan_daftar_1) ruangan_daftar ON ruangan_daftar.ruangan_id = pendaftaran_t.ruangan_id
+                    LEFT JOIN ( SELECT ruangan_admisi_1.ruangan_id,
+                            ruangan_admisi_1.ruangan_nama,
+                            ruangan_admisi_1.instalasi_id
+                        FROM ruangan_m ruangan_admisi_1) ruangan_admisi ON ruangan_admisi.ruangan_id = pasienadmisi_t.ruangan_id
+                    LEFT JOIN ( SELECT a.kamarruangan_id,
+                            a.kamarruangan_nokamar
+                        FROM kamarruangan_m a) kamarruangan_m ON pasienadmisi_t.kamarruangan_id = kamarruangan_m.kamarruangan_id
+                    LEFT JOIN ( SELECT a.kamartempattidur_id,
+                            a.no_tempattidur
+                        FROM kamartempattidur_m a) kamartempattidur_m ON pasienadmisi_t.kamartempattidur_id = kamartempattidur_m.kamartempattidur_id) resep;
+        ");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
+    {
+        echo "m230701_154125_rpp_202_inforesep_v cannot be reverted.\n";
+
+        return false;
+    }
+
+    /*
+    // Use up()/down() to run migration code without a transaction.
+    public function up()
+    {
+
+    }
+
+    public function down()
+    {
+        echo "m230701_154125_rpp_202_inforesep_v cannot be reverted.\n";
+
+        return false;
+    }
+    */
+}

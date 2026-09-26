@@ -1,0 +1,44 @@
+<?php
+
+use yii\db\Migration;
+
+/**
+ * Class m210126_114553_migrate_20200126_obatalkespasien_t
+ */
+class m210126_114553_migrate_20200126_obatalkespasien_t extends Migration
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function safeUp()
+    {
+
+    $this->execute('ALTER TABLE "public"."obatalkespasien_t" ADD COLUMN if not exists "tarif_diskon" float8 DEFAULT 0;');
+
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
+    {
+        echo "m210126_114553_migrate_20200126_obatalkespasien_t cannot be reverted.\n";
+
+        return false;
+    }
+
+    /*
+    // Use up()/down() to run migration code without a transaction.
+    public function up()
+    {
+
+    }
+
+    public function down()
+    {
+        echo "m210126_114553_migrate_20200126_obatalkespasien_t cannot be reverted.\n";
+
+        return false;
+    }
+    */
+}

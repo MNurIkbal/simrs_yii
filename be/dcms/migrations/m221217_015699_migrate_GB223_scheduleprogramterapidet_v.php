@@ -1,0 +1,65 @@
+<?php
+
+use yii\db\Migration;
+
+/**
+ * Class m221217_015699_migrate_GB223_scheduleprogramterapidet_v
+ */
+class m221217_015699_migrate_GB223_scheduleprogramterapidet_v extends Migration
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function safeUp()
+    {
+        $this->execute('DROP VIEW IF EXISTS "public"."scheduleprogramterapidet_v";');
+        $this->execute("CREATE OR REPLACE VIEW public.scheduleprogramterapidet_v
+            AS SELECT programterapi_t.pendaftaran_id,
+                programterapidetail_t.programterapi_id,
+                programterapidetail_t.programterapidetail_id,
+                programterapidetail_t.frekuensi,
+                    CASE
+                        WHEN programterapidetail_t.is_paketfisio = true THEN programterapidetailpaket_t.catatan
+                        ELSE programterapidetail_t.catatan
+                    END AS catatan,
+                programterapidetail_t.is_paketfisio,
+                pegawai_m.nama_pegawai AS dokter_perujuk,
+                daftartindakan_m.daftartindakan_id AS terapi_id,
+                kategoritindakan_m.kategoritindakan_nama AS kategori,
+                daftartindakan_paket.daftartindakan_nama AS daftartindakan_parent,
+                daftartindakan_m.daftartindakan_nama AS terapi,
+                programterapidetail_t.qty_pemeriksaan
+            FROM programterapidetail_t
+                LEFT JOIN ( SELECT a.daftartindakan_id,
+                        a.programterapidetail_id,
+                        a.catatan
+                    FROM programterapidetailpaket_t a) programterapidetailpaket_t ON programterapidetail_t.programterapidetail_id = programterapidetailpaket_t.programterapidetail_id
+                JOIN ( SELECT a.daftartindakan_id,
+                        a.kategoritindakan_id,
+                        a.daftartindakan_nama
+                    FROM daftartindakan_m a) daftartindakan_m ON programterapidetail_t.daftartindakan_id = daftartindakan_m.daftartindakan_id AND programterapidetail_t.is_paketfisio IS NOT TRUE OR programterapidetailpaket_t.daftartindakan_id = daftartindakan_m.daftartindakan_id AND programterapidetail_t.is_paketfisio = true
+                JOIN ( SELECT a.kategoritindakan_id,
+                        a.kategoritindakan_nama
+                    FROM kategoritindakan_m a) kategoritindakan_m ON daftartindakan_m.kategoritindakan_id = kategoritindakan_m.kategoritindakan_id
+                LEFT JOIN ( SELECT a.pegawai_id,
+                        a.nama_pegawai
+                    FROM pegawai_m a) pegawai_m ON programterapidetail_t.dokterperujuk_id = pegawai_m.pegawai_id
+                JOIN ( SELECT a.programterapi_id,
+                        a.pendaftaran_id
+                    FROM programterapi_t a) programterapi_t ON programterapidetail_t.programterapi_id = programterapi_t.programterapi_id
+                JOIN ( SELECT a.daftartindakan_id,
+                        a.daftartindakan_nama
+                    FROM daftartindakan_m a) daftartindakan_paket ON programterapidetail_t.daftartindakan_id = daftartindakan_paket.daftartindakan_id
+            WHERE programterapidetail_t.is_deleted = false;
+        ");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
+    {
+        echo "m221217_015699_migrate_GB223_scheduleprogramterapidet_v cannot be reverted.\n";
+        return false;
+    }
+}

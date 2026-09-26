@@ -1,0 +1,124 @@
+<?php
+
+/**
+ * @author : rizal
+ * A product of PT. Citra Raya Nusatama
+ * Powered by Sirs
+ */
+
+namespace Extensions\laboratorium;
+
+use Yii;
+use yii\helpers\ArrayHelper;
+use Doco\exceptions\ValidationException;
+use Doco\components\DocoConstants;
+use Doco\components\DocoHelpers;
+use Doco\components\DocoMessages;
+use Doco\components\DocoConstansId;
+use Doco\models\RiwayatPenyakitKramat as RiwayatKramat;
+use Doco\models\RiwayatPenyakit;
+use yii\data\ActiveDataProvider;
+use Doco\components\DocoRestActiveFilter;
+
+use Doco\models\Laboratorium\InfoPasienLabView;
+
+class InfoPasienLabRoche extends \Doco\processes\LaboratoriumProcess
+{
+	protected function viewProduk() 
+    {
+            // $request = Yii::$app->request;
+            $request = $this->_requestData;
+            $model = new InfoPasienLabView;
+            $query = $model::find();
+            $query->andWhere(['not',['status_penunjang'=>DocoConstants::BTL_APPROVE]]);
+            $query->orWhere(['status_penunjang'=>null]);
+
+            /**
+             * Begin Special Condition date range
+             * DocoRestActiveFilter cannot handle
+             **/
+            $between = false;
+            $start = date('Y-m-d 00:00:00');
+            $end = date('Y-m-d 23:59:00');
+
+            $startLahir = '';
+            $endLahir = '';
+            // return $_GET['advanced-filter'];
+            if (isset($_GET['advanced-filter'])) {
+                // return $_GET['advanced-filter'];
+                if (isset($_GET['advanced-filter']['tglmasukpenunjang'])) {
+                    $explode = explode(" - ", $_GET['advanced-filter']['tglmasukpenunjang']);
+                    if (count($explode) == 2) {
+                        $start = date('Y-m-d 00:00:00', strtotime($explode[0]));
+                        $end = date('Y-m-d 23:59:00', strtotime($explode[1]));
+                    }
+                    unset($_GET['advanced-filter']['tglmasukpenunjang']); // Unset Advanced Filter  date range
+                    $between = true;
+                }
+
+                if (isset($_GET['advanced-filter']['tanggal_lahir'])) {
+                    $explode = explode(" - ", $_GET['advanced-filter']['tanggal_lahir']);
+                    if (count($explode) == 2) {
+                        $startLahir = date('Y-m-d', strtotime($explode[0]));
+                        $endLahir = date('Y-m-d', strtotime($explode[1]));
+                    }
+                    unset($_GET['advanced-filter']['tanggal_lahir']); // Unset Advanced Filter  date range
+                    $between = true;
+                }
+
+                if(isset($_GET['advanced-filter']['status_periksa_btn'])) {
+                    $status_periksa = $_GET['advanced-filter']['status_periksa_btn'];
+                    $query->andWhere(['status_periksa' => $status_periksa]);
+                    unset($_GET['advanced-filter']['status_periksa_btn']);
+                }
+
+                // if(isset($_GET['advanced-filter']['nama_stat'])) {
+                //     $nama_stat = $_GET['advanced-filter']['nama_stat'];
+                //     if($nama_stat == 0){
+                //         $query->andWhere(['status_periksa' => '476']);
+                //     } elseif($nama_stat == 1){
+                //         $query->andWhere(['received_flag' => null]);
+                //     } elseif($nama_stat == 2){
+                //         $query->andWhere(['received_flag' => 1]);
+                //     }
+                //     unset($_GET['advanced-filter']['nama_stat']);
+                // }
+
+                if(isset($_GET['advanced-filter']['nama_stat'])) {
+                    $nama_stat = $_GET['advanced-filter']['nama_stat'];
+                    if($nama_stat == 0){
+                        $query->andWhere(['is_hasil_bridging' => false]);
+                    } elseif($nama_stat == 1){
+                        $query->andWhere(['is_hasil_bridging' => false]);
+                    } elseif($nama_stat == 2){
+                        $query->andWhere(['is_hasil_bridging' => true]);
+                    }
+                    unset($_GET['advanced-filter']['nama_stat']);
+                }
+            }
+
+            $query->andWhere(['between', 'tglmasukpenunjang', $start, $end]);
+            // if ($between) {
+            //     $query->andWhere(['between', 'tglmasukpenunjang', $start, $end]);
+            // }
+
+            if(!empty($startLahir) && !empty($endLahir) && $between){
+                $query->andWhere(['between', 'tanggal_lahir', $startLahir, $endLahir]);
+            }
+            /**
+             * End Special Condition date range
+             **/
+
+            $query = DocoRestActiveFilter::advancedFilter($model, $query);
+
+            return new ActiveDataProvider([
+                'query' => $query,
+            ]);
+    }
+
+    protected function processFlow()
+    {
+		// return 'test rooche';
+        return $this->viewProduk();
+    }
+}

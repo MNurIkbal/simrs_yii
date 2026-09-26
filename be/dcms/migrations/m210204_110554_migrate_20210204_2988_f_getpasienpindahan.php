@@ -1,0 +1,95 @@
+<?php
+
+use yii\db\Migration;
+
+/**
+ * Class m210204_110554_migrate_20210204_2988_f_getpasienpindahan
+ */
+class m210204_110554_migrate_20210204_2988_f_getpasienpindahan extends Migration
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function safeUp()
+    {
+        $this->execute("
+            DROP FUNCTION if exists public.f_getpasienpindahan;
+        ");
+        $this->execute("
+            CREATE OR REPLACE FUNCTION \"public\".\"f_getpasienpindahan\"(\"xtanggal\" date, \"xruangan_id\" int4, \"xkelaspelayanan_id\" int4)
+            RETURNS TABLE(\"pasien_pindahan\" int4) AS \$BODY\$
+            BEGIN
+
+            IF (xruangan_id IS NOT NULL)
+            THEN
+            SELECT COUNT(pasienadmisi_t.pendaftaran_id) INTO pasien_pindahan
+            FROM pasienadmisi_t
+            LEFT JOIN pindahkamar_t ON pindahkamar_t.pasienadmisi_id = pasienadmisi_t.pasienadmisi_id
+            WHERE pindahkamar_t.tgl_pindahkamar::DATE = xtanggal::DATE
+            AND pindahkamar_t.ruangan_id = xruangan_id;
+            END IF;
+
+            IF (xkelaspelayanan_id IS NOT NULL)
+            THEN
+            SELECT COUNT(pasienadmisi_t.pendaftaran_id) INTO pasien_pindahan
+            FROM pasienadmisi_t
+            LEFT JOIN pindahkamar_t ON pindahkamar_t.pasienadmisi_id = pasienadmisi_t.pasienadmisi_id
+            WHERE pindahkamar_t.tgl_pindahkamar::DATE = xtanggal::DATE
+            AND pindahkamar_t.kelaspelayanan_id = xkelaspelayanan_id;
+            END IF;
+
+            IF (xruangan_id IS NOT NULL AND xkelaspelayanan_id IS NOT NULL)
+            THEN
+            SELECT COUNT(pasienadmisi_t.pendaftaran_id) INTO pasien_pindahan
+            FROM pasienadmisi_t
+            LEFT JOIN pindahkamar_t ON pindahkamar_t.pasienadmisi_id = pasienadmisi_t.pasienadmisi_id
+            WHERE pindahkamar_t.tgl_pindahkamar::DATE = xtanggal::DATE
+            AND pindahkamar_t.ruangan_id = xruangan_id
+            AND pindahkamar_t.kelaspelayanan_id = xkelaspelayanan_id;
+            END IF;
+
+            IF (xruangan_id IS NULL AND xkelaspelayanan_id IS NULL)
+            THEN
+            SELECT
+            COUNT(pasienadmisi_t.ruangan_id) INTO pasien_pindahan
+            FROM pasienadmisi_t
+            LEFT JOIN pindahkamar_t ON pindahkamar_t.pasienadmisi_id = pasienadmisi_t.pasienadmisi_id
+            WHERE pindahkamar_t.tgl_pindahkamar::DATE = xtanggal::DATE;
+            END IF;
+
+            -- RETURN DATA
+            RETURN NEXT;
+
+            END
+            \$BODY\$
+            LANGUAGE plpgsql IMMUTABLE
+            COST 100
+            ROWS 1000
+        ");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
+    {
+        echo "m210204_110554_migrate_20210204_2988_f_getpasienpindahan cannot be reverted.\n";
+
+        return false;
+    }
+
+    /*
+    // Use up()/down() to run migration code without a transaction.
+    public function up()
+    {
+
+    }
+
+    public function down()
+    {
+        echo "m210204_110554_migrate_20210204_2988_f_getpasienpindahan cannot be reverted.\n";
+
+        return false;
+    }
+    */
+}

@@ -1,0 +1,237 @@
+<?php
+
+use yii\db\Migration;
+
+/**
+ * Class m220210_140719_migrate_BTS21_sensusharianranap_pindahan_pindahkan
+ */
+class m220210_140719_migrate_BTS21_sensusharianranap_pindahan_pindahkan extends Migration
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function safeUp()
+    {
+        $this->execute('DROP VIEW if exists public.laporansensusharianri_pasienpindahan_v;');
+        $this->execute("
+            CREATE VIEW \"public\".\"laporansensusharianri_pasienpindahan_v\" AS
+            SELECT pasienadmisi_t.tgl_admisi,
+            pindahkamar_t.tgl_pindahkamar,
+            pasienadmisi_t.pasien_id,
+            pasien_m.nama_pasien,
+            pasien_m.no_rekam_medik,
+            pindahkamar_t.kelaspelayanan_id,
+            kelaspelayanan_m.kelaspelayanan_nama,
+            ruangan_skrg.ruangan_nama AS ruangan_skrg,
+            pendaftaran_t.penjamin_id,
+            penjamin_m.penjamin_nama,
+            asesmenmedis_t.diagnosa_id AS diagnosa_nama,
+            (to_char(masukkamar_t.tgl_masukkamar, 'YYYY-MM-DD'::text))::date AS tgl_masukkamar,
+            ruangan_asal.ruangan_id,
+            ruangan_asal.ruangan_nama AS ruangan_dari,
+            instalasi_asal.instalasi_id,
+            instalasi_asal.instalasi_nama AS instalasi_dari,
+            kamar_asal.kamarruangan_nokamar AS kamar_dari,
+            tempattidur_asal.no_tempattidur AS tempattidur_dari,
+            dokter_admisi.nama_pegawai AS dokter_admisi,
+            pasienadmisi_t.status_ranap AS status_ranap_id,
+            look_status_pasien.lookup_name AS status_ranap_nama
+            FROM ((((((((((((((pasienadmisi_t
+            JOIN ( SELECT a.pasienadmisi_id,
+            a.pasien_id,
+            a.pegawai_id,
+            a.carabayar_id,
+            a.penjamin_id,
+            a.jeniskasuspenyakit_id,
+            a.pendaftaran_id
+            FROM pendaftaran_t a) pendaftaran_t ON ((pasienadmisi_t.pasienadmisi_id = pendaftaran_t.pasienadmisi_id)))
+            JOIN ( SELECT a.pasien_id,
+            a.nama_pasien,
+            a.no_rekam_medik
+            FROM pasien_m a) pasien_m ON ((pendaftaran_t.pasien_id = pasien_m.pasien_id)))
+            JOIN ( SELECT a.pasienadmisi_id,
+            a.pindahkamar_id,
+            a.ruangan_id,
+            a.tgl_masukkamar
+            FROM masukkamar_t a) masukkamar_t ON ((pasienadmisi_t.pasienadmisi_id = masukkamar_t.pasienadmisi_id)))
+            JOIN ( SELECT a.pindahkamar_id,
+            a.kelaspelayanan_id,
+            a.ruangan_id,
+            a.kamarruangan_id,
+            a.kamartempattidur_id,
+            a.is_active,
+            a.is_deleted,
+            a.tgl_pindahkamar
+            FROM pindahkamar_t a) pindahkamar_t ON ((masukkamar_t.pindahkamar_id = pindahkamar_t.pindahkamar_id)))
+            JOIN ( SELECT a.pegawai_id,
+            a.nama_pegawai
+            FROM pegawai_m a) dokter_admisi ON ((pasienadmisi_t.pegawai_id = dokter_admisi.pegawai_id)))
+            JOIN ( SELECT a.penjamin_id,
+            a.penjamin_nama
+            FROM penjamin_m a) penjamin_m ON ((pendaftaran_t.penjamin_id = penjamin_m.penjamin_id)))
+            JOIN ( SELECT a.kelaspelayanan_id,
+            a.kelaspelayanan_nama
+            FROM kelaspelayanan_m a) kelaspelayanan_m ON ((pindahkamar_t.kelaspelayanan_id = kelaspelayanan_m.kelaspelayanan_id)))
+            JOIN ( SELECT a.ruangan_id,
+            a.ruangan_nama
+            FROM ruangan_m a) ruangan_skrg ON ((pindahkamar_t.ruangan_id = ruangan_skrg.ruangan_id)))
+            JOIN ( SELECT a.ruangan_id,
+            a.instalasi_id,
+            a.ruangan_nama
+            FROM ruangan_m a) ruangan_asal ON ((masukkamar_t.ruangan_id = ruangan_asal.ruangan_id)))
+            JOIN ( SELECT a.instalasi_id,
+            a.instalasi_nama
+            FROM instalasi_m a) instalasi_asal ON ((ruangan_asal.instalasi_id = instalasi_asal.instalasi_id)))
+            JOIN ( SELECT a.kamarruangan_id,
+            a.kamarruangan_nokamar
+            FROM kamarruangan_m a) kamar_asal ON ((pindahkamar_t.kamarruangan_id = kamar_asal.kamarruangan_id)))
+            JOIN ( SELECT a.kamartempattidur_id,
+            a.no_tempattidur
+            FROM kamartempattidur_m a) tempattidur_asal ON ((pindahkamar_t.kamartempattidur_id = tempattidur_asal.kamartempattidur_id)))
+            LEFT JOIN ( SELECT a.pendaftaran_id,
+            a.pasienadmisi_id,
+            a.diagnosa_id
+            FROM asesmenmedis_t a) asesmenmedis_t ON (((pendaftaran_t.pendaftaran_id = asesmenmedis_t.pendaftaran_id) AND (pendaftaran_t.pasienadmisi_id = asesmenmedis_t.pasienadmisi_id))))
+            LEFT JOIN lookup_m look_status_pasien ON ((pasienadmisi_t.status_ranap = look_status_pasien.lookup_id)))
+            WHERE ((pindahkamar_t.is_active = true) AND (pindahkamar_t.is_deleted = false))
+            ORDER BY (to_char(pasienadmisi_t.tgl_admisi, 'YYYY-MM-DD'::text))::date DESC
+            ;");
+        $this->execute('
+            ALTER TABLE public.laporansensusharianri_pasienpindahan_v OWNER TO postgres;
+            ');
+
+        $this->execute('DROP VIEW if exists public.laporansensusharianri_pasienpindahkan_v;');
+        $this->execute("
+            CREATE VIEW \"public\".\"laporansensusharianri_pasienpindahkan_v\" AS
+            SELECT pasienadmisi_t.tgl_admisi,
+            pindahkamar_t.tgl_pindahkamar,
+            pasienadmisi_t.pasien_id,
+            pasien_m.nama_pasien,
+            pasien_m.no_rekam_medik,
+            masukkamar_t.kelaspelayanan_id,
+            kelaspelayanan_m.kelaspelayanan_nama,
+            ruangan_skrg.ruangan_nama AS ruangan_skrg,
+            pendaftaran_t.penjamin_id,
+            penjamin_m.penjamin_nama,
+            asesmenmedis_t.diagnosa_id AS diagnosa_nama,
+            (to_char(masukkamar.tgl_masukkamar, 'YYYY-MM-DD'::text))::date AS tgl_masukkamar,
+            masukkamar_t.lamadirawat_kamar AS lama_rawat,
+            masukkamar_t.ruangan_id,
+            ruangan_pindah.ruangan_nama AS ruangan_ke,
+            instalasi_pindah.instalasi_id,
+            instalasi_pindah.instalasi_nama AS instalasi_ke,
+            kamar_pindah.kamarruangan_nokamar AS kamar_ke,
+            kamar_skrg.kamarruangan_nokamar AS kamar_skrg,
+            tempattidur_pindah.no_tempattidur AS tempattidur_ke,
+            tempattidur_skrg.no_tempattidur AS tempattidur_skrg,
+            dokter_admisi.nama_pegawai AS dokter_admisi,
+            masukkamar_t.tgl_masukkamar AS tgl_masukkamar_1,
+            masukkamar_t.jam_masukkamar,
+            masukkamar_t.tgl_keluarkamar,
+            masukkamar_t.jam_keluarkamar,
+            pasienadmisi_t.status_ranap AS status_ranap_id,
+            look_status_pasien.lookup_name AS status_ranap_nama
+            FROM (((((((((((((((((pasienadmisi_t
+            JOIN ( SELECT a.pasienadmisi_id,
+            a.pegawai_id,
+            a.carabayar_id,
+            a.penjamin_id,
+            a.pendaftaran_id,
+            a.pasien_id
+            FROM pendaftaran_t a) pendaftaran_t ON ((pasienadmisi_t.pasienadmisi_id = pendaftaran_t.pasienadmisi_id)))
+            JOIN ( SELECT a.pasien_id,
+            a.nama_pasien,
+            a.no_rekam_medik
+            FROM pasien_m a) pasien_m ON ((pendaftaran_t.pasien_id = pasien_m.pasien_id)))
+            JOIN ( SELECT a.pasienadmisi_id,
+            a.pindahkamar_id,
+            a.kelaspelayanan_id,
+            a.ruangan_id,
+            a.kamarruangan_id,
+            a.kamartempattidur_id,
+            a.lamadirawat_kamar,
+            a.tgl_masukkamar,
+            a.jam_masukkamar,
+            a.tgl_keluarkamar,
+            a.jam_keluarkamar
+            FROM masukkamar_t a) masukkamar_t ON ((pasienadmisi_t.pasienadmisi_id = masukkamar_t.pasienadmisi_id)))
+            JOIN ( SELECT DISTINCT ON (a.pasienadmisi_id) a.pasienadmisi_id,
+            a.masukkamar_id,
+            a.tgl_masukkamar
+            FROM masukkamar_t a) masukkamar ON ((pasienadmisi_t.pasienadmisi_id = masukkamar.pasienadmisi_id)))
+            JOIN ( SELECT a.pindahkamar_id,
+            a.ruangan_id,
+            a.kamarruangan_id,
+            a.is_active,
+            a.is_deleted,
+            a.tgl_pindahkamar
+            FROM pindahkamar_t a) pindahkamar_t ON ((masukkamar_t.pindahkamar_id = pindahkamar_t.pindahkamar_id)))
+            JOIN ( SELECT a.pegawai_id,
+            a.nama_pegawai
+            FROM pegawai_m a) dokter_admisi ON ((pasienadmisi_t.pegawai_id = dokter_admisi.pegawai_id)))
+            JOIN ( SELECT a.penjamin_id,
+            a.penjamin_nama
+            FROM penjamin_m a) penjamin_m ON ((pendaftaran_t.penjamin_id = penjamin_m.penjamin_id)))
+            JOIN ( SELECT a.kelaspelayanan_id,
+            a.kelaspelayanan_nama
+            FROM kelaspelayanan_m a) kelaspelayanan_m ON ((masukkamar_t.kelaspelayanan_id = kelaspelayanan_m.kelaspelayanan_id)))
+            JOIN ( SELECT a.ruangan_id,
+            a.ruangan_nama
+            FROM ruangan_m a) ruangan_skrg ON ((masukkamar_t.ruangan_id = ruangan_skrg.ruangan_id)))
+            JOIN ( SELECT a.ruangan_id,
+            a.instalasi_id,
+            a.ruangan_nama
+            FROM ruangan_m a) ruangan_pindah ON ((pindahkamar_t.ruangan_id = ruangan_pindah.ruangan_id)))
+            JOIN ( SELECT a.instalasi_id,
+            a.instalasi_nama
+            FROM instalasi_m a) instalasi_pindah ON ((ruangan_pindah.instalasi_id = instalasi_pindah.instalasi_id)))
+            JOIN ( SELECT a.kamarruangan_id,
+            a.kamarruangan_nokamar
+            FROM kamarruangan_m a) kamar_pindah ON ((pindahkamar_t.kamarruangan_id = kamar_pindah.kamarruangan_id)))
+            JOIN ( SELECT a.kamarruangan_id,
+            a.kamarruangan_nokamar
+            FROM kamarruangan_m a) kamar_skrg ON ((masukkamar_t.kamarruangan_id = kamar_skrg.kamarruangan_id)))
+            JOIN ( SELECT a.kamartempattidur_id,
+            a.no_tempattidur
+            FROM kamartempattidur_m a) tempattidur_pindah ON ((masukkamar_t.kamartempattidur_id = tempattidur_pindah.kamartempattidur_id)))
+            JOIN ( SELECT a.kamartempattidur_id,
+            a.no_tempattidur
+            FROM kamartempattidur_m a) tempattidur_skrg ON ((masukkamar_t.kamartempattidur_id = tempattidur_skrg.kamartempattidur_id)))
+            LEFT JOIN ( SELECT a.pendaftaran_id,
+            a.pasienadmisi_id,
+            a.diagnosa_id
+            FROM asesmenmedis_t a) asesmenmedis_t ON (((pendaftaran_t.pendaftaran_id = asesmenmedis_t.pendaftaran_id) AND (pendaftaran_t.pasienadmisi_id = asesmenmedis_t.pasienadmisi_id))))
+            LEFT JOIN lookup_m look_status_pasien ON ((pasienadmisi_t.status_ranap = look_status_pasien.lookup_id)))
+            WHERE ((pindahkamar_t.is_active = true) AND (pindahkamar_t.is_deleted = false))
+            ORDER BY (to_char(pasienadmisi_t.tgl_admisi, 'YYYY-MM-DD'::text))::date DESC
+            ;");
+        $this->execute('
+            ALTER TABLE public.laporansensusharianri_pasienpindahkan_v OWNER TO postgres;
+            ');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
+    {
+        echo "m220210_140719_migrate_BTS21_sensusharianranap_pindahan_pindahkan cannot be reverted.\n";
+
+        return false;
+    }
+
+    /*
+    // Use up()/down() to run migration code without a transaction.
+    public function up()
+    {
+
+    }
+
+    public function down()
+    {
+        echo "m220210_140719_migrate_BTS21_sensusharianranap_pindahan_pindahkan cannot be reverted.\n";
+
+        return false;
+    }
+    */
+}
